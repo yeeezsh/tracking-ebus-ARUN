@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Demo tracking location A8</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+    #map {
+    height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    }
+
+    #top-box-map {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 10%;
+    z-index: 2;
+    cursor: pointer;
+    margin: auto;
+    padding-top: 125px;
+    }
+
+    #text-box-map{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 45px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    background-color: rgba(236, 166, 34, 0.5);
+    padding: 20px;
+    width: 50%;
+    height: 30px;
+    margin: 10px;
+    }
+
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+        <div id="top-box-map">
+                <div id="text-box-map" onclick="topBoxMap();" >hello it's me</div>
+            </div>
+    <div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw_Uh8npqpbpwW0JS1G7X1sSSpZ1AVGAI&callback=initMap">
+    </script>
+    <script>
+
+        var markers = {};
+        var map;
+        var socket;
+
+        function initMap() {
+        
+            URL = window.location.href;
+            socket = io.connect(URL);
+
+            socket.on("connect", function() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 18,
+                    center: {lat: 13.651011, lng: 100.493944}
+                });
+            });
+
+            socket.on("disconnect", function() {
+                alert('You have been disconnected from server.');
+            });
+
+            socket.on("locationUpdated", function(locationState){
+                for (var k in locationState) {
+                    newMarker(k, locationState[k]);
+                }
+            });
+//** repeat code **
+            socket.on("locationUpdatedR2", function(locationStateR2){
+                for (var kR2 in locationStateR2) {
+                    newMarkerR2(kR2, locationStateR2[kR2]);
+                }
+            });
+        }
+
+        function newMarker(k, location) {
+            if (markers[k] == null) {
+                markers[k] = new google.maps.Marker({
+                    position : location,
+                    map: map,
+                    icon: {
+                        url: '/static/truck.png',
+                        size: new google.maps.Size(100, 100),
+                        scaledSize: new google.maps.Size(50, 50),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(25, 25),
+                        optimized: false
+                    } 
+                });
+            } else {
+                markers[k].setPosition(location);
+            }    
+        };
+
+        function newMarkerR2(k, location) {
+            if (markers[k] == null) {
+                markers[k] = new google.maps.Marker({
+                    position : location,
+                    map: map,
+                    icon: {
+                        url: '/static/truck-R2.png',
+                        size: new google.maps.Size(100, 100),
+                        scaledSize: new google.maps.Size(50, 50),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(25, 25),
+                        optimized: false
+                    } 
+                });
+            } else {
+                markers[k].setPosition(location);
+            } 
+        };
+
+        function topBoxMap() {
+            socket.on("locationUpdatedR2", function(locationStateR2){
+                for (var kR2 in locationStateR2) {
+                    document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
+                }
+            });
+            
+        };
+
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 500,
+            maximumAge: 0
+        };
+        
+        function success(pos) {
+            var crd = pos.coords;
+            var posGeo = {
+                lat: crd.latitude,
+                lng: crd.longitude
+        };
+        //bug some devices
+        console.log('Your current position is:');
+        console.log('Latitude : ' + crd.latitude);
+        console.log('Longitude: ' + crd.longitude);
+        console.log('More or less ' + crd.accuracy + ' meters.');
+        // alert('Latitude : ' + crd.latitude + 'Longitude: ' + crd.longitude + 'More or less ' + crd.accuracy + ' meters.')
+
+        // function markerGeo(k, posGeo) {
+        //     if (markers[k] == null) {
+        //         markers[k] = new google.maps.Marker({
+        //             position : location,
+        //             map: map,
+        //             icon: {
+        //                 url: '/static/truck-R2.png',
+        //                 size: new google.maps.Size(100, 100),
+        //                 scaledSize: new google.maps.Size(50, 50),
+        //                 origin: new google.maps.Point(0, 0),
+        //                 anchor: new google.maps.Point(25, 25),
+        //                 optimized: false
+        //             } 
+        //         });
+        //     } else {
+        //         markers[k].setPosition(posGeo);
+        //     } 
+        // };
+        
+        var markerGeo = new google.maps.Marker({
+            position: posGeo,
+            map: map,
+                icon: {
+                    url: '/static/locator.png',
+                    size: new google.maps.Size(150, 150),
+                    scaledSize: new google.maps.Size(50, 50),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(25, 25),
+                    optimized: false
+                }
+            })
+        };
+
+        // function newGeoMarker(posGeo) {
+        //     if(markerGeo == null) {
+        //         var markerGeo = new google.maps.Marker({
+        //             position: posGeo,
+        //             map: map,
+        //             icon: {
+        //                 url: '/static/locator.png',
+        //                 size: new google.maps.Size(150, 150),
+        //                 scaledSize: new google.maps.Size(50, 50),
+        //                 origin: new google.maps.Point(0, 0),
+        //                 anchor: new google.maps.Point(25, 25),
+        //                 optimized: false
+        //             }    
+        //         })
+        //     } else {
+        //         markerGeo.setPosition(posGeo);
+        //     }
+        // };
+        
+        function error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        };
+        //function call
+        navigator.geolocation.watchPosition(success, error, options);
+
+    </script>
+  </body>
+</html>
