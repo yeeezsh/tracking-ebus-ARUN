@@ -147,12 +147,26 @@
                 lat: crd.latitude,
                 lng: crd.longitude
             }
+            console.log('Your current position is:');
+            console.log('Latitude : ' + crd.latitude);
+            console.log('Longitude: ' + crd.longitude);
+            console.log('More or less ' + crd.accuracy + ' meters.');
+
+            var markerGeo = new google.maps.Marker({
+            position: posGeo,
+            map: map,
+                icon: {
+                    url: '/static/locator.png',
+                    size: new google.maps.Size(150, 150),
+                    scaledSize: new google.maps.Size(50, 50),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(25, 25),
+                    optimized: false
+                }
+            })
         };
         //bug some devices
-        console.log('Your current position is:');
-        console.log('Latitude : ' + crd.latitude);
-        console.log('Longitude: ' + crd.longitude);
-        console.log('More or less ' + crd.accuracy + ' meters.');
+
         // alert('Latitude : ' + crd.latitude + 'Longitude: ' + crd.longitude + 'More or less ' + crd.accuracy + ' meters.')
 
         // function markerGeo(k, posGeo) {
@@ -174,18 +188,18 @@
         //     } 
         // };
         
-        var markerGeo = new google.maps.Marker({
-            position: posGeo,
-            map: map,
-                icon: {
-                    url: '/static/locator.png',
-                    size: new google.maps.Size(150, 150),
-                    scaledSize: new google.maps.Size(50, 50),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(25, 25),
-                    optimized: false
-                }
-            })
+        // var markerGeo = new google.maps.Marker({
+        //     position: posGeo,
+        //     map: map,
+        //         icon: {
+        //             url: '/static/locator.png',
+        //             size: new google.maps.Size(150, 150),
+        //             scaledSize: new google.maps.Size(50, 50),
+        //             origin: new google.maps.Point(0, 0),
+        //             anchor: new google.maps.Point(25, 25),
+        //             optimized: false
+        //         }
+        //     })
 
         // function newGeoMarker(posGeo) {
         //     if(markerGeo == null) {
