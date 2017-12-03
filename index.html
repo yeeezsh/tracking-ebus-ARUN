@@ -58,6 +58,7 @@
         var markers = {};
         var map;
         var socket;
+        var markerGeo = {};
 
         function initMap() {
         
@@ -141,7 +142,7 @@
             maximumAge: 0
         };
         
-        function success(pos) {
+        function successGeo(pos) {
             var crd = pos.coords;
             var posGeo = {
                 lat: crd.latitude,
@@ -151,20 +152,25 @@
             console.log('Latitude : ' + crd.latitude);
             console.log('Longitude: ' + crd.longitude);
             console.log('More or less ' + crd.accuracy + ' meters.');
-
-            var markerGeo = new google.maps.Marker({
-            position: posGeo,
-            map: map,
-                icon: {
-                    url: '/static/locator.png',
-                    size: new google.maps.Size(150, 150),
-                    scaledSize: new google.maps.Size(50, 50),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(25, 25),
-                    optimized: false
-                }
-            })
+            if (markerGeo == null) {
+                var markerGeo = new google.maps.Marker({
+                position: posGeo,
+                map: map,
+                    icon: {
+                        url: '/static/locator.png',
+                        size: new google.maps.Size(150, 150),
+                        scaledSize: new google.maps.Size(50, 50),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(25, 25),
+                        optimized: false
+                    }
+                });
+            } else {
+                markerGeo.setPosition(posGeo);
+            }
         };
+
+        
         //bug some devices
 
         // alert('Latitude : ' + crd.latitude + 'Longitude: ' + crd.longitude + 'More or less ' + crd.accuracy + ' meters.')
@@ -224,7 +230,7 @@
             console.warn('ERROR(' + err.code + '): ' + err.message);
         };
         //function call
-        navigator.geolocation.watchPosition(success, error, options);
+        navigator.geolocation.watchPosition(successGeo, error, options);
 
     </script>
   </body>
