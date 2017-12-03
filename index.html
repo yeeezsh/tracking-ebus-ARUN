@@ -58,7 +58,7 @@
         var markers = {};
         var map;
         var socket;
-        var markerGeo = {};
+        var markerGeo;
 
         function initMap() {
         
@@ -153,7 +153,7 @@
             console.log('Longitude: ' + crd.longitude);
             console.log('More or less ' + crd.accuracy + ' meters.');
             if (markerGeo == null) {
-                var markerGeo = new google.maps.Marker({
+                markerGeo = new google.maps.Marker({
                 position: posGeo,
                 map: map,
                     icon: {
