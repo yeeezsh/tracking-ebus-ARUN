@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>tracking bus - R1</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw_Uh8npqpbpwW0JS1G7X1sSSpZ1AVGAI&callback=initMap">
+    </script> -->
+    
+    <p>test r 1 tracking</p>
+    <p id="test">---</p>
+    <script>
+        var socket;
+        URL = window.location.href;
+        socket = io.connect(URL);
+        
+        socket.on('trackingBusR1Listen', function() {
+            console.log('hello');
+        });
+        
+    </script>
+
+</body>
+</html>

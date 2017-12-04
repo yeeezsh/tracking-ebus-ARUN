@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
 const https = require('https');
 const fs = require('fs');
-
 const mockup = require('./mockup-tracking');
+
 const options = {
     key: fs.readFileSync('./certificate/server.key'),
     cert: fs.readFileSync('./certificate/server.crt'),
@@ -43,6 +43,10 @@ app.get('/', (req, res) => {
 	res.sendFile('index.html', { root: __dirname });
 });
 
+app.get('/bus-tracking/a1', (req, res) => {
+    res.sendFile('r1.html', { root: __dirname + '/bus-tracking' });
+});
+
 
 server.listen(CONFIG.PORT, () => {
 	console.log('Server is running at port: ' + CONFIG.PORT);
@@ -55,3 +59,6 @@ mockup.runR2(io);
 io.on('connection', socket => {
 	socket.emit('connectSuccess', {content: 'You have connected.'});
 });
+
+const trackingEvent = require('./bus-tracking');
+trackingEvent.trackingBusR1Event(io);
