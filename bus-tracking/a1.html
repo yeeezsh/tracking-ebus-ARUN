@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>a1 driver</title>
+</head>
+<body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket;
+        URL = window.location.href;
+        socket = io.connect(URL);
+
+        socket.on('trackingBusR1Listen', function(socket) {
+            console.log(socket);
+        });
+    </script>
+</body>
+</html>
