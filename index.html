@@ -42,13 +42,52 @@
     margin: 10px;
     }
 
+    #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+    }
+
+    /* Show the snackbar when clicking on a button (class added with JavaScript) */
+    #snackbar.show {
+        visibility: visible; /* Show the snackbar */
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @-webkit-keyframes fadein {
+        from {bottom: 0; opacity: 0;} 
+        to {bottom: 30px; opacity: 1;}
+    }
+    @keyframes fadein {
+        from {bottom: 0; opacity: 0;}
+        to {bottom: 30px; opacity: 1;}
+    }
+    @-webkit-keyframes fadeout {
+        from {bottom: 30px; opacity: 1;} 
+        to {bottom: 0; opacity: 0;}
+    }
+    @keyframes fadeout {
+        from {bottom: 30px; opacity: 1;}
+        to {bottom: 0; opacity: 0;}
+    }
+
     </style>
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-        <div id="top-box-map">
-                <div id="text-box-map" onclick="topBoxMap();" >hello it's me</div>
-            </div>
+    <div id="top-box-map">
+        <div id="text-box-map" onclick="topBoxMap();" >hello it's me</div>
+    </div>
+    <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCw_Uh8npqpbpwW0JS1G7X1sSSpZ1AVGAI&callback=initMap">
@@ -60,6 +99,17 @@
         var socket;
         var markerGeo;
 
+        function snackBar(snackBarText, s) {
+            var snackbar = document.getElementById("snackbar")
+            // Add the "show" class to DIV
+            snackbar.className = "show";
+            snackbar.innerHTML = snackBarText;
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function() {
+                snackbar.className = snackbar.className.replace("show", ""); 
+            }, s);
+        };
+
         function initMap() {
         
             URL = window.location.href;
@@ -70,10 +120,11 @@
                     zoom: 18,
                     center: {lat: 13.651011, lng: 100.493944}
                 });
+                snackBar("You have connected to server.", 3000);
             });
 
             socket.on("disconnect", function() {
-                alert('You have been disconnected from server.');
+                snackBar("You have been disconnected from server.", 10000);
             });
 
             socket.on("locationUpdated", function(locationState){
