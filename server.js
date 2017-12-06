@@ -8,7 +8,7 @@ const socketIO = require('socket.io');
 const https = require('https');
 const fs = require('fs');
 const mockup = require('./mockup-tracking');
-const trackingListen = require('./tracking-bus.js');
+const trackingListenMain = require('./tracking-bus.js');
 
 const options = {
     key: fs.readFileSync('./certificate/server.key'),
@@ -60,5 +60,5 @@ io.on('connection', socket => {
 	socket.emit('connectSuccess', {content: 'You have connected.'});
 });
 
-trackingListen.trackingListen(io);
+trackingListenMain.trackingListen(io);
 

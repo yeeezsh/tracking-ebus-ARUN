@@ -7,10 +7,12 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket;
-        URL = window.location.href;
+        var trackingBusA1;
+        // URL = window.location.href;
+        URL = "https://localhost:4000"
         socket = io.connect(URL);
 
-        socket.on('trackingBusR1Listen', function(socket) {
+        socket.on("trackingBusA1Listen", function(socket) {
             console.log(socket);
         });
     </script>
