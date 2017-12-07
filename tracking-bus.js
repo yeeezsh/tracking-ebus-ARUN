@@ -18,12 +18,23 @@ const emitRouteGPS = (routeName, routeNodes, currentIndex) => {
 
 const run = io => {
     socketIO = io;
-
+    var busBroadcast = {};
     socketIO.on('connection', socket => {
         socket.emit('trackingBusA1Succes', trackingBusA1);
         socket.on('trackingA1', busName => {
             console.log(busName);
-        })
+            if(busName != null) {
+                busBroadcast = Object.assign(busBroadcast, { 
+                    busName: busName.busName,
+                    lat: busName.lat,
+                    lng: busName.lng
+                }); 
+            }     
+            socket.emit('trackingBusA1Broadcast', busName);
+        });
+        if(busBroadcast != null) {
+            socket.emit('trackingBusA1Broadcast', busBroadcast);
+        }
     });
 }
 

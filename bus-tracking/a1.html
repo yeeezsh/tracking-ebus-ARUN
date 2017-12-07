@@ -4,21 +4,68 @@
     <title>a1 driver</title>
 </head>
 <body>
+    <div id='status'></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // var socket;
         var trackingBusA1 = {}
         // var trackingBusA1;
-        // URL = window.location.open;
-        URL = "https://localhost:4000"
+        URL = window.location.open;
+        // URL = "https://localhost:4000"
         // URL = window.location.href;
         var socket = io.connect(URL);
         var data;
         // var socket = io.connect('http://localhost:4000');
-        socket.on('trackingBusA1Succes', function (data) {
+
+
+        function successGeo(pos) {
+            var crd = pos.coords;
+            var posGeo = {
+                lat: crd.latitude,
+                lng: crd.longitude
+            }
+            console.log('Your current position is:');
+            console.log('Latitude : ' + crd.latitude);
+            console.log('Longitude: ' + crd.longitude);
+            console.log('More or less ' + crd.accuracy + ' meters.');
+            // if (markerGeo == null) {
+            //     markerGeo = new google.maps.Marker({
+            //     position: posGeo,
+            //     map: map,
+            //         icon: {
+            //             url: '/static/locator.png',
+            //             size: new google.maps.Size(150, 150),
+            //             scaledSize: new google.maps.Size(50, 50),
+            //             origin: new google.maps.Point(0, 0),
+            //             anchor: new google.maps.Point(25, 25),
+            //             optimized: false
+            //         }
+            //     });
+            // } else {
+            //     markerGeo.setPosition(posGeo);
+            // }
+
+            socket.on('trackingBusA1Succes', function (data) {
             console.log(data);
-            socket.emit('trackingA1', { busName: 'A1' });
+            socket.emit('trackingA1', { busName: 'A1',
+                                        lat: crd.latitude,
+                                        lng: crd.longitude });
         });
+
+            
+        };
+
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 500,
+            maximumAge: 0
+        };
+
+        function error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        };
+        navigator.geolocation.watchPosition(successGeo, error, options);
+        
     </script>
 </body>
 </html>
