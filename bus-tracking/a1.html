@@ -46,13 +46,15 @@
             // }
 
             socket.on('trackingBusA1Succes', function (data) {
-            console.log(data);
-            socket.emit('trackingA1', { busName: 'A1',
-                                        lat: crd.latitude,
-                                        lng: crd.longitude });
-        });
+                console.log(data);
+                socket.emit('trackingA1', 
+                {   busName: 'A1',
+                    lat: crd.latitude,
+                    lng: crd.longitude });
+            });
 
-            
+            document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
+
         };
 
         var options = {
