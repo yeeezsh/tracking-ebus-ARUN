@@ -1,14 +1,30 @@
-let trackingBusA1 = {   lat: 1,
-                        lng: 0 };
-let trackingBusA2 = {};
-let socketIO = null;
+// 'use strict';
 
-const trackingListen = io => {
-    socketIO = io;
-    socketIO.emit('trackingBusA1Listen', trackingBusA1);
-    // socketIO.on('trackingBusA1Listen', socket => {
-        socketIO.emit('trackingBusA1Listen', {content: 'You have connected.'});
-    // });
+var socketIO = null;
+
+
+let trackingBusA1 = {route: 'A1', routeCurrent: 3}
+let trackingBusA2 = {}
+
+
+const emitRouteGPS = (routeName, routeNodes, currentIndex) => {
+
+  trackingBusA1 = Object.assign(trackingBusA1, { 
+    [routeName] : routeNodes[currentIndex]
+  });
+
+  socketIO.emit( 'trackingBusA1Send', trackingBusA1 );
 }
 
-module.exports.trackingListen = trackingListen;
+const run = io => {
+    socketIO = io;
+
+    socketIO.on('connection', socket => {
+        socket.emit('trackingBusA1Succes', trackingBusA1);
+        socket.on('trackingA1', busName => {
+            console.log(busName);
+        })
+    });
+}
+
+module.exports.run = run;

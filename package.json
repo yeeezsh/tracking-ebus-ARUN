@@ -10,10 +10,10 @@
   "license": "MIT",
   "homepage": "",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "cheerio": "^1.0.0-rc.2",
-    "express": "^4.15.2",
-    "multer": "^1.3.0",
-    "socket.io": "^2.0.1"
+    "body-parser": "1.17.1",
+    "cheerio": "1.0.0-rc.2",
+    "express": "4.15.2",
+    "multer": "1.3.0",
+    "socket.io": "2.0.1"
   }
 }

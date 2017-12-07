@@ -6,14 +6,18 @@
 <body>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket;
-        var trackingBusA1;
-        // URL = window.location.href;
+        // var socket;
+        var trackingBusA1 = {}
+        // var trackingBusA1;
+        // URL = window.location.open;
         URL = "https://localhost:4000"
-        socket = io.connect(URL);
-
-        socket.on("trackingBusA1Listen", function(socket) {
-            console.log(socket);
+        // URL = window.location.href;
+        var socket = io.connect(URL);
+        var data;
+        // var socket = io.connect('http://localhost:4000');
+        socket.on('trackingBusA1Succes', function (data) {
+            console.log(data);
+            socket.emit('trackingA1', { busName: 'A1' });
         });
     </script>
 </body>

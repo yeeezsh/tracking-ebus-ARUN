@@ -52,13 +52,17 @@ server.listen(CONFIG.PORT, () => {
 	console.log('Server is running at port: ' + CONFIG.PORT);
 });
 
-// Run fake tracking location
-mockup.run(io);
-mockup.runR2(io);
-
 io.on('connection', socket => {
 	socket.emit('connectSuccess', {content: 'You have connected.'});
 });
 
-trackingListenMain.trackingListen(io);
+// Run fake tracking location
+mockup.run(io);
+mockup.runR2(io);
+
+//driver tracking
+trackingListenMain.run(io);
+
+
+
 
