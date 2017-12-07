@@ -46,21 +46,37 @@
             //     markerGeo.setPosition(posGeo);
             // }
 
-            socket.on('trackingBusA1Succes', function (data) {
-                console.log(data);
-                document.getElementById("name").innerHTML = data.route
-                socket.emit('trackingA1', 
-                {   busName: 'A1',
-                    lat: crd.latitude,
-                    lng: crd.longitude });
-            });
+            // socket.on('trackingBusA1Succes', function (data) {
+            //     console.log(data);
+            //     document.getElementById("name").innerHTML = data.route
+            //     socket.emit('trackingA1', 
+            //     {   busName: 'A1',
+            //         lat: crd.latitude,
+            //         lng: crd.longitude });
+            // });
+            var date = new Date();
+            socket.on('connection', test => {
+                    socket.on('trackingBusA1Succes', data => {
+                        console.log(data);
+                        document.getElementById("name").innerHTML = data.route
+                        socket.emit('trackingA1', 
+                        {   busName: 'A1',
+                            lat: crd.latitude,
+                            lng: crd.longitude });
+                });
+            })
             document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
+            socket.emit('trackingA1', 
+                        {   busName: 'A1',
+                            lat: crd.latitude,
+                            lng: crd.longitude,
+                            time: date });
 
         };
 
         var options = {
             enableHighAccuracy: true,
-            timeout: 500,
+            timeout: 1000,
             maximumAge: 0
         };
 

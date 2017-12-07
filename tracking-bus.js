@@ -27,7 +27,8 @@ const runA1 = io => {
                 busBroadcast = Object.assign(busBroadcast, { 
                     busName: busName.busName,
                     lat: busName.lat,
-                    lng: busName.lng
+                    lng: busName.lng,
+                    time: busName.time
                 }); 
             }     
             socket.emit('trackingBusA1Broadcast', busName);
@@ -48,7 +49,8 @@ const runA2 = io => {
                 busBroadcast = Object.assign(busBroadcast, { 
                     busName: busName.busName,
                     lat: busName.lat,
-                    lng: busName.lng
+                    lng: busName.lng,
+                    time: busName.time
                 }); 
             }     
             socket.emit('trackingBusA2Broadcast', busName);
