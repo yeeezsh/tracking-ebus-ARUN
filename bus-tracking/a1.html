@@ -4,6 +4,7 @@
     <title>a1 driver</title>
 </head>
 <body>
+    <div id='name'></div>
     <div id='status'></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -47,12 +48,12 @@
 
             socket.on('trackingBusA1Succes', function (data) {
                 console.log(data);
+                document.getElementById("name").innerHTML = data.route
                 socket.emit('trackingA1', 
                 {   busName: 'A1',
                     lat: crd.latitude,
                     lng: crd.longitude });
             });
-
             document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
 
         };

@@ -134,16 +134,15 @@
                 }
             });
 
+            //busA1 marker
             var busA1Marker;
-            // socket.on('trackingA1', function (data) {
-            //     console.log(data);
-                socket.on('trackingBusA1Broadcast', busA1 => {
-                    console.log('A1 --> ' +busA1);
-                    let busGeo = {
-                        lat: busA1.lat,
-                        lng: busA1.lng
-                    }
-                    if (busA1Marker == null) {
+            socket.on('trackingBusA1Broadcast', busA1 => {
+                console.log('A1 --> ' +busA1);
+                let busGeo = {
+                    lat: busA1.lat,
+                    lng: busA1.lng
+                }
+                if (busA1Marker == null) {
                     busA1Marker = new google.maps.Marker({
                         position: busGeo,
                         map: map,
@@ -156,11 +155,35 @@
                             optimized: false
                         }
                     });
-                    } else {
-                        markerGeo.setPosition(busGeo);
-                    }
-                });
-            // });
+                } else {
+                    busA1Marker.setPosition(busGeo);
+                }
+            });
+
+            var busA2Marker;
+            socket.on('trackingBusA2Broadcast', busA2 => {
+                console.log('A2 --> ' + busA2);
+                let busGeo = {
+                    lat: busA2.lat,
+                    lng: busA2.lng
+                }
+                if (busA2Marker == null) {
+                    busA2Marker = new google.maps.Marker({
+                        position: busGeo,
+                        map: map,
+                        icon: {
+                            url: '/static/truck-R2.png',
+                            size: new google.maps.Size(150, 150),
+                            scaledSize: new google.maps.Size(50, 50),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(25, 25),
+                            optimized: false
+                        }
+                    });
+                } else {
+                    busA2Marker.setPosition(busGeo);
+                }
+            });
 
 
             // var busA1;

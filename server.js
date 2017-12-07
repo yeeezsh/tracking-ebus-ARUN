@@ -45,7 +45,10 @@ app.get('/', (req, res) => {
 });
 app.get('/bus-tracking/a1', (req, res) => {
     res.sendFile('a1.html', { root: __dirname + '/bus-tracking/' });
-})
+});
+app.get('/bus-tracking/a2', (req, res) => {
+    res.sendFile('a2.html', { root: __dirname + '/bus-tracking/' });
+});
 
 
 server.listen(CONFIG.PORT, () => {
@@ -61,7 +64,8 @@ mockup.run(io);
 mockup.runR2(io);
 
 //driver tracking
-trackingListenMain.run(io);
+trackingListenMain.runA1(io);
+trackingListenMain.runA2(io);
 
 
 
