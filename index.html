@@ -102,17 +102,6 @@
         var busA1Marker;
         var busA2Marker
 
-        function snackBar(snackBarText, s) {
-            var snackbar = document.getElementById("snackbar")
-            // Add the "show" class to DIV
-            snackbar.className = "show";
-            snackbar.innerHTML = snackBarText;
-            // After 3 seconds, remove the show class from DIV
-            setTimeout(function() {
-                snackbar.className = snackbar.className.replace("show", ""); 
-            }, s);
-        };
-
         function initMap() {
         
             URL = window.location.href;
@@ -123,83 +112,25 @@
                     zoom: 18,
                     center: {lat: 13.651011, lng: 100.493944}
                 });
-                snackBar("You have connected to server.", 3500);
-
-
-                //busA1 marker
-            // socket.on('trackingBusA1Broadcast', busA1 => {
-            //     console.log('A1 --> ' +busA1);
-            //     let busGeo = {
-            //         lat: busA1.lat,
-            //         lng: busA1.lng
-            //     }
-            //     if (busA1Marker == null) {
-            //         busA1Marker = new google.maps.Marker({
-            //             position: busGeo,
-            //             map: map,
-            //             icon: {
-            //                 url: '/static/test.png',
-            //                 size: new google.maps.Size(150, 150),
-            //                 scaledSize: new google.maps.Size(50, 50),
-            //                 origin: new google.maps.Point(0, 0),
-            //                 anchor: new google.maps.Point(25, 25),
-            //                 optimized: false
-            //             }
-            //         });
-            //     } else {
-            //         busA1Marker.setPosition(busGeo);
-            //     }
-            // });
-
-            // socket.on('trackingBusA1Broadcast', function(busA1) {
-            //     console.log(busA1);
-            // });
-
-            // var busA2Marker;
-            // socket.on('trackingBusA2Broadcast', busA2 => {
-            //     console.log('A2 --> ' + busA2);
-            //     let busGeo = {
-            //         lat: busA2.lat,
-            //         lng: busA2.lng
-            //     }
-            //     if (busA2Marker == null) {
-            //         busA2Marker = new google.maps.Marker({
-            //             position: busGeo,
-            //             map: map,
-            //             icon: {
-            //                 url: '/static/truck-R2.png',
-            //                 size: new google.maps.Size(150, 150),
-            //                 scaledSize: new google.maps.Size(50, 50),
-            //                 origin: new google.maps.Point(0, 0),
-            //                 anchor: new google.maps.Point(25, 25),
-            //                 optimized: false
-            //             }
-            //         });
-            //     } else {
-            //         busA2Marker.setPosition(busGeo);
-            //     }
-            // });
-
-
-
+                snackBar("You have connected to server.", 3500)
             });
 
             socket.on("disconnect", function() {
                 snackBar("You have been disconnected from server.", 10000);
             });
 
+            //mockup A1 A2
             socket.on("locationUpdated", function(locationState){
                 for (var k in locationState) {
                     newMarker(k, locationState[k]);
                 }
             });
-
-//** repeat code **
             socket.on("locationUpdatedR2", function(locationStateR2){
                 for (var kR2 in locationStateR2) {
                     newMarkerR2(kR2, locationStateR2[kR2]);
                 }
             });
+
 
             // busA1 marker
             socket.on("trackingBusA1Broadcast", function(data){
@@ -208,7 +139,7 @@
                     lat: data.lat,
                     lng: data.lng
                 }
-                if (busA1Marker == null) {
+                if (busA1Marker == null && posGeoBus.lat != null) {
                         busA1Marker = new google.maps.Marker({
                         position: posGeoBus,
                         map: map,
@@ -221,8 +152,10 @@
                             optimized: false
                         }
                     });
-                } else {
+                } else if(posGeoBus.lat != null) {
                     busA1Marker.setPosition(posGeoBus);
+                } else {
+                    console.log("A1 broadcast connect but not get position");
                 }
             });
 
@@ -233,7 +166,7 @@
                     lat: data.lat,
                     lng: data.lng
                 }
-                if (busA2Marker == null) {
+                if (busA2Marker == null && posGeoBus.lat != null) {
                         busA2Marker = new google.maps.Marker({
                         position: posGeoBus,
                         map: map,
@@ -246,11 +179,24 @@
                             optimized: false
                         }
                     });
+                } else if(posGeoBus.lat != null) {
+                    busA1Marker.setPosition(posGeoBus);
                 } else {
-                    busA2Marker.setPosition(posGeoBus);
+                    console.log("A1 broadcast connect but not get position");
                 }
             });
         }; ///////////// finish init()
+
+        function snackBar(snackBarText, s) {
+            var snackbar = document.getElementById("snackbar")
+            // Add the "show" class to DIV
+            snackbar.className = "show";
+            snackbar.innerHTML = snackBarText;
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function() {
+                snackbar.className = snackbar.className.replace("show", ""); 
+            }, s);
+        };
 
 
 
@@ -323,7 +269,7 @@
         };
 
         var options = {
-            enableHighAccuracy: false,
+            enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 0
         };
