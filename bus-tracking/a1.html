@@ -29,31 +29,7 @@
             console.log('Latitude : ' + crd.latitude);
             console.log('Longitude: ' + crd.longitude);
             console.log('More or less ' + crd.accuracy + ' meters.');
-            // if (markerGeo == null) {
-            //     markerGeo = new google.maps.Marker({
-            //     position: posGeo,
-            //     map: map,
-            //         icon: {
-            //             url: '/static/locator.png',
-            //             size: new google.maps.Size(150, 150),
-            //             scaledSize: new google.maps.Size(50, 50),
-            //             origin: new google.maps.Point(0, 0),
-            //             anchor: new google.maps.Point(25, 25),
-            //             optimized: false
-            //         }
-            //     });
-            // } else {
-            //     markerGeo.setPosition(posGeo);
-            // }
-
-            // socket.on('trackingBusA1Succes', function (data) {
-            //     console.log(data);
-            //     document.getElementById("name").innerHTML = data.route
-            //     socket.emit('trackingA1', 
-            //     {   busName: 'A1',
-            //         lat: crd.latitude,
-            //         lng: crd.longitude });
-            // });
+            
             var date = new Date();
             socket.on('connection', test => {
                     socket.on('trackingBusA1Succes', data => {

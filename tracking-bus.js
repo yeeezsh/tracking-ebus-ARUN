@@ -5,6 +5,7 @@ var socketIO = null;
 
 let trackingBusA1 = {route: 'A1', routeCurrent: 3}
 let trackingBusA2 = {route: 'A2', routeCurrent: 3}
+var busBroadcast = {};
 
 
 // const emitRouteGPS = (routeName, routeNodes, currentIndex) => {
@@ -30,6 +31,8 @@ const runA1 = io => {
                     lng: busName.lng,
                     time: busName.time
                 }); 
+                // console.log(busName);
+                socket.emit('trackingBusA1Broadcast', busName);
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
