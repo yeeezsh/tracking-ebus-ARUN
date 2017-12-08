@@ -208,7 +208,7 @@
                     lat: data.lat,
                     lng: data.lng
                 }
-                if (data != null) {
+                if (busA1Marker == null) {
                         busA1Marker = new google.maps.Marker({
                         position: posGeoBus,
                         map: map,
@@ -224,7 +224,6 @@
                 } else {
                     busA1Marker.setPosition(posGeoBus);
                 }
-                busA1Marker.setPosition(posGeoBus);
             });
 
             // busA2 marker
@@ -234,8 +233,8 @@
                     lat: data.lat,
                     lng: data.lng
                 }
-                if (data != null) {
-                        busA1Marker = new google.maps.Marker({
+                if (busA2Marker == null) {
+                        busA2Marker = new google.maps.Marker({
                         position: posGeoBus,
                         map: map,
                         icon: {
