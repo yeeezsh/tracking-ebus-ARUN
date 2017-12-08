@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>a2 driver</title>
+    <title>A2 DRIVER</title>
 </head>
 <body>
-    <div id="name"></div>
+    <div id='name'>A2 DRIVER</div>
+    <img src="/static/truck-R2.png">
     <div id='status'></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // var socket;
-        var trackingBusA1 = {}
+        var trackingBusA2 = {}
         // var trackingBusA1;
         URL = window.location.open;
         // URL = "https://localhost:4000"
@@ -29,39 +30,30 @@
             console.log('Latitude : ' + crd.latitude);
             console.log('Longitude: ' + crd.longitude);
             console.log('More or less ' + crd.accuracy + ' meters.');
-            // if (markerGeo == null) {
-            //     markerGeo = new google.maps.Marker({
-            //     position: posGeo,
-            //     map: map,
-            //         icon: {
-            //             url: '/static/locator.png',
-            //             size: new google.maps.Size(150, 150),
-            //             scaledSize: new google.maps.Size(50, 50),
-            //             origin: new google.maps.Point(0, 0),
-            //             anchor: new google.maps.Point(25, 25),
-            //             optimized: false
-            //         }
-            //     });
-            // } else {
-            //     markerGeo.setPosition(posGeo);
-            // }
-
-            socket.on('trackingBusA2Succes', function (data) {
-                console.log(data);
-                document.getElementById("name").innerHTML = data.route
-                socket.emit('trackingA2', 
-                {   busName: 'A2',
-                    lat: crd.latitude,
-                    lng: crd.longitude });
-            });
-
+            
+            var date = new Date();
+            socket.on('connection', test => {
+                    socket.on('trackingBusA2Success', data => {
+                        console.log(data);
+                        document.getElementById("name").innerHTML = data.route
+                        socket.emit('trackingA2', 
+                        {   busName: 'A2',
+                            lat: crd.latitude,
+                            lng: crd.longitude });
+                });
+            })
             document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
+            socket.emit('trackingA2', 
+                        {   busName: 'A2',
+                            lat: crd.latitude,
+                            lng: crd.longitude,
+                            time: date });
 
         };
 
         var options = {
-            enableHighAccuracy: true,
-            timeout: 500,
+            enableHighAccuracy: false,
+            timeout: 1000,
             maximumAge: 0
         };
 

@@ -99,6 +99,8 @@
         var map;
         var socket = io();
         var markerGeo;
+        var busA1Marker;
+        var busA2Marker
 
         function snackBar(snackBarText, s) {
             var snackbar = document.getElementById("snackbar")
@@ -125,7 +127,6 @@
 
 
                 //busA1 marker
-            var busA1Marker;
             // socket.on('trackingBusA1Broadcast', busA1 => {
             //     console.log('A1 --> ' +busA1);
             //     let busGeo = {
@@ -154,71 +155,6 @@
             //     console.log(busA1);
             // });
 
-            var busA2Marker;
-            socket.on('trackingBusA2Broadcast', busA2 => {
-                console.log('A2 --> ' + busA2);
-                let busGeo = {
-                    lat: busA2.lat,
-                    lng: busA2.lng
-                }
-                if (busA2Marker == null) {
-                    busA2Marker = new google.maps.Marker({
-                        position: busGeo,
-                        map: map,
-                        icon: {
-                            url: '/static/truck-R2.png',
-                            size: new google.maps.Size(150, 150),
-                            scaledSize: new google.maps.Size(50, 50),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(25, 25),
-                            optimized: false
-                        }
-                    });
-                } else {
-                    busA2Marker.setPosition(busGeo);
-                }
-            });
-
-
-
-            });
-
-            socket.on("disconnect", function() {
-                snackBar("You have been disconnected from server.", 10000);
-            });
-
-            socket.on("locationUpdated", function(locationState){
-                for (var k in locationState) {
-                    newMarker(k, locationState[k]);
-                }
-            });
-
-            // //busA1 marker
-            // var busA1Marker;
-            // socket.on('trackingBusA1Broadcast', busA1 => {
-            //     console.log('A1 --> ' +busA1);
-            //     let busGeo = {
-            //         lat: busA1.lat,
-            //         lng: busA1.lng
-            //     }
-            //     if (busA1Marker == null) {
-            //         busA1Marker = new google.maps.Marker({
-            //             position: busGeo,
-            //             map: map,
-            //             icon: {
-            //                 url: '/static/test.png',
-            //                 size: new google.maps.Size(150, 150),
-            //                 scaledSize: new google.maps.Size(50, 50),
-            //                 origin: new google.maps.Point(0, 0),
-            //                 anchor: new google.maps.Point(25, 25),
-            //                 optimized: false
-            //             }
-            //         });
-            //     } else {
-            //         busA1Marker.setPosition(busGeo);
-            //     }
-            // });
-
             // var busA2Marker;
             // socket.on('trackingBusA2Broadcast', busA2 => {
             //     console.log('A2 --> ' + busA2);
@@ -245,30 +181,18 @@
             // });
 
 
-            // var busA1;
-            // socket.on('trackingBusA1Broadcast', busA1 => {
-            //     var posGeoBus = {
-            //     lat: busA1.lat,
-            //     lng: busA1.lng
-            // }
-            // console.log(busA1);
-            //     if (busA1 == null) {
-            //     markerGeo = new google.maps.Marker({
-            //     position: posGeoBus,
-            //     map: map,
-            //         icon: {
-            //             url: '/static/test.png',
-            //             size: new google.maps.Size(150, 150),
-            //             scaledSize: new google.maps.Size(50, 50),
-            //             origin: new google.maps.Point(0, 0),
-            //             anchor: new google.maps.Point(25, 25),
-            //             optimized: false
-            //         }
-            //     });
-            // } else {
-            //     markerGeo.setPosition(posGeoBus);
-            // }
-            // })
+
+            });
+
+            socket.on("disconnect", function() {
+                snackBar("You have been disconnected from server.", 10000);
+            });
+
+            socket.on("locationUpdated", function(locationState){
+                for (var k in locationState) {
+                    newMarker(k, locationState[k]);
+                }
+            });
 
 //** repeat code **
             socket.on("locationUpdatedR2", function(locationStateR2){
@@ -276,23 +200,20 @@
                     newMarkerR2(kR2, locationStateR2[kR2]);
                 }
             });
-        }; ///////////// finish init()
 
             // busA1 marker
-            var busA1Marker;
-            let i = 0;
             socket.on("trackingBusA1Broadcast", function(data){
                 console.log(data);
                 let posGeoBus = {
                     lat: data.lat,
                     lng: data.lng
                 }
-                if (busA1Marker == null) {
+                if (data != null) {
                         busA1Marker = new google.maps.Marker({
                         position: posGeoBus,
                         map: map,
                         icon: {
-                            url: '/static/test.png',
+                            url: '/static/truck.png',
                             size: new google.maps.Size(150, 150),
                             scaledSize: new google.maps.Size(50, 50),
                             origin: new google.maps.Point(0, 0),
@@ -303,28 +224,55 @@
                 } else {
                     busA1Marker.setPosition(posGeoBus);
                 }
-
-
+                busA1Marker.setPosition(posGeoBus);
             });
 
-        function newMarkerBusA1(k, location) {
-        if (busA1Marker[k] == null) {
-            busA1Marker[k] = new google.maps.Marker({
-                position : location,
-                map: map,
-                icon: {
-                    url: '/static/test.png',
-                    size: new google.maps.Size(100, 100),
-                    scaledSize: new google.maps.Size(50, 50),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(25, 25),
-                    optimized: false
-                } 
+            // busA2 marker
+            socket.on("trackingBusA2Broadcast", function(data){
+                console.log(data);
+                let posGeoBus = {
+                    lat: data.lat,
+                    lng: data.lng
+                }
+                if (data != null) {
+                        busA1Marker = new google.maps.Marker({
+                        position: posGeoBus,
+                        map: map,
+                        icon: {
+                            url: '/static/truck-R2.png',
+                            size: new google.maps.Size(150, 150),
+                            scaledSize: new google.maps.Size(50, 50),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(25, 25),
+                            optimized: false
+                        }
+                    });
+                } else {
+                    busA2Marker.setPosition(posGeoBus);
+                }
             });
-        } else {
-            busA1Marker[k].setPosition(location);
-        }    
-    };
+        }; ///////////// finish init()
+
+
+
+    //     function newMarkerBusA1(k, location) {
+    //     if (busA1Marker[k] == null) {
+    //         busA1Marker[k] = new google.maps.Marker({
+    //             position : location,
+    //             map: map,
+    //             icon: {
+    //                 url: '/static/test.png',
+    //                 size: new google.maps.Size(100, 100),
+    //                 scaledSize: new google.maps.Size(50, 50),
+    //                 origin: new google.maps.Point(0, 0),
+    //                 anchor: new google.maps.Point(25, 25),
+    //                 optimized: false
+    //             } 
+    //         });
+    //     } else {
+    //         busA1Marker[k].setPosition(location);
+    //     }    
+    // };
 
 
 
@@ -377,7 +325,7 @@
 
         var options = {
             enableHighAccuracy: false,
-            timeout: 1000,
+            timeout: 10000,
             maximumAge: 0
         };
         

@@ -65,7 +65,7 @@ mockup.runR2(io);
 
 //driver tracking
 trackingListenMain.runA1(io);
-// trackingListenMain.runA2(io);
+trackingListenMain.runA2(io);
 
 
 

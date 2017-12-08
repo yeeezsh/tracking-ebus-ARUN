@@ -5,8 +5,8 @@ var socketIO = null;
 
 let trackingBusA1 = {route: 'A1', routeCurrent: 3}
 let trackingBusA2 = {route: 'A2', routeCurrent: 3}
-var busBroadcast = {};
-
+var busBroadcastA1 = {};
+var busBroadcastA2 = {};
 
 // const emitRouteGPS = (routeName, routeNodes, currentIndex) => {
 
@@ -23,18 +23,18 @@ var busBroadcast = {};
 function broadcastEvent(channel, data) {
     socketIO.emit(channel, data);
 }
-setTimeout(broadcastEvent, 100);
+setTimeout(broadcastEvent, 10);
 
 
 const runA1 = io => {
     socketIO = io;
-    var busBroadcast = {};
+
     socketIO.on('connection', socket => {
         socket.emit('trackingBusA1Success', trackingBusA1);
         socket.on('trackingA1', busName => {
             console.log(busName);
             if(busName != null) {
-                busBroadcast = Object.assign(busBroadcast, { 
+                busBroadcastA1 = Object.assign(busBroadcastA1, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
@@ -46,30 +46,35 @@ const runA1 = io => {
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
-        if(busBroadcast != null) {
-            socket.emit('trackingBusA1Broadcast', busBroadcast);
+        if(busBroadcastA1 != null) {
+            socket.emit('trackingBusA1Broadcast', busBroadcastA1);
         }
     });
 }
+
+
 const runA2 = io => {
     socketIO = io;
-    var busBroadcast = {};
+
     socketIO.on('connection', socket => {
-        socket.emit('trackingBusA2Succes', trackingBusA2);
+        socket.emit('trackingBusA2Success', trackingBusA2);
         socket.on('trackingA2', busName => {
             console.log(busName);
             if(busName != null) {
-                busBroadcast = Object.assign(busBroadcast, { 
+                busBroadcastA2 = Object.assign(busBroadcastA2, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
                     time: busName.time
                 }); 
+                // console.log(busName);
+                // socket.emit('trackingBusA1Broadcast', busName);
+                broadcastEvent('trackingBusA2Broadcast', busName);
             }     
             socket.emit('trackingBusA2Broadcast', busName);
         });
-        if(busBroadcast != null) {
-            socket.emit('trackingBusA2Broadcast', busBroadcast);
+        if(busBroadcastA2 != null) {
+            socket.emit('trackingBusA2Broadcast', busBroadcastA2);
         }
     });
 }
