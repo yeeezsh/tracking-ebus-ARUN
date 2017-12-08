@@ -44,10 +44,12 @@
             })
             document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
             socket.emit('trackingA2', 
-                        {   busName: 'A2',
-                            lat: crd.latitude,
-                            lng: crd.longitude,
-                            time: date });
+                {   busName: 'A2',
+                    lat: crd.latitude,
+                    lng: crd.longitude,
+                    time: date,
+                    speed: pos.coords.speed,
+                    timestamp: pos.timestamp });
 
         };
 
