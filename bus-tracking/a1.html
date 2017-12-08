@@ -32,7 +32,7 @@
             
             var date = new Date();
             socket.on('connection', test => {
-                    socket.on('trackingBusA1Succes', data => {
+                    socket.on('trackingBusA1Success', data => {
                         console.log(data);
                         document.getElementById("name").innerHTML = data.route
                         socket.emit('trackingA1', 

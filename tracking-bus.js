@@ -17,11 +17,20 @@ var busBroadcast = {};
 //   socketIO.emit( 'trackingBusA1Send', trackingBusA1 );
 // }
 
+// function broadcastEvent() {
+
+// }
+function broadcastEvent(channel, data) {
+    socketIO.emit(channel, data);
+}
+setTimeout(broadcastEvent, 100);
+
+
 const runA1 = io => {
     socketIO = io;
     var busBroadcast = {};
     socketIO.on('connection', socket => {
-        socket.emit('trackingBusA1Succes', trackingBusA1);
+        socket.emit('trackingBusA1Success', trackingBusA1);
         socket.on('trackingA1', busName => {
             console.log(busName);
             if(busName != null) {
@@ -32,7 +41,8 @@ const runA1 = io => {
                     time: busName.time
                 }); 
                 // console.log(busName);
-                socket.emit('trackingBusA1Broadcast', busName);
+                // socket.emit('trackingBusA1Broadcast', busName);
+                broadcastEvent('trackingBusA1Broadcast', busName);
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
