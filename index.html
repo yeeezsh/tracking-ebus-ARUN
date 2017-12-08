@@ -280,15 +280,51 @@
 
             // busA1 marker
             var busA1Marker;
+            let i = 0;
             socket.on("trackingBusA1Broadcast", function(data){
-                // for (var kR2 in locationStateR2) {
-                //     newMarkerR2(kR2, locationStateR2[kR2]);
-                // }
-                console.log(data)
-                // socket.on("trackingBusA1Succes", function(data2) {
-                //     console.log(data2);
-                // });
+                console.log(data);
+                let posGeoBus = {
+                    lat: data.lat,
+                    lng: data.lng
+                }
+                if (busA1Marker == null) {
+                        busA1Marker = new google.maps.Marker({
+                        position: posGeoBus,
+                        map: map,
+                        icon: {
+                            url: '/static/test.png',
+                            size: new google.maps.Size(150, 150),
+                            scaledSize: new google.maps.Size(50, 50),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(25, 25),
+                            optimized: false
+                        }
+                    });
+                } else {
+                    busA1Marker.setPosition(posGeoBus);
+                }
+
+
             });
+
+        function newMarkerBusA1(k, location) {
+        if (busA1Marker[k] == null) {
+            busA1Marker[k] = new google.maps.Marker({
+                position : location,
+                map: map,
+                icon: {
+                    url: '/static/test.png',
+                    size: new google.maps.Size(100, 100),
+                    scaledSize: new google.maps.Size(50, 50),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(25, 25),
+                    optimized: false
+                } 
+            });
+        } else {
+            busA1Marker[k].setPosition(location);
+        }    
+    };
 
 
 
@@ -340,7 +376,7 @@
         };
 
         var options = {
-            enableHighAccuracy: true,
+            enableHighAccuracy: false,
             timeout: 1000,
             maximumAge: 0
         };
