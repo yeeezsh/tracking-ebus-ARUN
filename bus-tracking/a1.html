@@ -41,7 +41,7 @@
                             lat: crd.latitude,
                             lng: crd.longitude });
                 });
-            })
+            });
             document.getElementById("status").innerHTML = posGeo.lat + "++" + posGeo.lng;
             socket.emit('trackingA1', 
                         {   busName: 'A1',

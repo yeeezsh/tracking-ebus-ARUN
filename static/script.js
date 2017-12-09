@@ -1,3 +1,5 @@
+// import { start } from "repl";
+
 var markers = {};
 var map;
 var socket = io();
@@ -7,20 +9,36 @@ var busA2Marker;
 var posBusA1;
 var posBusA2;
 var posGeo;
+var path = 0;
 
 const geoBase = [
-    {   'name': 'cosmo building',
-        'location': [[13.661599, 100.505082], [13.662501, 100.505951], [13.661015, 100.505994]],
-        'a1': 99,
-        'a2': 99,
-        'center': [13.661345,100.505239]
-    },
+    // {
+    //     'name': 'อาคารวิศววัฒนะ - บ้านธรรมรักษา 1',
+    //     'location': [[13.650008, 100.493684], [13.649302, 100.493813], [13.649135, 100.494628], [13.649891, 100.495508], [13.650576, 100.494945],[13.650753, 100.494194]],
+    //     'a1': 1,
+    //     'a2': 7,
+    //     'center': [13.650053, 100.494271]
+    // },
+    // {
+    //     'name': 'เดอะคิวบ์',
+    //     'location': [[13.654853, 100.498868], [13.655356, 100.499127], [13.654949, 100.500184], [13.654070, 100.499811]],
+    //     'a1': 3,
+    //     'a2': 2,
+    //     'center': [13.654853, 100.498868]
+    // },
+    // {
+    //     'name': 'สำนักงานอธิการบดี',
+    //     'location': [[13.651838, 100.495397], [13.652305, 100.495740], [13.651299, 100.495694], [13.651231, 100.494602]],
+    //     'a1': 0,
+    //     'a2': 0,
+    //     'center': [13.652076, 100.495402]
+    // },
     {
-        'name': 'the cube',
-        'location': [[13.654853, 100.498868], [13.655312, 100.499834], [13.654499, 100.499727]],
-        'a1': 99,
-        'a2': 99,
-        'center': [13.654924,100.499377]
+        'name': 'เดอะคิวบ์',
+        'location': [[13.654806, 100.498623], [13.655452, 100.499159], [13.655082, 100.500387], [13.655082, 100.500387]],
+        'a1': 3,
+        'a2': 2,
+        'center': [13.654853, 100.498868]
     },
     {
         'name': 'อาคารวิศววัฒนะ - บ้านธรรมรักษา 1',
@@ -38,7 +56,7 @@ const geoBase = [
     },
     {
         'name': 'อาคารเรียนรวม 1',
-        'location': [[13.651665, 100.492958], [13.651529, 100.492947], [13.651344, 100.492942]],
+        'location': [[13.651665, 100.492958], [13.651529, 100.492947], [13.651344, 100.492942], [13.651344, 100.492942]],
         'a1': 3,
         'center': [13.651665, 100.492958]
     },
@@ -81,7 +99,8 @@ const geoBase = [
         'a2': 1,
         'center': [13.653110, 100.494869]
     }
-]
+
+];
 
 function initMap() {
 
@@ -116,13 +135,23 @@ function initMap() {
     });
 
 
+
+
+    //     //want to know distance from bus to you
+    // //***********
+    // let stopNodeA1 = compareCloseNode(posGeo, geoBase, 1);
+    // let stopNodeA2 = compareCloseNode(posGeo, geoBase, 2);
+    // estimateRoute(posBusA1.node, stopNodeA1, 1); //A1
+    // estimateRoute(posBusA2.node, stopNodeA2, 2); //A2
+
     // busA1 marker
     socket.on("trackingBusA1Broadcast", function(data){
         console.log(data);
         posBusA1 = {
             lat: data.lat,
-            lng: data.lng
-        }
+            lng: data.lng,
+            node:data.nodeRoute
+        };
         if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
                 position: posBusA1,
@@ -139,6 +168,7 @@ function initMap() {
         } else if(posBusA1.lat != null) {
             busA1Marker.setPosition(posBusA1);
             console.log(getDistanceFromLatLon(posGeo, posBusA1));
+            estimateRoute(posBusA1.node, compareCloseNode(posGeo, geoBase, 1), 1); //A1
         } else {
             console.log("A1 broadcast connect but not get position");
         }
@@ -149,8 +179,9 @@ function initMap() {
             console.log(data);
             posBusA2 = {
                 lat: data.lat,
-                lng: data.lng
-            }
+                lng: data.lng,
+                node:data.nodeRoute
+            };
             if (busA2Marker == null && posBusA2.lat != null) {
                     busA2Marker = new google.maps.Marker({
                     position: posBusA2,
@@ -167,6 +198,7 @@ function initMap() {
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
                 console.log(getDistanceFromLatLon(posGeo, posBusA2));
+                // console.log(posBusA2.node);
             } else {
                 console.log("A2 broadcast connect but not get position");
             }
@@ -262,6 +294,7 @@ function successGeo(pos) {
     //your location close to 
     console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
     console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
+
 
 };
 
@@ -378,7 +411,57 @@ function topBoxMap() {
     
 };
 
+// console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
 
+function estimateRoute(startNode, stopNode, route) { //function will return total path in meters (m)
+
+    // if (route == 1 ) { //stop node at 5
+    //     for(i = startNode; i == stopNode; i++){
+    //         for(k in geoBase) {
+    //             if(geoBase[k].a1 == startNode){
+    //                 console.log('kk -->'+ k);
+    //                 console.log(geoBase[k].name)
+    //                 let j = k+1
+    //                 console.log("jjjj"+j)
+    //                 path += getDistanceFromLatLon(geoBase[k].center, geoBase[j].center); 
+    //             }
+    //         }
+    //         if(i == 5) i = 0;
+    //     }
+    //     console.log('path is -->'+ path + 'm');
+    //     return path;
+    // } else if (route == 2 && startNode != stopNode) { //stop node at 7
+
+    // } else if (startNode == stopNode) {
+    //     console.log('will be arrive in a minutes');
+    // }
+    if(route == 1 && startNode != stopNode){ //stop node at 5
+        // console.log("hello");
+        console.log("estimate route 1 working");
+        console.log(startNode+"----"+stopNode+"----"+route);
+        for(startNode; startNode == stopNode; startNode++) {
+            console.log(startNode);
+            let j = findNode(i,1);
+            let k = findNode(j+1,1)
+            path += getDistanceFromLatLon(geoBase[j].center, geoBase[k].center);
+            console.log("path --->" + path);
+        }
+        // if(startNode > 5) i = 0;
+    }
+};
+
+function findNode(index, route) {
+    if(route == 1) {
+        for(i in geoBase) {
+            if(geoBase[i].a1 == index) return i;
+        }
+    } else {
+        for(i in geoBase){
+            if(geoBase[i].a2 == index) return i;
+        }
+    }
+
+}
 
 
 //bug some devices

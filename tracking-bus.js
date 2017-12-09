@@ -1,6 +1,6 @@
-// 'use strict';
+'use strict';
 
-const geoBase = require('./geo-base.js')
+var geoBase = require('./geo-base.js')
 var socketIO = null;
 
 // geoBase.run([13.655259, 100.497331]) //sample how to  use this funciton
@@ -37,9 +37,10 @@ const runA1 = io => {
         socket.on('trackingA1', busName => {
 
             console.log(busName);
-
             if(busName != null) {
-                let posBase = [busName.lat, busName.lng]
+                // let posBase = [];
+                let posBase = [busName.lat, busName.lng];
+                // console.log(posBase);
                 let geoBaseEvent = geoBase.run(posBase);
                 console.log(geoBaseEvent); //work better
 
@@ -54,6 +55,7 @@ const runA1 = io => {
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
                 broadcastEvent('trackingBusA1Broadcast', busBroadcastA1);
+                // console.log(busBroadcastA1);
 
                 //checking geo-base name
                 
@@ -68,38 +70,6 @@ const runA1 = io => {
     });
 }
 
-
-// const runA2 = io => {
-//     socketIO = io;
-
-//     socketIO.on('connection', socket => {
-//         socket.emit('trackingBusA2Success', trackingBusA2);
-//         socket.on('trackingA2', busName => {
-//             console.log(busName);
-//             if(busName != null) {
-//                 let posBase = [busName.lat, busName.lng]
-//                 let geoBaseEvent = geoBase.run(posBase);
-//                 console.log(geoBaseEvent); //work better
-
-//                 busBroadcastA2 = Object.assign(busBroadcastA2, { 
-//                     busName: busName.busName,
-//                     lat: busName.lat,
-//                     lng: busName.lng,
-//                     time: busName.time,
-//                     building: geoBaseEvent.buildingName,
-//                     nodeRoute: geoBaseEvent.nodeRouteA2
-//                 }); 
-//                 // console.log(busName);
-//                 // socket.emit('trackingBusA1Broadcast', busName);
-//                 broadcastEvent('trackingBusA2Broadcast', busBroadcastA2);
-//             }     
-//             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
-//         });
-//         if(busBroadcastA2 != null) {
-//             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
-//         }
-//     });
-// }
 
 const runA2 = io => {
     socketIO = io;
