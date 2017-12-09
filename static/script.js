@@ -3,7 +3,10 @@ var map;
 var socket = io();
 var markerGeo;
 var busA1Marker;
-var busA2Marker
+var busA2Marker;
+var posBusA1;
+var posBusA2;
+var posGeo;
 
 function initMap() {
 
@@ -41,13 +44,13 @@ function initMap() {
     // busA1 marker
     socket.on("trackingBusA1Broadcast", function(data){
         console.log(data);
-        let posGeoBus = {
+        posBusA1 = {
             lat: data.lat,
             lng: data.lng
         }
-        if (busA1Marker == null && posGeoBus.lat != null) {
+        if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
-                position: posGeoBus,
+                position: posBusA1,
                 map: map,
                 icon: {
                     url: '/static/truck.png',
@@ -58,8 +61,9 @@ function initMap() {
                     optimized: false
                 }
             });
-        } else if(posGeoBus.lat != null) {
-            busA1Marker.setPosition(posGeoBus);
+        } else if(posBusA1.lat != null) {
+            busA1Marker.setPosition(posBusA1);
+            console.log(getDistanceFromLatLonInKm(posGeo, posBusA1));
         } else {
             console.log("A1 broadcast connect but not get position");
         }
@@ -68,13 +72,13 @@ function initMap() {
     // busA2 marker
     socket.on("trackingBusA2Broadcast", function(data){
         console.log(data);
-        let posGeoBus = {
+        let posBusA2 = {
             lat: data.lat,
             lng: data.lng
         }
-        if (busA2Marker == null && posGeoBus.lat != null) {
+        if (busA2Marker == null && posBusA2.lat != null) {
                 busA2Marker = new google.maps.Marker({
-                position: posGeoBus,
+                position: posBusA2,
                 map: map,
                 icon: {
                     url: '/static/truck-R2.png',
@@ -85,8 +89,9 @@ function initMap() {
                     optimized: false
                 }
             });
-        } else if(posGeoBus.lat != null) {
-            busA1Marker.setPosition(posGeoBus);
+        } else if(posBusA2.lat != null) {
+            busA1Marker.setPosition(posBusA2);
+            console.log(getDistanceFromLatLonInKm(posGeo, posBusA2));
         } else {
             console.log("A1 broadcast connect but not get position");
         }
@@ -125,7 +130,7 @@ function snackBar(snackBarText, s) {
 
 function successGeo(pos) {
     var crd = pos.coords;
-    var posGeo = {
+    posGeo = {
         lat: crd.latitude,
         lng: crd.longitude
     }
@@ -149,8 +154,33 @@ function successGeo(pos) {
     } else {
         markerGeo.setPosition(posGeo);
     }
+
+
 };
 
+
+function getDistanceFromLatLonInKm(pos1, pos2) {
+    let lat1 = pos1.lat;
+    let lon1 = pos1.lng;
+    let lat2 = pos2.lat;
+    let lon2 = pos2.lng;
+
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
 
 
 //     function newMarkerBusA1(k, location) {
@@ -220,6 +250,7 @@ function topBoxMap() {
     });
     
 };
+
 
 
 

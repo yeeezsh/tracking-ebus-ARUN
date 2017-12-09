@@ -26,7 +26,7 @@ var busBroadcastA2 = {};
 function broadcastEvent(channel, data) {
     socketIO.emit(channel, data);
 }
-setTimeout(broadcastEvent, 10);
+setTimeout(broadcastEvent, 100);
 
 
 const runA1 = io => {
