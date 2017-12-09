@@ -446,7 +446,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             path += getDistanceFromLatLon(geoBase[j].center, geoBase[k].center);
             console.log("path --->" + path);
         }
-        // if(startNode > 5) i = 0;
+        if(startNode > 5) i = 0;
     }
 };
 

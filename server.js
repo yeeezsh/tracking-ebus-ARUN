@@ -29,6 +29,9 @@ const app = express();
 
 // Create socketIO and wrap app server inside
 // const server = http.Server(app);
+// const serverHTTP = http.createServer(app);
+// serverHTTP.listen(4001);
+
 const server = https.createServer(options, app);
 const io = socketIO(server);
 
@@ -41,7 +44,8 @@ app.use('/static', express.static('static'));
 
 // Serve index.html for path '/', this is home path
 app.get('/', (req, res) => {
-	res.sendFile('index.html', { root: __dirname });
+    res.sendFile('index.html', { root: __dirname });
+    // res.redirect('https://' + req.headers.host + req.url+':40000');
 });
 app.get('/bus-tracking/a1', (req, res) => {
     res.sendFile('a1.html', { root: __dirname + '/bus-tracking/' });
