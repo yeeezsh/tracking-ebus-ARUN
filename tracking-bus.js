@@ -33,15 +33,16 @@ const runA1 = io => {
     socketIO = io;
 
     socketIO.on('connection', socket => {
-        socket.emit('trackingBusA1Success', trackingBusA1);
+        socket.emit('trackingBusA1Success', busBroadcastA1);
         socket.on('trackingA1', busName => {
 
             console.log(busName);
 
             if(busName != null) {
-                let pos = [busName.lat, busName.lng]
-                let geoBaseEvent = geoBase.run(pos);
+                let posBase = [busName.lat, busName.lng]
+                let geoBaseEvent = geoBase.run(posBase);
                 console.log(geoBaseEvent); //work better
+
                 busBroadcastA1 = Object.assign(busBroadcastA1, { 
                     busName: busName.busName,
                     lat: busName.lat,
@@ -51,14 +52,14 @@ const runA1 = io => {
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
-                broadcastEvent('trackingBusA1Broadcast', busName);
+                broadcastEvent('trackingBusA1Broadcast', busBroadcastA1);
 
                 //checking geo-base name
                 
                 // geoBase.run([busName.lat+','+busName.lng]); //work
                 
             }     
-            socket.emit('trackingBusA1Broadcast', busName);
+            socket.emit('trackingBusA1Broadcast', busBroadcastA1);
         });
         if(busBroadcastA1 != null) {
             socket.emit('trackingBusA1Broadcast', busBroadcastA1);
@@ -75,17 +76,22 @@ const runA2 = io => {
         socket.on('trackingA2', busName => {
             console.log(busName);
             if(busName != null) {
+                let posBase = [busName.lat, busName.lng]
+                let geoBaseEvent = geoBase.run(posBase);
+                console.log(geoBaseEvent); //work better
+
                 busBroadcastA2 = Object.assign(busBroadcastA2, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
-                    time: busName.time
+                    time: busName.time,
+                    building: geoBaseEvent
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
-                broadcastEvent('trackingBusA2Broadcast', busName);
+                broadcastEvent('trackingBusA2Broadcast', busBroadcastA2);
             }     
-            socket.emit('trackingBusA2Broadcast', busName);
+            socket.emit('trackingBusA2Broadcast', busBroadcastA2);
         });
         if(busBroadcastA2 != null) {
             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
