@@ -35,20 +35,28 @@ const runA1 = io => {
     socketIO.on('connection', socket => {
         socket.emit('trackingBusA1Success', trackingBusA1);
         socket.on('trackingA1', busName => {
+
             console.log(busName);
+
             if(busName != null) {
+                let pos = [busName.lat, busName.lng]
+                let geoBaseEvent = geoBase.run(pos);
+                console.log(geoBaseEvent); //work better
                 busBroadcastA1 = Object.assign(busBroadcastA1, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
-                    time: busName.time
+                    time: busName.time,
+                    building: geoBaseEvent
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
                 broadcastEvent('trackingBusA1Broadcast', busName);
-                let pos = [busName.lat, busName.lng]
+
+                //checking geo-base name
+                
                 // geoBase.run([busName.lat+','+busName.lng]); //work
-                geoBase.run(pos); //work better
+                
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
