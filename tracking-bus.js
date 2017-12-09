@@ -46,7 +46,9 @@ const runA1 = io => {
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
                 broadcastEvent('trackingBusA1Broadcast', busName);
+                let pos = [busName.lat, busName.lng]
                 // geoBase.run([busName.lat+','+busName.lng]); //work
+                geoBase.run(pos); //work better
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
