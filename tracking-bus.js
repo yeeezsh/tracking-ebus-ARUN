@@ -48,7 +48,8 @@ const runA1 = io => {
                     lat: busName.lat,
                     lng: busName.lng,
                     time: busName.time,
-                    building: geoBaseEvent
+                    building: geoBaseEvent.buildingName,
+                    nodeRoute: geoBaseEvent.nodeRouteA1
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
@@ -68,13 +69,47 @@ const runA1 = io => {
 }
 
 
+// const runA2 = io => {
+//     socketIO = io;
+
+//     socketIO.on('connection', socket => {
+//         socket.emit('trackingBusA2Success', trackingBusA2);
+//         socket.on('trackingA2', busName => {
+//             console.log(busName);
+//             if(busName != null) {
+//                 let posBase = [busName.lat, busName.lng]
+//                 let geoBaseEvent = geoBase.run(posBase);
+//                 console.log(geoBaseEvent); //work better
+
+//                 busBroadcastA2 = Object.assign(busBroadcastA2, { 
+//                     busName: busName.busName,
+//                     lat: busName.lat,
+//                     lng: busName.lng,
+//                     time: busName.time,
+//                     building: geoBaseEvent.buildingName,
+//                     nodeRoute: geoBaseEvent.nodeRouteA2
+//                 }); 
+//                 // console.log(busName);
+//                 // socket.emit('trackingBusA1Broadcast', busName);
+//                 broadcastEvent('trackingBusA2Broadcast', busBroadcastA2);
+//             }     
+//             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
+//         });
+//         if(busBroadcastA2 != null) {
+//             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
+//         }
+//     });
+// }
+
 const runA2 = io => {
     socketIO = io;
 
     socketIO.on('connection', socket => {
-        socket.emit('trackingBusA2Success', trackingBusA2);
+        socket.emit('trackingBusA2Success', busBroadcastA2);
         socket.on('trackingA2', busName => {
+
             console.log(busName);
+
             if(busName != null) {
                 let posBase = [busName.lat, busName.lng]
                 let geoBaseEvent = geoBase.run(posBase);
@@ -85,16 +120,22 @@ const runA2 = io => {
                     lat: busName.lat,
                     lng: busName.lng,
                     time: busName.time,
-                    building: geoBaseEvent
+                    building: geoBaseEvent.buildingName,
+                    nodeRoute: geoBaseEvent.nodeRouteA2
                 }); 
                 // console.log(busName);
-                // socket.emit('trackingBusA1Broadcast', busName);
+                // socket.emit('trackingBusA2Broadcast', busName);
                 broadcastEvent('trackingBusA2Broadcast', busBroadcastA2);
+
+                //checking geo-base name
+                
+                // geoBase.run([busName.lat+','+busName.lng]); //work
+                
             }     
             socket.emit('trackingBusA2Broadcast', busBroadcastA2);
         });
         if(busBroadcastA2 != null) {
-            socket.emit('trackingBusA2Broadcast', busBroadcastA2);
+            socket.emit('trackingBus21Broadcast', busBroadcastA2);
         }
     });
 }
