@@ -1,6 +1,9 @@
 // 'use strict';
 
+const geoBase = require('./geo-base.js')
 var socketIO = null;
+
+// geoBase.run([13.655259, 100.497331]) //sample how to  use this funciton
 
 
 let trackingBusA1 = {route: 'A1', routeCurrent: 3}
@@ -43,6 +46,7 @@ const runA1 = io => {
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
                 broadcastEvent('trackingBusA1Broadcast', busName);
+                // geoBase.run([busName.lat+','+busName.lng]); //work
             }     
             socket.emit('trackingBusA1Broadcast', busName);
         });
