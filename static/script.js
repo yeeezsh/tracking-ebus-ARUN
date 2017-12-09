@@ -139,7 +139,6 @@ function initMap() {
         } else if(posBusA1.lat != null) {
             busA1Marker.setPosition(posBusA1);
             console.log(getDistanceFromLatLon(posGeo, posBusA1));
-            console.log('A1 > closet node -->' + compareCloseNode(posGeo, geoBase, 1));
         } else {
             console.log("A1 broadcast connect but not get position");
         }
@@ -157,7 +156,7 @@ function initMap() {
                     position: posBusA2,
                     map: map,
                     icon: {
-                        url: '/static/truck.png',
+                        url: '/static/truck-R2.png',
                         size: new google.maps.Size(150, 150),
                         scaledSize: new google.maps.Size(50, 50),
                         origin: new google.maps.Point(0, 0),
@@ -168,7 +167,6 @@ function initMap() {
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
                 console.log(getDistanceFromLatLon(posGeo, posBusA2));
-                console.log('A2 > closet node -->' + compareCloseNode(posGeo, geoBase, 2));
             } else {
                 console.log("A2 broadcast connect but not get position");
             }
@@ -261,7 +259,9 @@ function successGeo(pos) {
     } else {
         markerGeo.setPosition(posGeo);
     }
-
+    //your location close to 
+    console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
+    console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
 
 };
 
@@ -304,7 +304,9 @@ function getDistanceFromLatLon(pos1, pos2) {
     }
     if(route == 1){
         return data[i].a1;
-    } else data[i].a2;
+    }else if (route == 2) {
+        return data[i].a2;
+    }
 }
 
 
