@@ -9,97 +9,72 @@ var busA2Marker;
 var posBusA1;
 var posBusA2;
 var posGeo;
-var path = 0;
+var pathA1;
+var pathA2;
+var time = 0;
+var countTime = 0;
+var sumTime = 0;
+
 
 const geoBase = [
-    // {
-    //     'name': 'อาคารวิศววัฒนะ - บ้านธรรมรักษา 1',
-    //     'location': [[13.650008, 100.493684], [13.649302, 100.493813], [13.649135, 100.494628], [13.649891, 100.495508], [13.650576, 100.494945],[13.650753, 100.494194]],
-    //     'a1': 1,
-    //     'a2': 7,
-    //     'center': [13.650053, 100.494271]
-    // },
-    // {
-    //     'name': 'เดอะคิวบ์',
-    //     'location': [[13.654853, 100.498868], [13.655356, 100.499127], [13.654949, 100.500184], [13.654070, 100.499811]],
-    //     'a1': 3,
-    //     'a2': 2,
-    //     'center': [13.654853, 100.498868]
-    // },
-    // {
-    //     'name': 'สำนักงานอธิการบดี',
-    //     'location': [[13.651838, 100.495397], [13.652305, 100.495740], [13.651299, 100.495694], [13.651231, 100.494602]],
-    //     'a1': 0,
-    //     'a2': 0,
-    //     'center': [13.652076, 100.495402]
-    // },
-    {
-        'name': 'เดอะคิวบ์',
-        'location': [[13.654806, 100.498623], [13.655452, 100.499159], [13.655082, 100.500387], [13.655082, 100.500387]],
-        'a1': 3,
-        'a2': 2,
-        'center': [13.654853, 100.498868]
-    },
     {
         'name': 'อาคารวิศววัฒนะ - บ้านธรรมรักษา 1',
-        'location': [[13.650192, 100.495116], [13.649853, 100.494698], [13.649321, 100.494151]],
+        'location': [[13.650008, 100.493684], [13.649302, 100.493813], [13.649135, 100.494628], [13.649891, 100.495508], [13.650576, 100.494945],[13.650753, 100.494194]],
         'a1': 1,
         'a2': 7,
-        'center': [13.650192, 100.495116]
+        'center': [13.650053, 100.494271]
     },
     {
         'name': 'สำนักงานอธิการบดี',
-        'location': [[13.652076, 100.495402], [13.651838, 100.495397], [13.651539, 100.495388]],
+        'location': [[13.651838, 100.495397], [13.652305, 100.495740], [13.651299, 100.495694], [13.651231, 100.494602]],
         'a1': 0,
         'a2': 0,
         'center': [13.652076, 100.495402]
     },
     {
         'name': 'อาคารเรียนรวม 1',
-        'location': [[13.651665, 100.492958], [13.651529, 100.492947], [13.651344, 100.492942], [13.651344, 100.492942]],
+        'location': [[13.651447, 100.492676],[13.652256, 100.492565], [13.652167, 100.493498], [13.651411, 100.492999]],
         'a1': 3,
         'center': [13.651665, 100.492958]
-    },
-    {
+    },    {
         'name': 'อาคารพระจอมเกล้าราชานุสรณ์ฯ',
-        'location': [[13.651287, 100.492100], [13.651035, 100.492106], [13.650615, 100.492117]],
+        'location': [[13.650589, 100.491454], [13.651335, 100.491491], [13.651335, 100.492340], [13.650381, 100.492254]],
         'a2': 5,
-        'center': [13.651035, 100.492106]
+        'center': [13.650897, 100.491970]
     },
     {
         'name': 'อาคารเรียนรวม 3',
-        'location': [[13.650268, 100.492065], [13.650101, 100.492167], [13.649981, 100.492303]],
+        'location': [[13.650268, 100.492065], [13.650388, 100.491490], [13.650018, 100.491249], [13.649497, 100.492027], [13.650048, 100.492506], [13.650332, 100.492187]],
         'a1': 2,
         'a2': 6,
-        'center': [13.650101, 100.492167]
+        'center': [13.649873, 100.491938]
     },
     {
         'name': 'สำนักหอสมุด',
-        'location': [[13.652317, 100.493893], [13.652335, 100.494027], [13.652244, 100.493957]],
+        'location': [[13.652188, 100.493295], [13.652153, 100.494491], [13.652711, 100.494137], [13.653321, 100.493702], [13.652740, 100.493825], [13.652425, 100.493825], [13.652133, 100.493753]],
         'a2': 3,
-        'center': [13.652317, 100.493893]
+        'center': [13.652451, 100.493949]
     },
     {
         'name': 'สถาบันวิทยาการหุ่นยนต์ฯ',
-        'location': [[13.654032, 100.494387], [13.654048, 100.494567], [13.654025, 100.494822]],
+        'location': [[13.653573, 100.494094], [13.654459, 100.493843], [13.654912, 100.494989], [13.654326, 100.495674], [13.653717, 100.495191]],
         'a2': 2,
-        'center': [13.654032, 100.494387]
+        'center': [13.654018, 100.494623]
     },
     {
         'name': 'อาคารเอนกประสงค์',
-        'location': [[13.652188, 100.493295], [13.652094, 100.493147], [13.651789, 100.493024]],
+        'location':  [[100.49316,13.65204],[100.49349,13.65219],[100.49345,13.65256],[100.49302,13.65267],[100.49288,13.6522],[100.49316,13.65204]],
         'a1': 4,
         'a2': 4,
-        'center': [13.652188, 100.493295]
+        'center': [13.652094, 100.493147]  
     },
     {
         'name': 'อาคารปฏิบัติการวิทยาศาสตร์ฯ',
-        'location': [[13.653110, 100.494869], [13.653454, 100.494810], [13.653647, 100.494858]],
+        'location': [[100.49458,13.65352],[100.49477,13.65277],[100.49534,13.65298],[100.49545,13.65348],[100.49506,13.65374],[100.49458,13.65352]],
         'a1': 5,
         'a2': 1,
         'center': [13.653110, 100.494869]
     }
-
 ];
 
 function initMap() {
@@ -150,7 +125,9 @@ function initMap() {
         posBusA1 = {
             lat: data.lat,
             lng: data.lng,
-            node:data.nodeRoute
+            node:data.nodeRoute,
+            building:data.building,
+            speed: data.speed
         };
         if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
@@ -180,7 +157,9 @@ function initMap() {
             posBusA2 = {
                 lat: data.lat,
                 lng: data.lng,
-                node:data.nodeRoute
+                node:data.nodeRoute,
+                building:data.building,
+                speed: data.speed
             };
             if (busA2Marker == null && posBusA2.lat != null) {
                     busA2Marker = new google.maps.Marker({
@@ -372,7 +351,7 @@ function newMarker(k, location) {
             icon: {
                 url: '/static/truck.png',
                 size: new google.maps.Size(100, 100),
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(75, 75),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(25, 25),
                 optimized: false
@@ -391,7 +370,7 @@ function newMarkerR2(k, location) {
             icon: {
                 url: '/static/truck-R2.png',
                 size: new google.maps.Size(100, 100),
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(75, 75),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(25, 25),
                 optimized: false
@@ -403,52 +382,103 @@ function newMarkerR2(k, location) {
 };
 
 function topBoxMap() {
-    socket.on("locationUpdatedR2", function(locationStateR2){
-        for (var kR2 in locationStateR2) {
-            document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
-        }
-    });
+    // socket.on("locationUpdatedR2", function(locationStateR2){
+    //     for (var kR2 in locationStateR2) {
+    //         document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
+    //     }
+    // });
+    
+
+    //assume A1 selected
+    showA1();
     
 };
+setTimeout(topBoxMap, 1000);
+
+function showA1(){
+    // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
+    document.getElementById('text-box-map').innerHTML = '<p>' + '<span>'+ posBusA1.building +'</span></p>';
+}
 
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
 
 function estimateRoute(startNode, stopNode, route) { //function will return total path in meters (m)
 
-    // if (route == 1 ) { //stop node at 5
-    //     for(i = startNode; i == stopNode; i++){
-    //         for(k in geoBase) {
-    //             if(geoBase[k].a1 == startNode){
-    //                 console.log('kk -->'+ k);
-    //                 console.log(geoBase[k].name)
-    //                 let j = k+1
-    //                 console.log("jjjj"+j)
-    //                 path += getDistanceFromLatLon(geoBase[k].center, geoBase[j].center); 
-    //             }
-    //         }
-    //         if(i == 5) i = 0;
-    //     }
-    //     console.log('path is -->'+ path + 'm');
-    //     return path;
-    // } else if (route == 2 && startNode != stopNode) { //stop node at 7
-
-    // } else if (startNode == stopNode) {
-    //     console.log('will be arrive in a minutes');
-    // }
     if(route == 1 && startNode != stopNode){ //stop node at 5
+        // console.log(getDistanceFromLatLon(geoBase[startNode].center,geoBase[nextNode]));
         // console.log("hello");
+        sumTime = 0;
+        countTime = 0;
+        pathA1 = 0;
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
-        for(startNode; startNode == stopNode; startNode++) {
-            console.log(startNode);
-            let j = findNode(i,1);
-            let k = findNode(j+1,1)
-            path += getDistanceFromLatLon(geoBase[j].center, geoBase[k].center);
-            console.log("path --->" + path);
+        while(startNode != stopNode) {
+            let nextNode = (startNode + 1) % 6;
+            // if(startNode > 5) startNode = 0
+            console.log('startNode -->'+startNode);
+            let startNodeA = findNode(startNode, 1);
+            let nextNodeA = findNode(nextNode, 1);
+            // console.log(typeof geoBase[startNodeA].center[0]);
+            let geoStart = {
+                lat:geoBase[startNodeA].center[0],
+                lng:geoBase[startNodeA].center[1]
+            };
+            let geoStop = {
+                lat: geoBase[nextNodeA].center[0],
+                lng:geoBase[nextNodeA].center[1]
+            };
+            pathA1 += getDistanceFromLatLon(geoStart,geoStop);
+            startNode = nextNode;
+
+            console.log("path --->" + pathA1);
+            
         }
-        if(startNode > 5) i = 0;
+        if(posBusA1.speed != null && posBusA1.speed != 0){
+            let t = pathA1 / posBusA1.speed;
+            console.log('estimate time A1 -->'+stimateTime(sumTime, countTime, t));
+            sumTime += t;
+            countTime++;
+        }
+    } else if (route == 2 && startNode != stopNode) {
+        sumTime = 0;
+        countTime = 0;
+        pathA2 = 0;
+        console.log("estimate route 2 working");
+        console.log(startNode+"----"+stopNode+"----"+route);
+        while(startNode != stopNode) {
+            let nextNode = (startNode + 1) % 8;
+            // if(startNode > 5) startNode = 0
+            console.log('startNode -->'+startNode);
+            let startNodeA = findNode(startNode, 2);
+            let nextNodeA = findNode(nextNode, 2);
+            // console.log(typeof geoBase[startNodeA].center[0]);
+            let geoStart = {
+                lat:geoBase[startNodeA].center[0],
+                lng:geoBase[startNodeA].center[1]
+            };
+            let geoStop = {
+                lat: geoBase[nextNodeA].center[0],
+                lng:geoBase[nextNodeA].center[1]
+            };
+            pathA2 += getDistanceFromLatLon(geoStart,geoStop);
+            startNode = nextNode;
+
+            console.log("path --->" + pathA2);
+            
+        }
+        if(posBusA2.speed != null && posBusA2.speed != 0){
+            let t = pathA2 / posBusA2.speed;
+            console.log('estimate time A2 -->'+stimateTime(sumTime, countTime, t));
+            sumTime += t;
+            countTime++;
+        }
     }
 };
+
+function estimateTime(sum, n, newTime){
+    n++;
+    return (sum + newTime) / n
+}
 
 function findNode(index, route) {
     if(route == 1) {

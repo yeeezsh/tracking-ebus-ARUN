@@ -61,7 +61,8 @@ const runA1 = io => {
                     lng: busName.lng,
                     time: busName.time,
                     building: geoBaseEventA1.buildingName,
-                    nodeRoute: geoBaseEventA1.nodeRouteA1
+                    nodeRoute: geoBaseEventA1.nodeRouteA1,
+                    speed:busName.speed
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
@@ -113,7 +114,8 @@ const runA2 = io => {
                     lng: busName.lng,
                     time: busName.time,
                     building: geoBaseEventA2.buildingName,
-                    nodeRoute: geoBaseEventA2.nodeRouteA2
+                    nodeRoute: geoBaseEventA2.nodeRouteA2,
+                    speed:busName.speed
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA2Broadcast', busName);
