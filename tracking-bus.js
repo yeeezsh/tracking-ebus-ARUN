@@ -28,8 +28,8 @@ function broadcastEvent(channel, data) {
 }
 setTimeout(broadcastEvent, 100);
 
-var geoBaseEventA1;
-var geoBaseEventA2;
+var geoBaseEventA1 = {};
+var geoBaseEventA2 = {};
 
 const runA1 = io => {
     socketIO = io;
@@ -45,8 +45,13 @@ const runA1 = io => {
                 // console.log(posBase);
                 if(geoBase.run(posBase) != 0){ //prevent from NaN data
                     geoBaseEventA1 = geoBase.run(posBase);
-                }else{
+                }else if (geoBase.run(posBase) != null){
                     geoBaseEventA1 = geoBaseEventA1;
+                }else{
+                    geoBaseEventA1 = Object.assign(geoBaseEventA1, {
+                        'buildingName': 'not in range',
+                        'nodeRouteA1': 99
+                    });
                 }
                 console.log(geoBaseEventA1); //work better
 
@@ -91,8 +96,13 @@ const runA2 = io => {
                 // console.log(posBase);
                 if(geoBase.run(posBase) != 0){ //prevent from NaN data
                     geoBaseEventA2 = geoBase.run(posBase);
-                }else{
+                }else if(geoBase.run(posBase) != null){
                     geoBaseEventA2 = geoBaseEventA2;
+                }else{
+                    geoBaseEventA2 = Object.assign(geoBaseEventA2, {
+                        'buildingName': 'not in range',
+                        'nodeRouteA2': 99
+                    });
                 }
                 console.log(geoBaseEventA2); //work better
 
