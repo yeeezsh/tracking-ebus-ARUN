@@ -1,5 +1,3 @@
-// import { start } from "repl";
-
 var markers = {};
 var map;
 var socket = io();
@@ -12,7 +10,8 @@ var posGeo;
 var pathA1;
 var pathA2;
 var time = 0;
-var countTime = 0;
+var countTime1 = 0;
+var countTime2 = 0;
 var sumTime1 = 0;
 var sumTime2 = 0;
 
@@ -412,7 +411,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         // console.log(getDistanceFromLatLon(geoBase[startNode].center,geoBase[nextNode]));
         // console.log("hello");
         sumTime = 0;
-        countTime = 0;
+        countTime1 = 0;
+        countTime2 = 0;
         pathA1 = 0.0;
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
@@ -438,7 +438,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         }
     } else if (route == 2 && startNode != stopNode) {
         sumTime = 0;
-        countTime = 0;
+        countTime1 = 0;
+        countTime2 = 0;
         pathA2 = 0;
         console.log("estimate route 2 working");
         console.log(startNode+"----"+stopNode+"----"+route);
@@ -464,23 +465,29 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             
         }
     } else if (startNode == stopNode && route == 1) {
+        pathA1=getDistanceFromLatLon(posGeo, posBusA1);
         console.log(getDistanceFromLatLon(posGeo, posBusA1));
     } else if(startNode == startNode && route == 2){
+        pathA2=getDistanceFromLatLon(posGeo, posBusA2);
         console.log(getDistanceFromLatLon(posGeo, posBusA2));
     }
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
         let t = pathA1 / posBusA1.speed;
-        console.log('t -->' + pathA1);
-        console.log('estimate time -->'+estimateTime(sumTime1, countTime, t));
+        console.log('pathA1 -->' + pathA1);
+        console.log('Speed A1  '+posBusA1.speed);
+        //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
+        console.log('est time = '+ t);
         sumTime1 += t;
-        countTime++;
+        countTime1++;
     } if(posBusA2.speed != null && posBusA2.speed != 0){
         let t = pathA2 / posBusA2.speed;
-        console.log('t -->' + pathA2);
-        console.log('estimate time -->'+estimateTime(sumTime2, countTime, t));
+        console.log('pathA2 -->' + pathA2);
+        console.log('Speed A2  '+posBusA2.speed);
+        //console.log('estimate time -->'+estimateTime(sumTime2, countTime2, t));
+        console.log('est time = '+ t);
         sumTime2 += t;
-        countTime++;
+        countTime2++;
     }
 };
 
