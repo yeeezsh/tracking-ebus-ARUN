@@ -70,7 +70,7 @@ app.get('/bus-tracking/a2', (req, res) => {
 });
 
 
-server.listen(443, () => {
+server.listen(80, () => {
 	console.log('ServerHTTPS is running at port: 443');
 });
 // serverHTTP.listen(80, () => {
