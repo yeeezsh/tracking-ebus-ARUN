@@ -422,8 +422,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             let nextNodeA = findNode(nextNode, 1);
             // console.log(typeof geoBase[startNodeA].center[0]);
             let geoStart = {
-                lat:geoBase[startNodeA].center[0],
-                lng:geoBase[startNodeA].center[1]
+                lat:posBusA1.lat,
+                lng:posBusA1.lng
             };
             let geoStop = {
                 lat: geoBase[nextNodeA].center[0],
@@ -448,8 +448,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             let nextNodeA = findNode(nextNode, 2);
             // console.log(typeof geoBase[startNodeA].center[0]);
             let geoStart = {
-                lat:geoBase[startNodeA].center[0],
-                lng:geoBase[startNodeA].center[1]
+                lat:posBusA2.lat,
+                lng:posBusA2.lng
             };
             let geoStop = {
                 lat: geoBase[nextNodeA].center[0],
@@ -469,11 +469,13 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
         let t = pathA1 / posBusA1.speed;
+        console.log('t -->' + pathA1);
         console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
         sumTime += t;
         countTime++;
     } else if(posBusA2.speed != null && posBusA2.speed != 0){
         let t = pathA2 / posBusA2.speed;
+        console.log('t -->' + pathA2);
         console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
         sumTime += t;
         countTime++;

@@ -85,8 +85,8 @@ io.on('connection', socket => {
 });
 
 // Run fake tracking location
-mockup.run(io);
-mockup.runR2(io);
+// mockup.run(io);
+// mockup.runR2(io);
 
 //driver tracking
 trackingListenMain.runA1(io);
