@@ -13,7 +13,8 @@ var pathA1;
 var pathA2;
 var time = 0;
 var countTime = 0;
-var sumTime = 0;
+var sumTime1 = 0;
+var sumTime2 = 0;
 
 
 const geoBase = [
@@ -398,7 +399,8 @@ setTimeout(topBoxMap, 1000);
 
 function showA1(){
     // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-    document.getElementById('text-box-map').innerHTML = '<p>' + '<span>'+ posBusA1.building +'</span></p>';
+    document.getElementById('text-box-map').innerHTML = '<span>' + sumTime1 +'</span>' +'<br>'+
+                                                        '<span>' + sumTime2 + '</span>';
 }
 
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
@@ -470,14 +472,14 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     if(posBusA1.speed != null && posBusA1.speed != 0){
         let t = pathA1 / posBusA1.speed;
         console.log('t -->' + pathA1);
-        console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
-        sumTime += t;
+        console.log('estimate time -->'+estimateTime(sumTime1, countTime, t));
+        sumTime1 += t;
         countTime++;
-    } else if(posBusA2.speed != null && posBusA2.speed != 0){
+    } if(posBusA2.speed != null && posBusA2.speed != 0){
         let t = pathA2 / posBusA2.speed;
         console.log('t -->' + pathA2);
-        console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
-        sumTime += t;
+        console.log('estimate time -->'+estimateTime(sumTime2, countTime, t));
+        sumTime2 += t;
         countTime++;
     }
 };
