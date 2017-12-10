@@ -177,6 +177,7 @@ function initMap() {
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
                 console.log(getDistanceFromLatLon(posGeo, posBusA2));
+                estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
                 // console.log(posBusA2.node);
             } else {
                 console.log("A2 broadcast connect but not get position");
@@ -359,7 +360,7 @@ function newMarker(k, location) {
         });
     } else {
         markers[k].setPosition(location);
-    }    
+    }
 };
 
 function newMarkerR2(k, location) {
@@ -403,13 +404,14 @@ function showA1(){
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
 
 function estimateRoute(startNode, stopNode, route) { //function will return total path in meters (m)
-
+    pathA1=0.0;
+    pathA2=0.0;
     if(route == 1 && startNode != stopNode){ //stop node at 5
         // console.log(getDistanceFromLatLon(geoBase[startNode].center,geoBase[nextNode]));
         // console.log("hello");
         sumTime = 0;
         countTime = 0;
-        pathA1 = 0;
+        pathA1 = 0.0;
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
@@ -429,15 +431,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             };
             pathA1 += getDistanceFromLatLon(geoStart,geoStop);
             startNode = nextNode;
-
-            console.log("path --->" + pathA1);
+            console.log("A1 path --->" + pathA1);
             
-        }
-        if(posBusA1.speed != null && posBusA1.speed != 0){
-            let t = pathA1 / posBusA1.speed;
-            console.log('estimate time A1 -->'+stimateTime(sumTime, countTime, t));
-            sumTime += t;
-            countTime++;
         }
     } else if (route == 2 && startNode != stopNode) {
         sumTime = 0;
@@ -463,15 +458,25 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             pathA2 += getDistanceFromLatLon(geoStart,geoStop);
             startNode = nextNode;
 
-            console.log("path --->" + pathA2);
+            console.log("A2 path --->" + pathA2);
             
         }
-        if(posBusA2.speed != null && posBusA2.speed != 0){
-            let t = pathA2 / posBusA2.speed;
-            console.log('estimate time A2 -->'+stimateTime(sumTime, countTime, t));
-            sumTime += t;
-            countTime++;
-        }
+    } else if (startNode == stopNode && route == 1) {
+        console.log(getDistanceFromLatLon(posGeo, posBusA1));
+    } else if(startNode == startNode && route == 2){
+        console.log(getDistanceFromLatLon(posGeo, posBusA2));
+    }
+    let Sumpath=pathA1+pathA2;
+    if(posBusA1.speed != null && posBusA1.speed != 0){
+        let t = pathA1 / posBusA1.speed;
+        console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
+        sumTime += t;
+        countTime++;
+    } else if(posBusA2.speed != null && posBusA2.speed != 0){
+        let t = pathA2 / posBusA2.speed;
+        console.log('estimate time -->'+estimateTime(sumTime, countTime, t));
+        sumTime += t;
+        countTime++;
     }
 };
 

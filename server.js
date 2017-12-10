@@ -24,8 +24,12 @@ const ENV = process.env;
 const CONFIG = {
 	PORT: ENV.PORT
 }
+const CONFIGHTTP = {
+	PORT: 4001
+}
 
 const app = express();
+const appHTTP = express();
 
 // Create socketIO and wrap app server inside
 // const server = http.Server(app);
@@ -33,6 +37,17 @@ const app = express();
 // serverHTTP.listen(4001);
 
 const server = https.createServer(options, app);
+const serverHTTP = http.createServer(app);
+
+
+appHTTP.use(bodyParser.urlencoded({ extended: false }));
+appHTTP.use(bodyParser.json());
+appHTTP.use('*', (req, res) => {  
+    res.redirect('https://' + req.headers.host + req.url);
+
+    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+    // res.redirect('https://example.com' + req.url);
+});
 const io = socketIO(server);
 
 
@@ -45,7 +60,6 @@ app.use('/static', express.static('static'));
 // Serve index.html for path '/', this is home path
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname });
-    console.log('// request');
     // res.redirect('https://' + req.headers.host + req.url+':40000');
 });
 app.get('/bus-tracking/a1', (req, res) => {
@@ -57,8 +71,12 @@ app.get('/bus-tracking/a2', (req, res) => {
 
 
 server.listen(CONFIG.PORT, () => {
-	console.log('Server is running at port: ' + CONFIG.PORT);
+	console.log('ServerHTTPS is running at port: ' + CONFIG.PORT);
 });
+serverHTTP.listen(CONFIGHTTP.PORT, () => {
+	console.log('ServerHTTP is running at port: ' + CONFIGHTTP.PORT);
+});
+
 
 io.on('connection', socket => {
 	socket.emit('connectSuccess', {content: 'You have connected.'});
