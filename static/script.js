@@ -274,6 +274,7 @@ function successGeo(pos) {
     //your location close to 
     console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
     console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
+    showA1(); //show estimate time A1 / A2
 
 
 };
@@ -394,12 +395,11 @@ function topBoxMap() {
     showA1();
     
 };
-setTimeout(topBoxMap, 1000);
 
 function showA1(){
     // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-    document.getElementById('text-box-map').innerHTML = '<span>' + sumTime1 +'</span>' +'<br>'+
-                                                        '<span>' + sumTime2 + '</span>';
+    document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ sumTime1 +'</span>' +'<br>'+
+                                                        '<span>' +'A2 estimate time :'+ sumTime2 + '</span>';
 }
 
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
@@ -473,21 +473,21 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     }
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
-        let t = pathA1 / posBusA1.speed;
+        let t1 = pathA1 / posBusA1.speed;
         console.log('pathA1 -->' + pathA1);
         console.log('Speed A1  '+posBusA1.speed);
         //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
-        console.log('est time = '+ t);
-        sumTime1 += t;
-        countTime1++;
+        console.log('est time = '+ t1);
+        /*sumTime1 += t;
+        countTime1++;*/
     } if(posBusA2.speed != null && posBusA2.speed != 0){
-        let t = pathA2 / posBusA2.speed;
+        let t2 = pathA2 / posBusA2.speed;
         console.log('pathA2 -->' + pathA2);
         console.log('Speed A2  '+posBusA2.speed);
         //console.log('estimate time -->'+estimateTime(sumTime2, countTime2, t));
-        console.log('est time = '+ t);
-        sumTime2 += t;
-        countTime2++;
+        console.log('est time = '+ t2);
+        /*sumTime2 += t;
+        countTime2++;*/
     }
 };
 
