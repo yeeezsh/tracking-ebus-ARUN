@@ -45,6 +45,7 @@ app.use('/static', express.static('static'));
 // Serve index.html for path '/', this is home path
 app.get('/', (req, res) => {
     res.sendFile('index.html', { root: __dirname });
+    console.log('// request');
     // res.redirect('https://' + req.headers.host + req.url+':40000');
 });
 app.get('/bus-tracking/a1', (req, res) => {

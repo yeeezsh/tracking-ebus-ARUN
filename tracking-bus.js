@@ -28,6 +28,8 @@ function broadcastEvent(channel, data) {
 }
 setTimeout(broadcastEvent, 100);
 
+var geoBaseEventA1;
+var geoBaseEventA2;
 
 const runA1 = io => {
     socketIO = io;
@@ -41,16 +43,20 @@ const runA1 = io => {
                 // let posBase = [];
                 let posBase = [busName.lat, busName.lng];
                 // console.log(posBase);
-                let geoBaseEvent = geoBase.run(posBase);
-                console.log(geoBaseEvent); //work better
+                if(geoBase.run(posBase) != 0){ //prevent from NaN data
+                    geoBaseEventA1 = geoBase.run(posBase);
+                }else{
+                    geoBaseEventA1 = geoBaseEventA1;
+                }
+                console.log(geoBaseEventA1); //work better
 
                 busBroadcastA1 = Object.assign(busBroadcastA1, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
                     time: busName.time,
-                    building: geoBaseEvent.buildingName,
-                    nodeRoute: geoBaseEvent.nodeRouteA1
+                    building: geoBaseEventA1.buildingName,
+                    nodeRoute: geoBaseEventA1.nodeRouteA1
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
@@ -81,17 +87,23 @@ const runA2 = io => {
             console.log(busName);
 
             if(busName != null) {
-                let posBase = [busName.lat, busName.lng]
-                let geoBaseEvent = geoBase.run(posBase);
-                console.log(geoBaseEvent); //work better
+                let posBase = [busName.lat, busName.lng];
+                // console.log(posBase);
+                if(geoBase.run(posBase) != 0){ //prevent from NaN data
+                    geoBaseEventA2 = geoBase.run(posBase);
+                }else{
+                    geoBaseEventA2 = geoBaseEventA2;
+                }
+                console.log(geoBaseEventA2); //work better
+
 
                 busBroadcastA2 = Object.assign(busBroadcastA2, { 
                     busName: busName.busName,
                     lat: busName.lat,
                     lng: busName.lng,
                     time: busName.time,
-                    building: geoBaseEvent.buildingName,
-                    nodeRoute: geoBaseEvent.nodeRouteA2
+                    building: geoBaseEventA2.buildingName,
+                    nodeRoute: geoBaseEventA2.nodeRouteA2
                 }); 
                 // console.log(busName);
                 // socket.emit('trackingBusA2Broadcast', busName);
