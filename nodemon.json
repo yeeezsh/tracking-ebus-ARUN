@@ -1,6 +1,6 @@
 {
   "env" : {
     "RUN_MODE"    : "dev",
-    "PORT"        : 443
+    "PORT"        : 4000
   }
 }

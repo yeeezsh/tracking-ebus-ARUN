@@ -10,7 +10,7 @@ const fs = require('fs');
 const mockup = require('./mockup-tracking');
 const trackingListenMain = require('./tracking-bus.js');
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 4000;
 
 // const options = {
 //     key: fs.readFileSync('./certificate/server.key'),
@@ -73,7 +73,7 @@ app.get('/bus-tracking/a2', (req, res) => {
 
 
 server.listen(port, () => {
-	console.log('ServerHTTPS is running at port: 443');
+	console.log('ServerHTTPS is running at port: '+ port);
 });
 // serverHTTP.listen(80, () => {
 // 	console.log('ServerHTTP is running at port: 80');
