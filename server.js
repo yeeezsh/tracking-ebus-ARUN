@@ -10,12 +10,12 @@ const fs = require('fs');
 const mockup = require('./mockup-tracking');
 const trackingListenMain = require('./tracking-bus.js');
 
-const options = {
-    key: fs.readFileSync('./certificate/server.key'),
-    cert: fs.readFileSync('./certificate/server.crt'),
-    requestCert: false,
-    rejectUnauthorized: false
-};
+// const options = {
+//     key: fs.readFileSync('./certificate/server.key'),
+//     cert: fs.readFileSync('./certificate/server.crt'),
+//     requestCert: false,
+//     rejectUnauthorized: false
+// };
 
 // Get config for node environment
 // Check `nodemon.json` for details
