@@ -29,25 +29,25 @@ const trackingListenMain = require('./tracking-bus.js');
 // }
 
 const app = express();
-const appHTTP = express();
+// const appHTTP = express();
 
 // Create socketIO and wrap app server inside
-// const server = http.Server(app);
+const server = http.Server(app);
 // const serverHTTP = http.createServer(app);
 // serverHTTP.listen(4001);
 
-const server = https.createServer(options, app);
-const serverHTTP = http.createServer(app);
+// const server = https.createServer(options, app);
+// const serverHTTP = http.createServer(app);
 
 
-appHTTP.use(bodyParser.urlencoded({ extended: false }));
-appHTTP.use(bodyParser.json());
-appHTTP.use('*', (req, res) => {  
-    res.redirect('https://' + req.headers.host + req.url);
+// appHTTP.use(bodyParser.urlencoded({ extended: false }));
+// appHTTP.use(bodyParser.json());
+// appHTTP.use('*', (req, res) => {  
+//     res.redirect('https://' + req.headers.host + req.url);
 
-    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-    // res.redirect('https://example.com' + req.url);
-});
+//     // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+//     // res.redirect('https://example.com' + req.url);
+// });
 const io = socketIO(server);
 
 
@@ -73,9 +73,9 @@ app.get('/bus-tracking/a2', (req, res) => {
 server.listen(443, () => {
 	console.log('ServerHTTPS is running at port: 443');
 });
-serverHTTP.listen(80, () => {
-	console.log('ServerHTTP is running at port: 80');
-});
+// serverHTTP.listen(80, () => {
+// 	console.log('ServerHTTP is running at port: 80');
+// });
 
 
 io.on('connection', socket => {
