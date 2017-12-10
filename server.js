@@ -19,14 +19,14 @@ const options = {
 
 // Get config for node environment
 // Check `nodemon.json` for details
-const ENV = process.env;
+// const ENV = process.env;
 
-const CONFIG = {
-	PORT: ENV.PORT
-}
-const CONFIGHTTP = {
-	PORT: 4001
-}
+// const CONFIG = {
+// 	PORT: ENV.PORT
+// }
+// const CONFIGHTTP = {
+// 	PORT: 80
+// }
 
 const app = express();
 const appHTTP = express();
@@ -70,11 +70,11 @@ app.get('/bus-tracking/a2', (req, res) => {
 });
 
 
-server.listen(CONFIG.PORT, () => {
-	console.log('ServerHTTPS is running at port: ' + CONFIG.PORT);
+server.listen(443, () => {
+	console.log('ServerHTTPS is running at port: 443');
 });
-serverHTTP.listen(CONFIGHTTP.PORT, () => {
-	console.log('ServerHTTP is running at port: ' + CONFIGHTTP.PORT);
+serverHTTP.listen(80, () => {
+	console.log('ServerHTTP is running at port: 80');
 });
 
 
