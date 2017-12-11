@@ -2,99 +2,232 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="shortcut icon" href="/static/favicon.ico" />
-    <title>Demo tracking location A8</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-    #map {
-    height: 100%;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    }
-
-    #top-box-map {
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 10%;
-    z-index: 2;
-    cursor: pointer;
-    margin: auto;
-    padding-top: 125px;
-    }
-
-    #text-box-map{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 25px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    background-color: rgba(236, 166, 34, 0.5);
-    padding: 20px;
-    width: 65%;
-    height: 55px;
-    margin: 10px;
-    }
-
-    #snackbar {
-        visibility: hidden;
-        min-width: 300px; /* width of bar */
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 3px;
-        padding: 16px;
+    
+          <title>DEBUS | Web Application for Hop-On, Hop-Off E-bus</title>
+          <link rel="shortcut icon" href="/static/favicon.ico" />          
+          <meta name="description" content="">
+          <meta name="author" content="">
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 ">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+          <meta name="moblie-web-app-capable"	content="yes">
+    
+          <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+          <link rel="stylesheet" href="/static/css/animate.css">
+          <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+          <link rel="stylesheet" href="/static/css/owl.theme.css">
+          <link rel="stylesheet" href="/static/css/owl.carousel.css">
+          <link rel="stylesheet" type="text/css" href="/static/css/google-map.css">
+    
+          <!-- Main css -->
+          <link rel="stylesheet" href="/static/css/style.css">
+    
+          <!-- Font : Prompt -->
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Prompt">
+    
+        <style>
+          /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+    
+          body {font-family: "Prompt", sans-serif}
+          .mySlides {display: none}
+    
+          #map {
+        width: 100%;
+        height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        }
+    
+        #top-box-map {
         position: fixed;
-        z-index: 1;
+        display: block;
+        width: 100%;
+        height: 10%;
+        z-index: 2;
+        cursor: pointer;
+        margin: auto;
+        padding-top: 125px;
+        }
+    
+        #text-box-map{
+        position: absolute;
+        top: 50%;
         left: 50%;
-        bottom: 30px;
-    }
-
-    /* Show the snackbar when clicking on a button (class added with JavaScript) */
-    #snackbar.show {
-        visibility: visible; /* Show the snackbar */
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        opacity: 0.85;
-    }
-    @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;} 
-        to {bottom: 30px; opacity: 1;}
-    }
-    @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-    }
-    @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;} 
-        to {bottom: 0; opacity: 0;}
-    }
-    @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
-    }
-
-    </style>
-    <script src="/socket.io/socket.io.js"></script>
+        font-size: 25px;
+        color: #fff;
+        transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        background-color: #ff6600;
+        padding: 20px;
+        width: 65%;
+        height: 55px;
+        margin: 10px;
+        text-align: center;
+        }
+    
+        #snackbar {
+            visibility: hidden;
+            min-width: 300px; /* width of bar */
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 3px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+        }
+    
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            opacity: 0.85;
+        }
+        @-webkit-keyframes fadein {
+            from {bottom: 0; opacity: 0;} 
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @-webkit-keyframes fadeout {
+            from {bottom: 30px; opacity: 1;} 
+            to {bottom: 0; opacity: 0;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    
+        /*-----table--------*/
+          #customers {
+              border-collapse: collapse;
+              width: 60%;
+              table-layout: fixed;
+              margin-left: 290px;
+          }
+    
+          #customers td, #customers th {
+              background-color: #fff;
+              padding: 8px;
+    
+          }
+    
+          #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+          /*#customers tr:hover {background-color: #ddd;}*/
+    
+          #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: center;
+              background-color: #ff6600;
+              color: white;
+          }
+    
+        /*---- Overlay ------*/
+        #overlay {
+              position: fixed;
+              display: none; /* Hidden by default */
+              width: 100%; /* Full width (cover the whole page) */
+              height: 100%; /* Full height (cover the whole page) */
+              top: 185px;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: transparent; /* Black background with opacity */
+              z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+          }
+    
+          .button {
+              background-color: #ff6600; /* Green */
+              border: none;
+              color: white;
+              padding: 15px 100px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 16px;
+          }
+    
+          .button2 {background-color: #222;}
+    
+          .button-light {
+              background-color: #FFF;
+              color: #ff6600;
+          }
+    
+          .lower{
+              position: relative;
+              top: 200px;
+          }
+            .magleft{
+                margin-left: 400px;
+            }
+    
+            .magleft-center
+            {
+                margin-left: 550px;
+            }
+    
+          p.solid {border-style: solid;
+          width: 400px;
+          height: 30px;
+          text-align: center;
+          margin-left: 490px}
+        </style>
+        <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <div class="top-box-map" id="top-box-map">
-        <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
-        <div class="text-box-map" id="text-box-map" onclick="topBoxMap();" >hello it's me A8 eiei</div>
-    </div>
-    <div id="snackbar"></div>
-    <div id="map"></div>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeQFHoJuvG8zH6mWUfHXt9r5N8KBRnmXE&callback=initMap">
-    </script>
-    <script src="/static/script.js"></script>
+    <body data-spy="scroll" data-offset="50" data-target=".navbar-collapse">
+        
+          <section id="map-overlay">
+                    <div class="top-box-map" id="top-box-map">
+                        <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
+                        <div class="text-box-map" id="text-box-map" onclick="topBoxMap();" >HOP-ON, HOP-OFF E-BUS TRACKING</div>
+        
+                            <p class="solid">ตรวจสอบตำแหน่งรถ KMUTT e-Bus แบบ realtime</p>
+        
+                    </div>
+        
+                      <div id="overlay">
+                          <table id="customers">
+                              <tr>
+                                  <th>ROUTE 1</th>
+                                  <td>สำนักงานอธิการบดี -> อาคารวิศวะวัฒนะ<br>Time : 0.69s</td>
+                              </tr>
+                          </table>
+        
+                          <button class="button lower magleft">ROUTE 1</button>
+                          <button class="button button2 lower">ROUTE 2</button>
+        
+                          <br><br>
+                          <a href="index.html"> <button class="button lower magleft-center">BACK</button></a>
+                      </div>
+        
+                    <div id="snackbar"></div>
+                    
+        
+          </section>
+          <div id="map"></div>
+        
+        
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeQFHoJuvG8zH6mWUfHXt9r5N8KBRnmXE&callback=initMap">
+            </script>
+            <script src="/static/script.js"></script>
+          <script src="/static/js/overlay_effect.js"></script>
   </body>
 </html>

@@ -1,0 +1,25 @@
+.google-wrapper {
+    position: relative;
+    padding-left: 0px;
+
+}
+
+#google-map {
+    width  : 1080px;
+    height : 875px;
+}
+
+#google-map-overlay {
+    width  : 1080px;
+    height : 875px;
+    background: transparent;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 99;
+}
+
+#map {
+    height: 500px;
+    width: 800px;
+}
