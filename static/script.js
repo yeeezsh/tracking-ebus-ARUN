@@ -398,8 +398,8 @@ function topBoxMap() {
 
 function showA1(){
     // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-    document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ t1 +'</span>' +'<br>'+
-                                                        '<span>' +'A2 estimate time :'+ t2 + '</span>';
+    document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ sumTime1 +'</span>' +'<br>'+
+                                                        '<span>' +'A2 estimate time :'+ sumTime2 + '</span>';
 }
 
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
