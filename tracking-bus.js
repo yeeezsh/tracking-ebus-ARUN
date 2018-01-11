@@ -23,6 +23,7 @@ var busBroadcastA2 = {};
 // function broadcastEvent() {
 
 // }
+
 function broadcastEvent(channel, data) {
     socketIO.emit(channel, data);
 }
@@ -55,6 +56,12 @@ const runA1 = io => {
                 }
                 console.log(geoBaseEventA1); //work better
 
+                if(busName.speed == null) { //will get speed from position later
+                    busName.speed = 0;
+                } else if (busName.speed == null && busBroadcastA1.speed != null) {
+                    busName.speed = busBroadcastA1.speed;
+                }
+
                 busBroadcastA1 = Object.assign(busBroadcastA1, { 
                     busName: busName.busName,
                     lat: busName.lat,
@@ -63,7 +70,9 @@ const runA1 = io => {
                     building: geoBaseEventA1.buildingName,
                     nodeRoute: geoBaseEventA1.nodeRouteA1,
                     speed:busName.speed
-                }); 
+                });
+                
+                
                 // console.log(busName);
                 // socket.emit('trackingBusA1Broadcast', busName);
                 broadcastEvent('trackingBusA1Broadcast', busBroadcastA1);

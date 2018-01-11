@@ -144,7 +144,7 @@ function initMap() {
             });
         } else if(posBusA1.lat != null) {
             busA1Marker.setPosition(posBusA1);
-            console.log(getDistanceFromLatLon(posGeo, posBusA1));
+            console.log("a1 far from you" + getDistanceFromLatLon(posGeo, posBusA1));
             estimateRoute(posBusA1.node, compareCloseNode(posGeo, geoBase, 1), 1); //A1
         } else {
             console.log("A1 broadcast connect but not get position");
@@ -176,7 +176,7 @@ function initMap() {
                 });
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
-                console.log(getDistanceFromLatLon(posGeo, posBusA2));
+                console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
                 estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
                 // console.log(posBusA2.node);
             } else {
@@ -223,7 +223,7 @@ function initMap() {
     };
     
     
-    function error(err) {
+    function error(err) { //gps error
         console.warn('ERROR(' + err.code + '): ' + err.message);
     };
 
