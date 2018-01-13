@@ -383,24 +383,24 @@ function newMarkerR2(k, location) {
     } 
 };
 
-function topBoxMap() {
-    // socket.on("locationUpdatedR2", function(locationStateR2){
-    //     for (var kR2 in locationStateR2) {
-    //         document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
-    //     }
-    // });
+// function topBoxMap() {
+//     // socket.on("locationUpdatedR2", function(locationStateR2){
+//     //     for (var kR2 in locationStateR2) {
+//     //         document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
+//     //     }
+//     // });
     
 
-    //assume A1 selected
-    showA1();
+//     //assume A1 selected
+//     showA1();
     
-};
+// };
 
-function showA1(){
-    // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-    document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ sumTime1 +'</span>' +'<br>'+
-                                                        '<span>' +'A2 estimate time :'+ sumTime2 + '</span>';
-}
+// function showA1(){
+//     // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
+//     document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ sumTime1 +'</span>' +'<br>'+
+//                                                         '<span>' +'A2 estimate time :'+ sumTime2 + '</span>';
+// }
 
 // console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
 

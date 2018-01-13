@@ -9,6 +9,7 @@
        * element that contains the map. */
     #map {
     height: 100%;
+    z-index: 1;
     }
     /* Optional: Makes the sample page fill the window. */
     html, body {
@@ -40,6 +41,7 @@
     height: 55px;
     margin: 10px;
     }
+
     #snackbar {
         visibility: hidden;
         min-width: 300px; /* width of bar */
@@ -81,9 +83,9 @@
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
-    <div class="top-box-map" id="top-box-map">
+    <div id="top-box-map">
         <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
-        <div class="text-box-map" id="text-box-map" onclick="topBoxMap();" >hello it's me A8 eiei</div>
+        <div id="text-box-map"><p>hello</p></div>
     </div>
     <div id="snackbar"></div>
     <div id="map"></div>
