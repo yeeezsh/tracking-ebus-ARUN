@@ -136,7 +136,7 @@ function initMap() {
                 icon: {
                     url: '/static/truck.png',
                     size: new google.maps.Size(150, 150),
-                    scaledSize: new google.maps.Size(50, 50),
+                    scaledSize: new google.maps.Size(150, 150),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(25, 25),
                     optimized: false
@@ -168,7 +168,7 @@ function initMap() {
                     icon: {
                         url: '/static/truck-R2.png',
                         size: new google.maps.Size(150, 150),
-                        scaledSize: new google.maps.Size(50, 50),
+                        scaledSize: new google.maps.Size(150, 150),
                         origin: new google.maps.Point(0, 0),
                         anchor: new google.maps.Point(25, 25),
                         optimized: false
@@ -262,7 +262,7 @@ function successGeo(pos) {
             icon: {
                 url: '/static/locator.png',
                 size: new google.maps.Size(150, 150),
-                scaledSize: new google.maps.Size(50, 50),
+                scaledSize: new google.maps.Size(75, 75),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(25, 25),
                 optimized: false
@@ -285,16 +285,16 @@ function getDistanceFromLatLon(pos1, pos2) {
     let lat2 = pos2.lat;
     let lon2 = pos2.lng;
 
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = deg2rad(lon2-lon1); 
-    var a = 
+    let R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = deg2rad(lon2-lon1); 
+    let a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
       Math.sin(dLon/2) * Math.sin(dLon/2)
       ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    var d = R * c; // Distance in km
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    let d = R * c; // Distance in km
     d = d * 1000 //convert to m
     return d;
   }
@@ -475,28 +475,28 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     if(posBusA1.speed != null && posBusA1.speed != 0){
         let t1 = pathA1 / posBusA1.speed;
         console.log('pathA1 -->' + pathA1);
-        console.log('Speed A1  '+posBusA1.speed);
+        console.log('Speed A1  '+ posBusA1.speed);
         //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
-        console.log('est time = '+ t1);
+        console.log('est time = '+ t1 + 's');
         /*sumTime1 += t;
         countTime1++;*/
     } if(posBusA2.speed != null && posBusA2.speed != 0){
         let t2 = pathA2 / posBusA2.speed;
         console.log('pathA2 -->' + pathA2);
-        console.log('Speed A2  '+posBusA2.speed);
+        console.log('Speed A2  '+ posBusA2.speed);
         //console.log('estimate time -->'+estimateTime(sumTime2, countTime2, t));
-        console.log('est time = '+ t2);
+        console.log('est time = '+ t2 + 's');
         /*sumTime2 += t;
         countTime2++;*/
     }
 };
 
-function estimateTime(sum, n, newTime){
+function estimateTime(sum, n, newTime){ // not use now // for gradian time make it natural estimate
     n++;
     return (sum + newTime) / n
 }
 
-function findNode(index, route) {
+function findNode(index, route) { //translate node to array index
     if(route == 1) {
         for(i in geoBase) {
             if(geoBase[i].a1 == index) return i;
