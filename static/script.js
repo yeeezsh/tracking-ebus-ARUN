@@ -84,8 +84,10 @@ function initMap() {
 
     //map initial --> prioritize
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 18,
-        center: {lat: 13.651011, lng: 100.493944}
+        zoom: 16,
+        // center: {lat: 13.651011, lng: 100.493944}
+        center: {lat:13.651529, lng:100.494347},
+        disableDefaultUI: true
     });
 
     socket.on("connect", function() {
@@ -135,8 +137,8 @@ function initMap() {
                 map: map,
                 icon: {
                     url: '/static/truck.png',
-                    size: new google.maps.Size(150, 150),
-                    scaledSize: new google.maps.Size(150, 150),
+                    size: new google.maps.Size(100, 100),
+                    scaledSize: new google.maps.Size(65, 65),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(25, 25),
                     optimized: false
@@ -167,8 +169,8 @@ function initMap() {
                     map: map,
                     icon: {
                         url: '/static/truck-R2.png',
-                        size: new google.maps.Size(150, 150),
-                        scaledSize: new google.maps.Size(150, 150),
+                        size: new google.maps.Size(100, 100),
+                        scaledSize: new google.maps.Size(65, 65),
                         origin: new google.maps.Point(0, 0),
                         anchor: new google.maps.Point(25, 25),
                         optimized: false
@@ -261,8 +263,8 @@ function successGeo(pos) {
         map: map,
             icon: {
                 url: '/static/locator.png',
-                size: new google.maps.Size(150, 150),
-                scaledSize: new google.maps.Size(75, 75),
+                size: new google.maps.Size(100, 100),
+                scaledSize: new google.maps.Size(45, 45),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(25, 25),
                 optimized: false
@@ -461,7 +463,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             pathA2 += getDistanceFromLatLon(geoStart,geoStop);
             startNode = nextNode;
 
-            console.log("A2 path --->" + pathA2);
+            console.log("A2 path --->" + pathA2 + 'm');
             
         }
     } else if (startNode == stopNode && route == 1) {
@@ -474,7 +476,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
         let t1 = pathA1 / posBusA1.speed;
-        console.log('pathA1 -->' + pathA1);
+        console.log('pathA1 -->' + pathA1 + 'm');
         console.log('Speed A1  '+ posBusA1.speed);
         //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
         console.log('est time = '+ t1 + 's');
@@ -565,5 +567,23 @@ function findNode(index, route) { //translate node to array index
 //     }
 // };
 
+function searchBox() {
+    // Declare variables
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("searchUL");
+    li = ul.getElementsByTagName('li');
+
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
 
 

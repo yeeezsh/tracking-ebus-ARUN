@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    
     <link rel="shortcut icon" href="/static/favicon.ico" />
     <title>Demo tracking location A8</title>
     <style>
@@ -29,23 +31,57 @@
     }
     #text-box-map{
         position: absolute;
-        top: 50%;
+        top: 30%;
         left: 50%;
         font-size: 25px;
         color: white;
         transform: translate(-50%,-50%);
         -ms-transform: translate(-50%,-50%);
         background-color: rgba(236, 166, 34, 0.5);
-        padding: 25px;
-        width: 75%;
-        height: 140px;
-        margin: 10px;
+        padding: 5px;
+        width: 80%;
+        height: 30%;
+        max-height: 300px;
+        margin: 0px;
+    }
+
+    #searchInput {
+        background-image: url('/static/search-icon.png'); /* Add a search icon to input */
+        background-position: 10px 12px; /* Position the search icon */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+        width: 100%; /* Full-width */
+        font-size: 1.5em; /* Increase font-size */
+        padding: 12px 20px 12px 40px; /* Add some padding */
+        border: 0px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+    }
+
+    #searchUL {
+        /* Remove default list styling */
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    #searchUL li a {
+        border: 1px solid #ddd; /* Add a border to all links */
+        margin-top: -1px; /* Prevent double borders */
+        background-color: #f6f6f6; /* Grey background color */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove default text underline */
+        font-size: 18px; /* Increase the font-size */
+        color: black; /* Add a black text color */
+        display: block; /* Make it into a block element to fill the whole list */
+    }
+
+    #searchUL li a:hover:not(.header) {
+        background-color: #eee; /* Add a hover effect to all links, except for headers */
     }
 
     #snackbar {
         visibility: hidden;
         min-width: 300px; /* width of bar */
-        margin-left: -155px;
+        margin-left: -165px;
         background-color: #333;
         color: #fff;
         text-align: center;
@@ -79,6 +115,12 @@
         from {bottom: 30px; opacity: 1;}
         to {bottom: 0; opacity: 0;}
     }
+
+    
+
+
+
+
     </style>
     <script src="/socket.io/socket.io.js"></script>
   </head>
@@ -87,9 +129,9 @@
         <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
         <div id="text-box-map">
 
-            <input type="text" id="searchInput" onkeyup="search()" placeholder="เลือกจุดจอดที่ต้องการลง">
+            <!-- <input type="text" id="searchInput" onkeyup="searchBox()" placeholder="เลือกจุดจอดที่ต้องการลง">
 
-            <ul id="myUL">
+            <ul id="searchUL">
             <li><a href="#">Adele</a></li>
             <li><a href="#">Agnes</a></li>
           
@@ -99,9 +141,13 @@
             <li><a href="#">Calvin</a></li>
             <li><a href="#">Christina</a></li>
             <li><a href="#">Cindy</a></li>
-          </ul>
+          </ul> -->
+
+          <a href="#">tets</a>
+
         </div>
     </div>
+
     <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
