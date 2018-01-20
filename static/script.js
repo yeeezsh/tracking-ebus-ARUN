@@ -92,11 +92,11 @@ function initMap() {
 
     socket.on("connect", function() {
 
-        snackBar("You have connected to server.", 3500)
+        snackBar("เชื่อมต่อกับเซิร์ฟเวอร์แล้ว", 3500)
     });
 
     socket.on("disconnect", function() {
-        snackBar("You have been disconnected from server.", 10000);
+        snackBar("ขาดการเชื่อมต่อกับเซิร์ฟเวอร์", 10000);
     });
 
     //mockup A1 A2
@@ -276,7 +276,8 @@ function successGeo(pos) {
     //your location close to 
     console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
     console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
-    showA1(); //show estimate time A1 / A2
+    
+    // showA1(); //show estimate time A1 / A2
 
 
 };
