@@ -4,7 +4,7 @@
   "description": "Demo A8 eiei",
   "main": "server.js",
   "scripts": {
-    "babel-node": "babel-node --presets=/*a*/ --ignore='foo|bar|baz'"
+    "start": "node server"
   },
   "author": "Korbboon Thuswongsa",
   "license": "MIT",
@@ -13,14 +13,18 @@
     "body-parser": "1.17.1",
     "cheerio": "1.0.0-rc.2",
     "express": "4.15.2",
+    "gulp-serve": "^1.4.0",
+    "morgan": "^1.9.0",
     "multer": "1.3.0",
     "point-in-polygon": "1.0.1",
     "socket.io": "2.0.1"
   },
-  "engines": {
-    "node":"6.11.5"
+  "devDependencies": {
+    "browser-sync": "^1.3.3",
+    "gulp": "^3.8.7",
+    "gulp-nodemon": "^1.0.4"
   },
-  "scripts": {
-    "start": "node server"
+  "engines": {
+    "node": "6.11.5"
   }
 }

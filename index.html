@@ -49,7 +49,7 @@
     #searchInput {
         list-style-type: none;
         display: inline;
-        background-image: url('/static/search-icon.png'); /* Add a search icon to input */
+        background-image: url('/static/placeholder-icon.png'); /* Add a search icon to input */
         background-position: 8px 16px; /* Position the search icon */
         background-repeat: no-repeat; /* Do not repeat the icon image */
 
@@ -60,7 +60,62 @@
         margin-bottom: 12px; /* Add some space below the input */
         width: 100%; /* Full-width */
         text-indent: 40px;
+        min-height: 45px;
         border-radius: 5px;
+    }
+    
+
+    /* .bus-position-bar-divide {
+        float: left;
+        width: 50;
+    }
+    .left {
+        width: 25%;
+    }
+    .right {
+        width: 75%;
+    }  */
+
+
+    #a1position-w-bg {
+        float: left;
+        width: 49%;
+
+        display: table;
+        list-style-type: none;
+        background-image:rgba(0,0,0,0) url('/static/test.jpg'); /* Add a search icon to input */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+        transition: background-color 1s;
+
+
+        font-size: 0.8em; /* Increase font-size */
+        padding-top: 20px;
+        padding-bottom: 25px;
+        border: 0px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+        text-indent: 40px;
+        border-radius: 5px;
+    }
+
+
+    #a2position-w-bg {
+        float: right;
+        width: 49%;
+
+        display: table;
+        list-style-type: none;
+        background-image: url('/static/test.jpg'); /* Add a search icon to input */
+        background-repeat: no-repeat; /* Do not repeat the icon image */
+
+
+        font-size: 0.8em; /* Increase font-size */
+        padding-top: 20px;
+        padding-bottom: 25px;
+        border: 0px solid #ddd; /* Add a grey border */
+        margin-bottom: 12px; /* Add some space below the input */
+        text-indent: 40px;
+        border-radius: 5px;
+        background-color: #fff;
     }
 
     #snackbar {
@@ -116,7 +171,8 @@
         <div id="text-box-map">
 
             <input type="text" id="searchInput" placeholder="เลือกจุดจอดที่ต้องการลง">
-
+            <div id="a1position-w-bg">Hello</div>
+            <div id="a2position-w-bg">helloa2</div>
 
         </div>
     </div>

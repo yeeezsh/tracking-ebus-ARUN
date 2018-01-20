@@ -24,7 +24,8 @@
     overflow: hidden; 
     text-overflow: ellipsis; 
     font-size: 1.2em; 
-    color: white }
+    color: white;
+}
 .autocomplete-suggestion b { 
     font-weight: normal; 
     color: black; }

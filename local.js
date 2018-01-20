@@ -10,6 +10,11 @@ const fs = require('fs');
 const mockup = require('./mockup-tracking');
 const trackingListenMain = require('./tracking-bus.js');
 
+const path = require('path')
+const reload = require('reload')
+const logger = require('morgan')
+
+
 const options = {
     key: fs.readFileSync('./certificate/server.key'),
     cert: fs.readFileSync('./certificate/server.crt'),
@@ -48,6 +53,9 @@ const server = https.createServer(options, app);
 //     // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
 //     // res.redirect('https://example.com' + req.url);
 // });
+reload(app);
+
+
 const io = socketIO(server);
 
 
