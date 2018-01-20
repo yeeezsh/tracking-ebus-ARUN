@@ -10,7 +10,7 @@
     /* core styles should not be changed */
     position: absolute; 
     display: none; 
-    z-index: 9999; 
+    z-index: 100; 
     max-height: 254px; 
     overflow: hidden; 
     overflow-y: auto; 
@@ -25,6 +25,7 @@
     text-overflow: ellipsis; 
     font-size: 1.2em; 
     color: white;
+
 }
 .autocomplete-suggestion b { 
     font-weight: normal; 
