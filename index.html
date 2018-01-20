@@ -197,7 +197,7 @@
         minChars: 1,
         source: function(term, suggest){
             term = term.toLowerCase();
-            var choices = ['ActionScript', 'AppleScript', 'Asp', 'ตึกปลาแมหด', 'ตึกหมี' ];
+            var choices = ['อาคารวิศววัฒนะ - บ้านธรรมรักษา 1', 'สำนักงานอธิการบดี', 'อาคารเรียนรวม 1', 'อาคารพระจอมเกล้าราชานุสรณ์ฯ', 'อาคารเรียนรวม 3', 'สำนักหอสมุด', 'สถาบันวิทยาการหุ่นยนต์ฯ', 'อาคารเอนกประสงค์', 'อาคารปฏิบัติการวิทยาศาสตร์ฯ' ];
             var matches = [];
             for (i=0; i<choices.length; i++)
                 if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
