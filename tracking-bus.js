@@ -116,6 +116,12 @@ const runA2 = io => {
                 }
                 console.log(geoBaseEventA2); //work better
 
+                if(busName.speed == null) { //will get speed from position later
+                    busName.speed = 0;
+                } else if (busName.speed == null && busBroadcastA2.speed != null) {
+                    busName.speed = busBroadcastA2.speed;
+                }
+
 
                 busBroadcastA2 = Object.assign(busBroadcastA2, { 
                     busName: busName.busName,
