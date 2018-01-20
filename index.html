@@ -5,6 +5,7 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
     
     <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="/static/auto-complete.css">
     <title>Demo tracking location A8</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -46,14 +47,19 @@
     }
 
     #searchInput {
+        list-style-type: none;
+        display: inline;
         background-image: url('/static/search-icon.png'); /* Add a search icon to input */
         background-position: 10px 12px; /* Position the search icon */
         background-repeat: no-repeat; /* Do not repeat the icon image */
-        width: 100%; /* Full-width */
-        font-size: 1.5em; /* Increase font-size */
-        padding: 12px 20px 12px 40px; /* Add some padding */
+        font-size: 0.7em; /* Increase font-size */
+        padding-top: 15px;
+        padding-bottom: 15px;
         border: 0px solid #ddd; /* Add a grey border */
         margin-bottom: 12px; /* Add some space below the input */
+        width: 100%; /* Full-width */
+        text-indent: 40px;
+        border-radius: 5px;
     }
 
     #searchUL {
@@ -64,6 +70,7 @@
     }
 
     #searchUL li a {
+
         border: 1px solid #ddd; /* Add a border to all links */
         margin-top: -1px; /* Prevent double borders */
         background-color: #f6f6f6; /* Grey background color */
@@ -123,27 +130,15 @@
 
     </style>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/auto-complete.min.js"></script>
   </head>
   <body>
     <div id="top-box-map">
         <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
         <div id="text-box-map">
 
-            <!-- <input type="text" id="searchInput" onkeyup="searchBox()" placeholder="เลือกจุดจอดที่ต้องการลง">
+            <input type="text" id="searchInput" placeholder="เลือกจุดจอดที่ต้องการลง">
 
-            <ul id="searchUL">
-            <li><a href="#">Adele</a></li>
-            <li><a href="#">Agnes</a></li>
-          
-            <li><a href="#">Billy</a></li>
-            <li><a href="#">Bob</a></li>
-          
-            <li><a href="#">Calvin</a></li>
-            <li><a href="#">Christina</a></li>
-            <li><a href="#">Cindy</a></li>
-          </ul> -->
-
-          <a href="#">tets</a>
 
         </div>
     </div>
@@ -154,5 +149,25 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY5X5KIJR2Z7XkAeLEljA39CaOzoc_97Q&callback=initMap">
     </script>
     <script src="/static/script.js"></script>
+    <script>
+    
+    new autoComplete({
+        selector: 'input[id="searchInput"]',
+        minChars: 2,
+        source: function(term, suggest){
+            term = term.toLowerCase();
+            var choices = ['ActionScript', 'AppleScript', 'Asp' ];
+            var matches = [];
+            for (i=0; i<choices.length; i++)
+                if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
+            suggest(matches);
+        },
+        onSelect: function(e, term, item) {
+            alert('item' + term);
+    }
+    });
+    
+
+    </script>
   </body>
 </html>

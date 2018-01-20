@@ -567,23 +567,30 @@ function findNode(index, route) { //translate node to array index
 //     }
 // };
 
-function searchBox() {
-    // Declare variables
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('searchInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("searchUL");
-    li = ul.getElementsByTagName('li');
+// var input, filter, ul, li, a, i;
+// input = document.getElementById('searchInput');
+// filter = input.value.toUpperCase();
+// ul = document.getElementById("searchUL");
+// li = ul.getElementsByTagName('li');
 
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
+// function searchBoxOnType() {
+//     // Declare variables
 
 
+//     // Loop through all list items, and hide those who don't match the search query
+//     for (i = 0; i < li.length; i++) {
+//         a = li[i].getElementsByTagName("a")[0];
+//         if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+//             li[i].style.display = "";
+//         } else {
+//             li[i].style.display = "none";
+//         }
+//     }
+// }
+
+// function searchBoxReset() {
+//     for (i = 0; i < li.length; i++) {
+//         a = li[i].getElementsByTagName("a")[0];
+//             li[i].style.display = "none;";
+//     }
+// }
