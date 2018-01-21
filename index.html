@@ -82,10 +82,11 @@
         width: 49%;
 
         display: table;
-        list-style-type: none;
+        /* list-style-type: none; */
         background-image: url('/static/place/witt-sawa-wattana.jpg'); /* Add a search icon to input */
         background-repeat: no-repeat; /* Do not repeat the icon image */
-        background-size: 100%;
+        background-size: 110%;
+        background-position: 50%;
 
 
         font-size: .8em; /* Increase font-size */
@@ -95,6 +96,8 @@
         margin-bottom: 12px; /* Add some space below the input */
         text-align: center;
         border-radius: 5px;
+        min-height: 100%;
+        z-index: 4;
     }
 
 
@@ -103,10 +106,11 @@
         width: 49%;
 
         display: table;
-        list-style-type: none;
+        /* list-style-type: none; */
         background-image: url('/static/place/the-hub.jpeg'); /* Add a search icon to input */
         background-repeat: no-repeat; /* Do not repeat the icon image */
-        background-size: 100%;
+        background-size: 125%;
+        background-position: 50%;
 
 
         font-size: .8em; /* Increase font-size */
@@ -115,8 +119,20 @@
         margin-bottom: 12px; /* Add some space below the input */
         text-align: center;
         border-radius: 5px;
+        min-height: 100%;
         background-color: #fff;
+        z-index: 4;
+
     }
+
+    .text-overflow-bus-select {
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        width:36vmin;
+        display:inline-block;
+
+}
     
     .img-bus-a2 {
         margin: -30px -20px -30px -10px;
@@ -177,9 +193,9 @@
         <div id="text-box-map">
 
             <input type="text" id="searchInput" placeholder="เลือกจุดจอดสำหรับปลายทาง">
-            <div id="a1position-w-bg">อาคารวิศววัฒนะ</div>
+            <div id="a1position-w-bg" onclick="selectBusUI(1);" ><span class="text-overflow-bus-select">อาคารวิศววัฒนะ</span></div>
             <!-- <div id="a2position-w-bg"><img class="img-bus-a2" src="/static/truck-R2.png" >อาคารสำนึกงานอธิบดี</div>  -->
-            <div id="a2position-w-bg">อาคารสำนักงานอธิบดี</div> 
+            <div id="a2position-w-bg" onclick="selectBusUI(2);"><span class="text-overflow-bus-select">อาคารสำนักงานอธิบดี</span></div> 
 
         </div>
     </div>
@@ -207,6 +223,21 @@
             alert('item' + term);
     }
     });
+
+    function selectBusUI(selected) {
+        let a1 = document.getElementById('a1position-w-bg');
+        let a2 = document.getElementById('a2position-w-bg');
+
+        if(selected == 2) { //click bus a2 ui
+            a1.style.width = '29%';
+            a1.innerHTML = '';
+            a2.style.width = '69%';
+        }else {
+            a2.style.width = '29%';
+            a2.innerHTML = '';
+            a1.style.width = '69%';
+        }
+    }
     
 
     </script>
