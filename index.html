@@ -28,7 +28,7 @@
         z-index: 2;
         cursor: pointer;
         margin: auto;
-        padding-top: 225px;
+        padding-top: 250px;
     }
     #text-box-map{
         position: absolute;
@@ -146,18 +146,56 @@
         float: left;
     }
 
+    #time-progress {
+        width: 80%;
+        height: 26px;
+
+        display: block;
+        /* list-style-type: none; */
+
+
+        font-size: .8em; /* Increase font-size */
+        padding-top: 20px;
+        padding-bottom: 17px;
+        margin-bottom: 12px; /* Add some space below the input */
+        text-align: center;
+        border-radius: 5px;
+        min-height: 125%;
+        
+        background-color: rgba(255, 255, 255, .95);
+        z-index: 3;
+        pointer-events: fill;
+
+        -webkit-transition: width .2s; /* Safari */
+        transition: width .2s;
+    }
+
+    #down-box-map {
+        position: fixed;
+        display: block;
+        width: 100%;
+        height: 0%;
+        z-index: 4;
+        /* cursor: auto; */
+        pointer-events: none;
+        margin: auto;
+        padding-top: 85vh;
+        left: 10%;
+    }
+
     #snackbar {
         visibility: hidden;
-        min-width: 300px; /* width of bar */
-        margin-left: -165px;
+        min-width: 80%; /* width of bar */
+        /* margin-left: -165px; */
         background-color: #333;
         color: #fff;
         text-align: center;
         border-radius: 3px;
-        padding: 16px;
+        padding-top: 16px;
+        padding-bottom: 16px;
         position: fixed;
-        z-index: 3;
-        left: 50%;
+        z-index: 4;
+        left: 10%;
         bottom: 30px;
     }
     /* Show the snackbar when clicking on a button (class added with JavaScript) */
@@ -206,6 +244,7 @@
         </div>
     </div>
 
+    <div id="down-box-map"><div id="time-progress" onclick="alert('hellooo');">hello2222</div></div>
     <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
@@ -230,7 +269,7 @@
             for(i in geoBase){ //check name for get pass route
                 if(term == geoBase[i].name){
                     if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
-                        selectBusUI(0);
+                        selectBusUI(0); //next will select the closet bus
                     } else if(geoBase[i].a1 != undefined) {
                         selectBusUI(1);
                     } else {
