@@ -147,27 +147,19 @@
     }
 
     #time-progress {
-        width: 80%;
-        height: 26px;
-
-        display: block;
-        /* list-style-type: none; */
-
-
-        font-size: .8em; /* Increase font-size */
-        padding-top: 20px;
-        padding-bottom: 17px;
-        margin-bottom: 12px; /* Add some space below the input */
+        /* visibility: hidden; */
+        min-width: 80%; /* width of bar */
+        /* margin-left: -165px; */
+        background-color: rgba(255, 255, 255, .9);
+        color: #fff;
         text-align: center;
-        border-radius: 5px;
-        min-height: 125%;
-        
-        background-color: rgba(255, 255, 255, .95);
-        z-index: 3;
-        pointer-events: fill;
-
-        -webkit-transition: width .2s; /* Safari */
-        transition: width .2s;
+        border-radius: 3px;
+        padding-top: 25px;
+        padding-bottom: 16px;
+        position: fixed;
+        z-index: 4;
+        left: 10%;
+        bottom: 35px;
     }
 
     #down-box-map {
@@ -179,7 +171,7 @@
         /* cursor: auto; */
         pointer-events: none;
         margin: auto;
-        padding-top: 85vh;
+        padding-top: 70vh;
         left: 10%;
     }
 
@@ -196,7 +188,7 @@
         position: fixed;
         z-index: 4;
         left: 10%;
-        bottom: 30px;
+        bottom: 35px;
     }
     /* Show the snackbar when clicking on a button (class added with JavaScript) */
     #snackbar.show {
@@ -244,7 +236,7 @@
         </div>
     </div>
 
-    <div id="down-box-map"><div id="time-progress" onclick="alert('hellooo');">hello2222</div></div>
+    <div id="time-progress" onclick="alert('hellooo');">hello2222</div>
     <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
