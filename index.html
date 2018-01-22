@@ -226,7 +226,18 @@
             suggest(matches);
         },
         onSelect: function(e, term, item) {
-            alert('term -> ' + term + '\n' + item);
+            // alert('term -> ' + term + '\n' + item);
+            for(i in geoBase){ //check name for get pass route
+                if(term == geoBase[i].name){
+                    if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
+                        selectBusUI(0);
+                    } else if(geoBase[i].a1 != undefined) {
+                        selectBusUI(1);
+                    } else {
+                        selectBusUI(2);
+                    }
+                }
+            }
     }
     });
 
@@ -239,10 +250,13 @@
             a1.style.width = '29%';
             a1.innerHTML = '';
             a2.style.width = '69%';
-        }else {
+        }else if (selected == 1) {
             a2.style.width = '29%';
             a2.innerHTML = '';
             a1.style.width = '69%';
+        } else {
+            a1.style.width = '49%';
+            a2.style.width = '49%';
         }
     }
     
