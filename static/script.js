@@ -96,7 +96,7 @@ function initMap() {
     });
 
     socket.on("disconnect", function() {
-        snackBar("ขาดการเชื่อมต่อกับเซิร์ฟเวอร์", 10000);
+        snackBar("ขาดการเชื่อมต่อกับเซิร์ฟเวอร์", -1);
     });
 
     //mockup A1 A2
@@ -237,14 +237,16 @@ function initMap() {
 }; ///////////// finish init()
 
 function snackBar(snackBarText, s) {
-    var snackbar = document.getElementById("snackbar")
+    let snackbar = document.getElementById("snackbar")
     // Add the "show" class to DIV
     snackbar.className = "show";
     snackbar.innerHTML = snackBarText;
     // After 3 seconds, remove the show class from DIV
-    setTimeout(function() {
-        snackbar.className = snackbar.className.replace("show", ""); 
-    }, s);
+    if(s > -1) { //still show on screen
+        setTimeout(function() {
+            snackbar.className = snackbar.className.replace("show", ""); 
+        }, s);
+    }
 };
 
 function successGeo(pos) {

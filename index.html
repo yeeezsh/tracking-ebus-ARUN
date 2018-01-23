@@ -6,220 +6,9 @@
     
     <link rel="shortcut icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="/static/auto-complete.css">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Demo tracking location A8</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-    #map {
-    height: 100%;
-    z-index: 1;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    #top-box-map {
-        position: fixed;
-        display: block;
-        width: 100%;
-        height: 0%;
-        z-index: 2;
-        cursor: pointer;
-        margin: auto;
-        padding-top: 250px;
-    }
-    #text-box-map{
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        font-size: 25px;
-        color: white;
-        transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-        /* background-color: rgba(236, 166, 34, 0.5); */
-        padding: 5px;
-        width: 80%;
-        height: 30%;
-        max-height: 300px;
-        margin: 0px;
-    }
 
-    #searchInput {
-        list-style-type: none;
-        display: inline;
-        background-image: url('/static/placeholder-icon.png'); /* Add a search icon to input */
-        background-position: 8px 50%; /* Position the search icon */
-        background-repeat: no-repeat; /* Do not repeat the icon image */
-
-        font-size: 0.75em; /* Increase font-size */
-        padding-top: 15px;
-        padding-bottom: 15px;
-        border: 0px solid #ddd; /* Add a grey border */
-        margin-bottom: 12px; /* Add some space below the input */
-        width: 100%; /* Full-width */
-        text-indent: 40px;
-        min-height: 45px;
-        border-radius: 5px;
-    }
-    
-
-    /* .bus-position-bar-divide {
-        float: left;
-        width: 50;
-    }
-    .left {
-        width: 25%;
-    }
-    .right {
-        width: 75%;
-    }  */
-
-
-    #a1position-w-bg {
-        float: left;
-        width: 49%;
-
-        display: table;
-        /* list-style-type: none; */
-        background-image: url('/static/place/witt-sawa-wattana.jpg'); /* Add a search icon to input */
-        background-repeat: no-repeat; /* Do not repeat the icon image */
-        background-size: 110%;
-        background-position: 50%;
-
-
-        font-size: .8em; /* Increase font-size */
-        padding-top: 20px;
-        padding-bottom: 17px;
-
-        margin-bottom: 12px; /* Add some space below the input */
-        text-align: center;
-        border-radius: 5px;
-        min-height: 100%;
-        z-index: 4;
-
-        -webkit-transition: width .2s; /* Safari */
-        transition: width .2s;
-    }
-
-
-    #a2position-w-bg {
-        float: right;
-        width: 49%;
-
-        display: table;
-        /* list-style-type: none; */
-        background-image: url('/static/place/the-hub.jpeg'); /* Add a search icon to input */
-        background-repeat: no-repeat; /* Do not repeat the icon image */
-        background-size: 125%;
-        background-position: 50%;
-
-
-        font-size: .8em; /* Increase font-size */
-        padding-top: 20px;
-        padding-bottom: 17px;
-        margin-bottom: 12px; /* Add some space below the input */
-        text-align: center;
-        border-radius: 5px;
-        min-height: 100%;
-        background-color: #fff;
-        z-index: 4;
-
-        -webkit-transition: width .2s; /* Safari */
-        transition: width .2s;
-
-    }
-
-    .text-overflow-bus-select {
-        overflow: hidden;
-        white-space:nowrap;
-        text-overflow:ellipsis;
-        width:36vmin;
-        display:inline-block;
-
-}
-    
-    .img-bus-a2 {
-        margin: -30px -20px -30px -10px;
-        width: 50px;
-        float: left;
-    }
-
-    #time-progress {
-        /* visibility: hidden; */
-        min-width: 80%; /* width of bar */
-        /* margin-left: -165px; */
-        background-color: rgba(255, 255, 255, .9);
-        color: #fff;
-        text-align: center;
-        border-radius: 3px;
-        padding-top: 25px;
-        padding-bottom: 16px;
-        position: fixed;
-        z-index: 4;
-        left: 10%;
-        bottom: 35px;
-    }
-
-    #down-box-map {
-        position: fixed;
-        display: block;
-        width: 100%;
-        height: 0%;
-        z-index: 4;
-        /* cursor: auto; */
-        pointer-events: none;
-        margin: auto;
-        padding-top: 70vh;
-        left: 10%;
-    }
-
-    #snackbar {
-        visibility: hidden;
-        min-width: 80%; /* width of bar */
-        /* margin-left: -165px; */
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 3px;
-        padding-top: 16px;
-        padding-bottom: 16px;
-        position: fixed;
-        z-index: 4;
-        left: 10%;
-        bottom: 35px;
-    }
-    /* Show the snackbar when clicking on a button (class added with JavaScript) */
-    #snackbar.show {
-        visibility: visible; /* Show the snackbar */
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        opacity: 0.85;
-    }
-    @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;} 
-        to {bottom: 30px; opacity: 1;}
-    }
-    @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-    }
-    @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;} 
-        to {bottom: 0; opacity: 0;}
-    }
-    @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
-    }
-
-    
-
-
-
-
-    </style>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/static/auto-complete.min.js"></script>
   </head>
@@ -236,7 +25,11 @@
         </div>
     </div>
 
-    <div id="time-progress" onclick="alert('hellooo');">hello2222</div>
+    <div id="time-progress" onclick="timeEstimateUI();">
+        <div id="time-progress-timer-bar"><img src="/static/user-icon.png" id="time-progress-timer-bar-user-icon"></div> 
+        <div id="time-progress-timer-text">11111</div>
+    </div>
+
     <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
@@ -252,7 +45,7 @@
             term = term.toLowerCase();
             var choices = ['อาคารวิศววัฒนะ - บ้านธรรมรักษา 1', 'สำนักงานอธิการบดี', 'อาคารเรียนรวม 1', 'อาคารพระจอมเกล้าราชานุสรณ์ฯ', 'อาคารเรียนรวม 3', 'สำนักหอสมุด', 'สถาบันวิทยาการหุ่นยนต์ฯ', 'อาคารเอนกประสงค์', 'อาคารปฏิบัติการวิทยาศาสตร์ฯ' ];
             var matches = [];
-            for (i=0; i<choices.length; i++)
+            for (i = 0; i < choices.length; i++)
                 if (~choices[i].toLowerCase().indexOf(term)) matches.push(choices[i]);
             suggest(matches);
         },
@@ -278,22 +71,29 @@
         let a2 = document.getElementById('a2position-w-bg');
 
         if(selected == 2) { //click bus a2 ui
-            a1.style.width = '29%';
-            // a1.innerHTML = '';
             document.getElementById('a1-bus-geofence').style.display = 'none';
+            a1.style.width = '29%';
             document.getElementById('a2-bus-geofence').style.display = 'inline-block';
             a2.style.width = '69%';
         }else if (selected == 1) {
-            a2.style.width = '29%';
-            // a2.innerHTML = '';
             document.getElementById('a2-bus-geofence').style.display = 'none';
+            a2.style.width = '29%';
             document.getElementById('a1-bus-geofence').style.display = 'inline-block';
+            
             a1.style.width = '69%';
         } else {
             a1.style.width = '49%';
             a2.style.width = '49%';
+            document.getElementById('a1-bus-geofence').style.display = 'inline-block';
+            document.getElementById('a2-bus-geofence').style.display = 'inline-block';
         }
     }
+
+    function timeEstimateUI(selected) {
+        let timer = document.getElementById('time-progress-timer-text').innerText = "hello2222"
+    }
+
+
     
 
     </script>
