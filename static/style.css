@@ -122,14 +122,15 @@
 
 #time-progress {
     visibility: visible;
-    min-width: 80%; /* width of bar */
+    max-width: 80%; /* width of bar */
+    display: inline;
     /* margin-left: -165px; */
     background-color: rgba(255, 255, 255, .9);
     color: black;
 
-    text-align: center;
+    /* text-align: center; */
     border-radius: 3px;
-    padding-top: 25px;
+    /* padding-top: 25px; */
     padding-bottom: 16px;
     position: fixed;
     z-index: 4;
@@ -146,22 +147,29 @@
     opacity: 0.85;
 }
 #time-progress-timer-text{
-    float: right;
+    float: left;
+    right: 5%;
     width: 25%;
 
-    border-bottom: 1px solid #000;
+    padding-top: 20px;
+
+
+    /* border-bottom: 1px solid #000; */
+    font-size: 1.85vh;
 
     visibility: visible;
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
 
     opacity: 0.85;
+    /* position: relative; */
 }
 #time-progress-timer-bar{
     float: left;
     width: 70%;
+    display: table;
 
-    border-bottom: 1px solid #000;
+    /* border-bottom: 1px solid #000; */
     padding-top: 25px;
 
     visibility: visible;
@@ -170,19 +178,53 @@
 
     opacity: 0.85;
 }
-#time-progress-timer-bar.loader{
-    width: 55%;
+#time-progress-timer-bar-loader{
+    float: left;
+    position: relative;
+    left: 3%;
 
-    border-bottom: 1px solid #000;
+    z-index: 4;
 
+    width: 46%;
+    height:3.2vw;
+    border-bottom: 1px solid rgb(219, 219, 219);
+
+}
+
+#time-progress-timer-bar-loader-value{
+    float: left;
+    position: absolute;
+    left: 6%;
+
+    z-index: 5;
+
+    width: 13%; /* max is 46%*/
+    height:3.2vw;
+    border-bottom: 3px solid rgb(209, 109, 28);
+
+}
+
+#time-progress-timer-bar-user-icon{
+    position: relative;
+    float: left;
+    left: 3%;
+    width: 13%;
+    z-index: 6;
+
+}
+#time-progress-timer-bar-bus-icon{
+    position: relative;
+    float: left;
+    left: 3%;
+    width: 13%;
+    z-index: 6;
+}
+
+#time-progress-timer-bar.show{
     visibility: visible;
+
     -webkit-animation: fadein 0.5s;
     animation: fadein 0.5s;
-
-    opacity: 0.85;
-}
-#time-progress-timer-bar-user-icon{
-    width: 25px;
 }
 
 #down-box-map {

@@ -26,8 +26,16 @@
     </div>
 
     <div id="time-progress" onclick="timeEstimateUI();">
-        <div id="time-progress-timer-bar"><img src="/static/user-icon.png" id="time-progress-timer-bar-user-icon"></div> 
-        <div id="time-progress-timer-text">11111</div>
+            
+        <div id="time-progress-timer-bar"> 
+            <img src="/static/bus-a1-progress.png" id="time-progress-timer-bar-bus-icon"> 
+            <div id="time-progress-timer-bar-loader"></div> 
+            <div id="time-progress-timer-bar-loader-value"></div> 
+            <img src="/static/user-icon.png" id="time-progress-timer-bar-user-icon"> 
+        </div>
+        
+
+        <div id="time-progress-timer-text">ประมาณ<br> 123 วินาที</div>
     </div>
 
     <div id="snackbar"></div>
@@ -90,7 +98,12 @@
     }
 
     function timeEstimateUI(selected) {
+        let timeProgressbar = document.getElementById('time-progress');
         let timer = document.getElementById('time-progress-timer-text').innerText = "hello2222"
+
+        if(selected == 0){
+            timeProgressbar.className = "show";
+        }
     }
 
 
