@@ -111,17 +111,6 @@ function initMap() {
         }
     });
 
-
-
-
-    //     //want to know distance from bus to you
-    // //***********
-    // let stopNodeA1 = compareCloseNode(posGeo, geoBase, 1);
-    // let stopNodeA2 = compareCloseNode(posGeo, geoBase, 2);
-    // estimateRoute(posBusA1.node, stopNodeA1, 1); //A1
-    // estimateRoute(posBusA2.node, stopNodeA2, 2); //A2
-
-    // busA1 marker
     socket.on("trackingBusA1Broadcast", function(data){
         console.log(data);
         posBusA1 = {
@@ -131,6 +120,9 @@ function initMap() {
             building:data.building,
             speed: data.speed
         };
+
+        document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+
         if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
                 position: posBusA1,
@@ -163,6 +155,9 @@ function initMap() {
                 building:data.building,
                 speed: data.speed
             };
+
+            document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+
             if (busA2Marker == null && posBusA2.lat != null) {
                     busA2Marker = new google.maps.Marker({
                     position: posBusA2,
@@ -186,38 +181,6 @@ function initMap() {
             }
         });
 
-    // // busA2 marker
-    // socket.on("trackingBusA2Broadcast", function(data){
-    //     console.log(data);
-    //     let posBusA2 = {
-    //         lat: data.lat,
-    //         lng: data.lng
-    //     }
-    //     if (busA2Marker == null && posBusA2.lat != null) {
-    //             busA2Marker = new google.maps.Marker({
-    //             position: posBusA2,
-    //             map: map,
-    //             icon: {
-    //                 url: '/static/truck-R2.png',
-    //                 size: new google.maps.Size(150, 150),
-    //                 scaledSize: new google.maps.Size(50, 50),
-    //                 origin: new google.maps.Point(0, 0),
-    //                 anchor: new google.maps.Point(25, 25),
-    //                 optimized: false
-    //             }
-    //         });
-    //     } else if(posBusA2.lat != null) {
-    //         busA2Marker.setPosition(posBusA2);
-    //         console.log(getDistanceFromLatLon(posGeo, posBusA2));
-    //         console.log('A2 > closet node -->' + compareCloseNode(posGeo, geoBase, 2));
-
-    //     } else {
-    //         console.log("A2 broadcast connect but not get position");
-    //     }
-    // });
-
-    //geo function
-
     var options = {
         enableHighAccuracy: true,
         timeout: 10000,
@@ -231,8 +194,6 @@ function initMap() {
 
     navigator.geolocation.watchPosition(successGeo, error, options);
     ///end geo call
-
-
 
 }; ///////////// finish init()
 
@@ -309,7 +270,7 @@ function getDistanceFromLatLon(pos1, pos2) {
   }
 
   function compareCloseNode(geo, data, route){
-    let min = 999999;
+    let min = 99;
     let i = 0;
     for(k in data) {
         let center = {
@@ -327,28 +288,6 @@ function getDistanceFromLatLon(pos1, pos2) {
         return data[i].a2;
     }
 }
-
-
-//     function newMarkerBusA1(k, location) {
-//     if (busA1Marker[k] == null) {
-//         busA1Marker[k] = new google.maps.Marker({
-//             position : location,
-//             map: map,
-//             icon: {
-//                 url: '/static/test.png',
-//                 size: new google.maps.Size(100, 100),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             } 
-//         });
-//     } else {
-//         busA1Marker[k].setPosition(location);
-//     }    
-// };
-
-
 
 function newMarker(k, location) {
     if (markers[k] == null) {
@@ -388,30 +327,9 @@ function newMarkerR2(k, location) {
     } 
 };
 
-// function topBoxMap() {
-//     // socket.on("locationUpdatedR2", function(locationStateR2){
-//     //     for (var kR2 in locationStateR2) {
-//     //         document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
-//     //     }
-//     // });
-    
-
-//     //assume A1 selected
-//     showA1();
-    
-// };
-
-// function showA1(){
-//     // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-//     document.getElementById('text-box-map').innerHTML = '<span>' +'A1 estimate time'+ sumTime1 +'</span>' +'<br>'+
-//                                                         '<span>' +'A2 estimate time :'+ sumTime2 + '</span>';
-// }
-
-// console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
-
 function estimateRoute(startNode, stopNode, route) { //function will return total path in meters (m)
-    pathA1=0.0;
-    pathA2=0.0;
+    pathA1=0;
+    pathA2=0;
     if(route == 1 && startNode != stopNode){ //stop node at 5
         // console.log(getDistanceFromLatLon(geoBase[startNode].center,geoBase[nextNode]));
         // console.log("hello");
@@ -512,88 +430,4 @@ function findNode(index, route) { //translate node to array index
         }
     }
 
-}
-
-
-//bug some devices
-
-// alert('Latitude : ' + crd.latitude + 'Longitude: ' + crd.longitude + 'More or less ' + crd.accuracy + ' meters.')
-
-// function markerGeo(k, posGeo) {
-//     if (markers[k] == null) {
-//         markers[k] = new google.maps.Marker({
-//             position : location,
-//             map: map,
-//             icon: {
-//                 url: '/static/truck-R2.png',
-//                 size: new google.maps.Size(100, 100),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             } 
-//         });
-//     } else {
-//         markers[k].setPosition(posGeo);
-//     } 
-// };
-
-// var markerGeo = new google.maps.Marker({
-//     position: posGeo,
-//     map: map,
-//         icon: {
-//             url: '/static/locator.png',
-//             size: new google.maps.Size(150, 150),
-//             scaledSize: new google.maps.Size(50, 50),
-//             origin: new google.maps.Point(0, 0),
-//             anchor: new google.maps.Point(25, 25),
-//             optimized: false
-//         }
-//     })
-
-// function newGeoMarker(posGeo) {
-//     if(markerGeo == null) {
-//         var markerGeo = new google.maps.Marker({
-//             position: posGeo,
-//             map: map,
-//             icon: {
-//                 url: '/static/locator.png',
-//                 size: new google.maps.Size(150, 150),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             }    
-//         })
-//     } else {
-//         markerGeo.setPosition(posGeo);
-//     }
-// };
-
-// var input, filter, ul, li, a, i;
-// input = document.getElementById('searchInput');
-// filter = input.value.toUpperCase();
-// ul = document.getElementById("searchUL");
-// li = ul.getElementsByTagName('li');
-
-// function searchBoxOnType() {
-//     // Declare variables
-
-
-//     // Loop through all list items, and hide those who don't match the search query
-//     for (i = 0; i < li.length; i++) {
-//         a = li[i].getElementsByTagName("a")[0];
-//         if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-//             li[i].style.display = "";
-//         } else {
-//             li[i].style.display = "none";
-//         }
-//     }
-// }
-
-// function searchBoxReset() {
-//     for (i = 0; i < li.length; i++) {
-//         a = li[i].getElementsByTagName("a")[0];
-//             li[i].style.display = "none;";
-//     }
-// }
+};

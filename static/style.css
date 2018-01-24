@@ -204,7 +204,7 @@
 
 }
 
-#time-progress-timer-bar-user-icon{
+#time-progress-timer-bar-bus-icon{
     position: relative;
     float: left;
     left: 3%;
@@ -212,7 +212,7 @@
     z-index: 6;
 
 }
-#time-progress-timer-bar-bus-icon{
+#time-progress-timer-bar-user-icon{
     position: relative;
     float: left;
     left: 3%;

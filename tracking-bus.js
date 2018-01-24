@@ -57,7 +57,7 @@ const runA1 = io => {
                 console.log(geoBaseEventA1); //work better
 
                 if(busName.speed == null) { //will get speed from position later
-                    busName.speed = 0;
+                    busName.speed = 0.1;
                 } else if (busName.speed == null && busBroadcastA1.speed != null) {
                     busName.speed = busBroadcastA1.speed;
                 }
@@ -117,7 +117,7 @@ const runA2 = io => {
                 console.log(geoBaseEventA2); //work better
 
                 if(busName.speed == null) { //will get speed from position later
-                    busName.speed = 0;
+                    busName.speed = 0.1;
                 } else if (busName.speed == null && busBroadcastA2.speed != null) {
                     busName.speed = busBroadcastA2.speed;
                 }
