@@ -14,7 +14,11 @@ var countTime1 = 0;
 var countTime2 = 0;
 var sumTime1 = 0;
 var sumTime2 = 0;
+var pathConstA1;
+var pathConstA2;
 
+// var pathConstA1;
+// var pathConstA2;
 
 const geoBase = [
     {
@@ -143,6 +147,11 @@ function initMap() {
         } else {
             console.log("A1 broadcast connect but not get position");
         }
+
+        if (posGeo != null && posBusA1 != null && pathConstA1 == null){
+            pathConstA1 = getDistanceFromLatLon(posGeo, posBusA1); //set first const path for get %
+        } 
+
     });
 
         // busA2 marker
@@ -156,7 +165,7 @@ function initMap() {
                 speed: data.speed
             };
 
-            document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+            document.getElementById('a2-bus-geofence').innerText = posBusA2.building;
 
             if (busA2Marker == null && posBusA2.lat != null) {
                     busA2Marker = new google.maps.Marker({
@@ -171,11 +180,14 @@ function initMap() {
                         optimized: false
                     }
                 });
+                const pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
                 console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
                 estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
                 // console.log(posBusA2.node);
+            }else if (posGeo != null && posBusA1 != null && pathConstA2 == null){
+                pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
             } else {
                 console.log("A2 broadcast connect but not get position");
             }

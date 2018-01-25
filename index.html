@@ -18,14 +18,14 @@
         <div id="text-box-map">
 
             <input type="text" id="searchInput" placeholder="เลือกจุดจอดสำหรับปลายทาง">
-            <div id="a1position-w-bg" onclick="selectBusUI(1);" ><span id="a1-bus-geofence" class="text-overflow-bus-select">อาคารวิศววัฒนะ</span></div>
+            <div id="a1position-w-bg" onclick="selectBusUI(1);" ><span id="a1-bus-geofence" class="text-overflow-bus-select"> </span></div>
             <!-- <div id="a2position-w-bg"><img class="img-bus-a2" src="/static/truck-R2.png" >อาคารสำนึกงานอธิบดี</div>  -->
-            <div id="a2position-w-bg" onclick="selectBusUI(2);"><span id="a2-bus-geofence" class="text-overflow-bus-select">อาคารสำนักงานอธิบดี</span></div> 
+            <div id="a2position-w-bg" onclick="selectBusUI(2);"><span id="a2-bus-geofence" class="text-overflow-bus-select"> </span></div> 
 
         </div>
     </div>
 
-    <div id="time-progress" onclick="timeEstimateUI();">
+    <div id="time-progress">
             
         <div id="time-progress-timer-bar"> 
             <img src="/static/bus-a1-progress.png" id="time-progress-timer-bar-bus-icon"> 
@@ -35,7 +35,7 @@
         </div>
         
 
-        <div id="time-progress-timer-text">ประมาณ<br> 123 วินาที</div>
+        <div id="time-progress-timer-text"> <span id="time-progress-text-left"></span> <br> 123 วินาที</div>
     </div>
 
     <div id="snackbar"></div>
@@ -63,15 +63,35 @@
                 if(term == geoBase[i].name){
                     if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
                         selectBusUI(0); //next will select the closet bus
+                        timeEstimateUI(0);
                     } else if(geoBase[i].a1 != undefined) {
                         selectBusUI(1);
+                        timeEstimateUI(1);
                     } else {
                         selectBusUI(2);
+                        timeEstimateUI(2);
                     }
                 }
             }
-    }
+        }
     });
+
+    // function eventUI(term){ //just a function eiei it will collapse
+    //     for(i in geoBase){ //check name for get pass route
+    //             if(term == geoBase[i].name){
+    //                 if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
+    //                     selectBusUI(0); //next will select the closet bus
+    //                     timeEstimateUI(0);
+    //                 } else if(geoBase[i].a1 != undefined) {
+    //                     selectBusUI(1);
+    //                     timeEstimateUI(1);
+    //                 } else {
+    //                     selectBusUI(2);
+    //                     timeEstimateUI(2);
+    //                 }
+    //             }
+    //         }
+    // }
 
     function selectBusUI(selected) {
 
@@ -79,17 +99,20 @@
         let a2 = document.getElementById('a2position-w-bg');
 
         if(selected == 2) { //click bus a2 ui
+            timeEstimateUI(2);
             document.getElementById('a1-bus-geofence').style.display = 'none';
             a1.style.width = '29%';
             document.getElementById('a2-bus-geofence').style.display = 'inline-block';
             a2.style.width = '69%';
         }else if (selected == 1) {
+            timeEstimateUI(1);
             document.getElementById('a2-bus-geofence').style.display = 'none';
             a2.style.width = '29%';
             document.getElementById('a1-bus-geofence').style.display = 'inline-block';
             
             a1.style.width = '69%';
         } else {
+            timeEstimateUI(0);
             a1.style.width = '49%';
             a2.style.width = '49%';
             document.getElementById('a1-bus-geofence').style.display = 'inline-block';
@@ -98,11 +121,21 @@
     }
 
     function timeEstimateUI(selected) {
+        console.log("time estimate selected -->" + selected);
         let timeProgressbar = document.getElementById('time-progress');
-        let timer = document.getElementById('time-progress-timer-text').innerText = "hello2222"
+        // let timer = document.getElementById('time-progress-timer-text').innerText = sunmTime1;
 
         if(selected == 0){
-            timeProgressbar.className = "show";
+            timeProgressbar.style.display = "none";
+        } else if(selected == 1) {
+            document.getElementById('time-progress-text-left').innerText = sumTime1;
+            // document.getElementById('a1-bus-geofence').innerText = 'hello';
+            timeProgressbar.style.display = "inline";
+            // document.getElementById('time-progress-text-left').innerText = sunmTime1;
+        } else { //select = 2
+            document.getElementById('time-progress-text-left').innerText = sumTime2;
+            timeProgressbar.style.display = "inline";
+            // document.getElementById('time-progress-text-left').innerText = sunmTime2;
         }
     }
 
