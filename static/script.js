@@ -16,6 +16,8 @@ var sumTime1 = 0;
 var sumTime2 = 0;
 var pathConstA1;
 var pathConstA2;
+const a1CircleData = 6; //stop configuration
+const a2CircleData = 8;
 
 // var pathConstA1;
 // var pathConstA2;
@@ -352,7 +354,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % 6;
+            let nextNode = (startNode + 1) % a1CircleData;
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 1);
@@ -379,7 +381,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         console.log("estimate route 2 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % 8;
+            let nextNode = (startNode + 1) % a2CircleData;
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 2);
