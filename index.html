@@ -35,7 +35,9 @@
         </div>
         
 
-        <div id="time-progress-timer-text"> <span id="time-progress-text-left"></span> <br> 123 วินาที</div>
+        <div id="time-progress-timer-text"> 
+            <span id="time-progress-text-left"></span> 
+        </div>
     </div>
 
     <div id="snackbar"></div>
@@ -127,13 +129,16 @@
 
         if(selected == 0){
             timeProgressbar.style.display = "none";
+            uiTimerSelected = 0;
         } else if(selected == 1) {
-            document.getElementById('time-progress-text-left').innerText = sumTime1;
+            uiTimerSelected = 1;
+            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
             // document.getElementById('a1-bus-geofence').innerText = 'hello';
             timeProgressbar.style.display = "inline";
             // document.getElementById('time-progress-text-left').innerText = sunmTime1;
         } else { //select = 2
-            document.getElementById('time-progress-text-left').innerText = sumTime2;
+            uiTimerSelected = 2;
+            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
             timeProgressbar.style.display = "inline";
             // document.getElementById('time-progress-text-left').innerText = sunmTime2;
         }

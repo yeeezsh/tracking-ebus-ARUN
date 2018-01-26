@@ -18,6 +18,8 @@ var pathConstA1;
 var pathConstA2;
 const a1CircleData = 6; //stop configuration
 const a2CircleData = 8;
+var uiTimerSelected = 0;
+var t1, t2;
 
 // var pathConstA1;
 // var pathConstA2;
@@ -188,11 +190,14 @@ function initMap() {
                 console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
                 estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
                 // console.log(posBusA2.node);
-            }else if (posGeo != null && posBusA1 != null && pathConstA2 == null){
-                pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
             } else {
                 console.log("A2 broadcast connect but not get position");
             }
+
+            if (posGeo != null && posBusA2 != null && pathConstA2 == null){
+                pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
+            } 
+
         });
 
     var options = {
@@ -354,7 +359,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % a1CircleData;
+            let nextNode = (startNode + 1) % a1CircleData; //magic number 1
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 1);
@@ -381,7 +386,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         console.log("estimate route 2 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % a2CircleData;
+            let nextNode = (startNode + 1) % a2CircleData; //magic number 2
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 2);
@@ -410,21 +415,32 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
     }
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
-        let t1 = pathA1 / posBusA1.speed;
+        t1 = pathA1 / posBusA1.speed;
         console.log('pathA1 -->' + pathA1 + 'm');
         console.log('Speed A1  '+ posBusA1.speed);
         //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
         console.log('est time = '+ t1 + 's');
         /*sumTime1 += t;
         countTime1++;*/
+
+
+        if(uiTimerSelected == 1){ //ui refesh
+            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
+        }
+
     } if(posBusA2.speed != null && posBusA2.speed != 0){
-        let t2 = pathA2 / posBusA2.speed;
+        t2 = pathA2 / posBusA2.speed;
         console.log('pathA2 -->' + pathA2);
         console.log('Speed A2  '+ posBusA2.speed);
         //console.log('estimate time -->'+estimateTime(sumTime2, countTime2, t));
         console.log('est time = '+ t2 + 's');
         /*sumTime2 += t;
         countTime2++;*/
+
+        if(uiTimerSelected == 2){//
+            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
+        }
+        
     }
 };
 
