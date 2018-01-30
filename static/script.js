@@ -192,7 +192,7 @@ function initMap() {
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
                 console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
-                estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
+                estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A2
                 // console.log(posBusA2.node);
             } else {
                 console.log("A2 broadcast connect but not get position");
@@ -295,19 +295,46 @@ function getDistanceFromLatLon(pos1, pos2) {
   function compareCloseNode(geo, data, route){
     let min = 999999;
     let i = 0;
-    for(k in data) {
-        let center = {
-            lat: data[k].center[0],
-            lng: data[k].center[1]
-        };
-        if (getDistanceFromLatLon(geo, center) <= min) {
-            min = getDistanceFromLatLon(geo, center);
-            i = k;
+    // for(k in data) {
+    //     let center = {
+    //         lat: data[k].center[0],
+    //         lng: data[k].center[1]
+    //     };
+    //     if (getDistanceFromLatLon(geo, center) <= min) {
+    //         min = getDistanceFromLatLon(geo, center);
+    //         i = k;
+    //     }
+    // }
+    // if(route == 1){
+    //     return data[i].a1;
+    // }else if (route == 2) {
+    //     return data[i].a2;
+    // }
+
+    if(route == 1) {
+        for(k in data) {
+            let center = {
+                lat: data[k].center[0],
+                lng: data[k].center[1]
+            };
+            if (getDistanceFromLatLon(geo, center) <= min && data[k].a1!=null) {
+                         min = getDistanceFromLatLon(geo, center);
+                         i = k;
+            }
         }
-    }
-    if(route == 1){
         return data[i].a1;
-    }else if (route == 2) {
+    }
+    if(route == 2) {
+        for(k in data) {
+            let center = {
+                lat: data[k].center[0],
+                lng: data[k].center[1]
+            };
+            if (getDistanceFromLatLon(geo, center) <= min && data[k].a2!=null) {
+                         min = getDistanceFromLatLon(geo, center);
+                         i = k;
+            }
+        }
         return data[i].a2;
     }
 }
