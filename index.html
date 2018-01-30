@@ -2,99 +2,193 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=0.8, maximum-scale=0.8, minimum-scale=0.8, width=device-width, height=device-height"/>
+    
     <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="/static/auto-complete.css">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Demo tracking location A8</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-    #map {
-    height: 100%;
-    }
-    /* Optional: Makes the sample page fill the window. */
-    html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    }
 
-    #top-box-map {
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 10%;
-    z-index: 2;
-    cursor: pointer;
-    margin: auto;
-    padding-top: 125px;
-    }
-
-    #text-box-map{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 25px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    background-color: rgba(236, 166, 34, 0.5);
-    padding: 20px;
-    width: 65%;
-    height: 55px;
-    margin: 10px;
-    }
-
-    #snackbar {
-        visibility: hidden;
-        min-width: 300px; /* width of bar */
-        margin-left: -125px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 3px;
-        padding: 16px;
-        position: fixed;
-        z-index: 1;
-        left: 50%;
-        bottom: 30px;
-    }
-
-    /* Show the snackbar when clicking on a button (class added with JavaScript) */
-    #snackbar.show {
-        visibility: visible; /* Show the snackbar */
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        opacity: 0.85;
-    }
-    @-webkit-keyframes fadein {
-        from {bottom: 0; opacity: 0;} 
-        to {bottom: 30px; opacity: 1;}
-    }
-    @keyframes fadein {
-        from {bottom: 0; opacity: 0;}
-        to {bottom: 30px; opacity: 1;}
-    }
-    @-webkit-keyframes fadeout {
-        from {bottom: 30px; opacity: 1;} 
-        to {bottom: 0; opacity: 0;}
-    }
-    @keyframes fadeout {
-        from {bottom: 30px; opacity: 1;}
-        to {bottom: 0; opacity: 0;}
-    }
-
-    </style>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/auto-complete.min.js"></script>
   </head>
   <body>
-    <div class="top-box-map" id="top-box-map">
+    <div id="top-box-map">
         <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
-        <div class="text-box-map" id="text-box-map" onclick="topBoxMap();" >hello it's me A8 eiei</div>
+        <div id="text-box-map">
+
+            <input type="text" id="searchInput" placeholder="เลือกจุดจอดสำหรับปลายทาง">
+            <div id="a1position-w-bg" onclick="selectBusUI(1);" ><span id="a1-bus-geofence" class="text-overflow-bus-select"> </span></div>
+            <!-- <div id="a2position-w-bg"><img class="img-bus-a2" src="/static/truck-R2.png" >อาคารสำนึกงานอธิบดี</div>  -->
+            <div id="a2position-w-bg" onclick="selectBusUI(2);"><span id="a2-bus-geofence" class="text-overflow-bus-select"> </span></div> 
+
+        </div>
     </div>
+
+    <div id="time-progress">
+            
+        <div id="time-progress-timer-bar"> 
+            <img src="/static/bus-a1-progress.png" id="time-progress-timer-bar-bus-icon"> 
+            <div id="time-progress-timer-bar-loader"></div> 
+            <div id="time-progress-timer-bar-loader-value"></div> 
+            <img src="/static/user-icon.png" id="time-progress-timer-bar-user-icon"> 
+        </div>
+        
+
+        <div id="time-progress-timer-text"> 
+            <span id="time-progress-text-left"></span> 
+        </div>
+    </div>
+
     <div id="snackbar"></div>
     <div id="map"></div>
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeQFHoJuvG8zH6mWUfHXt9r5N8KBRnmXE&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAY5X5KIJR2Z7XkAeLEljA39CaOzoc_97Q&callback=initMap">
     </script>
     <script src="/static/script.js"></script>
+    <script>
+    
+    new autoComplete({
+        selector: 'input[id="searchInput"]',
+        minChars: 0,
+        source: function(term, suggest){
+            term = term.toLowerCase();
+            var choices = ['อาคารวิศววัฒนะ - บ้านธรรมรักษา 1', 'สำนักงานอธิการบดี', 'อาคารเรียนรวม 1', 'อาคารพระจอมเกล้าราชานุสรณ์ฯ', 'อาคารเรียนรวม 3', 'สำนักหอสมุด', 'สถาบันวิทยาการหุ่นยนต์ฯ', 'อาคารเอนกประสงค์', 'อาคารปฏิบัติการวิทยาศาสตร์ฯ' ];
+            var suggestions = [];
+            for (i = 0; i < choices.length; i++)
+                if (~choices[i].toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+            suggest(suggestions);
+            // for (i=0;i<choices.length;i++)
+            //         if (~(choices[i][0]).toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+            //     suggest(suggestions);
+        },
+        onSelect: function(e, term, item) {
+            // alert('term -> ' + term + '\n' + item);
+            for(i in geoBase){ //check name for get pass route
+                if(term == geoBase[i].name){
+                    if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
+                        selectBusUI(0); //next will select the closet bus
+                        timeEstimateUI(0);
+                    } else if(geoBase[i].a1 != undefined) {
+                        selectBusUI(1);
+                        timeEstimateUI(1);
+                    } else {
+                        selectBusUI(2);
+                        timeEstimateUI(2);
+                    }
+                }
+            }
+            document.getElementById('searchInput').value =' ' +term;
+        }
+    });
+
+
+    // var demo2 = new autoComplete({
+    //         selector: '#advanced-demo',
+    //         minChars: 0,
+    //         source: function(term, suggest){
+    //             term = term.toLowerCase();
+    //             var choices = [['Australia', 'au'], ['Austria', 'at'], ['Brasil', 'br'], ['Bulgaria', 'bg'], ['Canada', 'ca'], ['China', 'cn'], ['Czech Republic', 'cz'], ['Denmark', 'dk'], ['Finland', 'fi'], ['France', 'fr'], ['Germany', 'de'], ['Hungary', 'hu'], ['India', 'in'], ['Italy', 'it'], ['Japan', 'ja'], ['Netherlands', 'nl'], ['Norway', 'no'], ['Portugal', 'pt'], ['Romania', 'ro'], ['Russia', 'ru'], ['Spain', 'es'], ['Swiss', 'ch'], ['Turkey', 'tr'], ['USA', 'us']];
+    //             var suggestions = [];
+    //             for (i=0;i<choices.length;i++)
+    //                 if (~(choices[i][0]+' '+choices[i][1]).toLowerCase().indexOf(term)) suggestions.push(choices[i]);
+    //             suggest(suggestions);
+    //         },
+    //         renderItem: function (item, search){
+    //             search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
+    //             var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+    //             return '<div class="autocomplete-suggestion" data-langname="'+item[0]+'" data-lang="'+item[1]+'" data-val="'+search+'"><img src="img/'+item[1]+'.png"> '+item[0].replace(re, "<b>$1</b>")+'</div>';
+    //         },
+    //         onSelect: function(e, term, item){
+    //             console.log('Item "'+item.getAttribute('data-langname')+' ('+item.getAttribute('data-lang')+')" selected by '+(e.type == 'keydown' ? 'pressing enter' : 'mouse click')+'.');
+    //             document.getElementById('advanced-demo').value = item.getAttribute('data-langname')+' ('+item.getAttribute('data-lang')+')';
+    //         }
+    //     });
+
+    // function eventUI(term){ //just a function eiei it will collapse
+    //     for(i in geoBase){ //check name for get pass route
+    //             if(term == geoBase[i].name){
+    //                 if(geoBase[i].a1 != undefined && geoBase[i].a2 != undefined){
+    //                     selectBusUI(0); //next will select the closet bus
+    //                     timeEstimateUI(0);
+    //                 } else if(geoBase[i].a1 != undefined) {
+    //                     selectBusUI(1);
+    //                     timeEstimateUI(1);
+    //                 } else {
+    //                     selectBusUI(2);
+    //                     timeEstimateUI(2);
+    //                 }
+    //             }
+    //         }
+    // }
+    
+
+    function selectBusUI(selected) {
+
+        let a1 = document.getElementById('a1position-w-bg');
+        let a2 = document.getElementById('a2position-w-bg');
+
+        if(selected == 2) { //click bus a2 ui
+            timeEstimateUI(2);
+            document.getElementById('a1-bus-geofence').style.display = 'none';
+            a1.style.width = '29%';
+            document.getElementById('a2-bus-geofence').style.display = 'inline-block';
+            a2.style.width = '69%';
+        }else if (selected == 1) {
+            timeEstimateUI(1);
+            document.getElementById('a2-bus-geofence').style.display = 'none';
+            a2.style.width = '29%';
+            document.getElementById('a1-bus-geofence').style.display = 'inline-block';
+            
+            a1.style.width = '69%';
+        } else {
+            timeEstimateUI(0);
+            a1.style.width = '49%';
+            a2.style.width = '49%';
+            document.getElementById('a1-bus-geofence').style.display = 'inline-block';
+            document.getElementById('a2-bus-geofence').style.display = 'inline-block';
+        }
+    }
+
+    function timeEstimateUI(selected) {
+        console.log("time estimate selected -->" + selected);
+        let timeProgressbar = document.getElementById('time-progress');
+        // let timer = document.getElementById('time-progress-timer-text').innerText = sunmTime1;
+
+        if(selected == 0){
+            timeProgressbar.style.display = "none";
+            uiTimerSelected = 0;
+        } else if(selected == 1) {
+            uiTimerSelected = 1;
+            // loadingPercentCSS(1);
+            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
+            // document.getElementById('a1-bus-geofence').innerText = 'hello';
+            timeProgressbar.style.display = "inline";
+            // document.getElementById('time-progress-text-left').innerText = sunmTime1;
+        } else { //select = 2
+            uiTimerSelected = 2;
+            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
+            timeProgressbar.style.display = "inline";
+            // document.getElementById('time-progress-text-left').innerText = sunmTime2;
+        }
+    }
+
+    function loadingPercentCSS(selected) { //max loaderValue = 40%
+        let loaderCSS = document.getElementById('time-progress-timer-bar-loader-value').style;
+        let loaderValue;
+        if(selected == 1 && pathA1 > 0 && pathConstA1 > 0) {
+            loaderValue = (pathA1 / pathConstA1) * 0.40
+            loaderCSS.borderBottom = "3px solid rgb(209, 109, 28)";
+            loaderCSS.width = loaderValue + '%';
+        } else if (selected == 2 && pathA2 > 0 && pathConstA2 > null) {
+            loaderValue = (pathA2 / pathConstA2) * 0.40
+            loaderCSS.borderBottom = "3px solid rgb(41, 202, 26)";
+            loaderCSS.width = loaderValue + '%';
+        }
+    }
+
+    
+
+    </script>
   </body>
 </html>

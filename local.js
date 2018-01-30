@@ -10,6 +10,11 @@ const fs = require('fs');
 const mockup = require('./mockup-tracking');
 const trackingListenMain = require('./tracking-bus.js');
 
+const path = require('path')
+const reload = require('reload')
+const logger = require('morgan')
+
+
 const options = {
     key: fs.readFileSync('./certificate/server.key'),
     cert: fs.readFileSync('./certificate/server.crt'),
@@ -22,14 +27,14 @@ const options = {
 const ENV = process.env;
 
 const CONFIG = {
-	PORT: ENV.PORT
+	PORT: ENV.PORT || 443
 }
-const CONFIGHTTP = {
-	PORT: 4001
-}
+// const CONFIGHTTP = {
+// 	PORT: 443
+// }
 
 const app = express();
-const appHTTP = express();
+// const appHTTP = express();
 
 // Create socketIO and wrap app server inside
 // const server = http.Server(app);
@@ -37,17 +42,20 @@ const appHTTP = express();
 // serverHTTP.listen(4001);
 
 const server = https.createServer(options, app);
-const serverHTTP = http.createServer(app);
+// const serverHTTP = http.createServer(app);
 
 
-appHTTP.use(bodyParser.urlencoded({ extended: false }));
-appHTTP.use(bodyParser.json());
-appHTTP.use('*', (req, res) => {  
-    res.redirect('https://' + req.headers.host + req.url);
+// appHTTP.use(bodyParser.urlencoded({ extended: false }));
+// appHTTP.use(bodyParser.json());
+// appHTTP.use('*', (req, res) => {  
+//     res.redirect('https://' + req.headers.host + req.url);
 
-    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-    // res.redirect('https://example.com' + req.url);
-});
+//     // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
+//     // res.redirect('https://example.com' + req.url);
+// });
+reload(app);
+
+
 const io = socketIO(server);
 
 
@@ -73,9 +81,9 @@ app.get('/bus-tracking/a2', (req, res) => {
 server.listen(CONFIG.PORT, () => {
 	console.log('ServerHTTPS is running at port: ' + CONFIG.PORT);
 });
-serverHTTP.listen(CONFIGHTTP.PORT, () => {
-	console.log('ServerHTTP is running at port: ' + CONFIGHTTP.PORT);
-});
+// serverHTTP.listen(CONFIGHTTP.PORT, () => {
+// 	console.log('ServerHTTP is running at port: ' + CONFIGHTTP.PORT);
+// });
 
 
 io.on('connection', socket => {

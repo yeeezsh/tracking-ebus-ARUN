@@ -1,0 +1,292 @@
+#map {
+    height: 100%;
+    z-index: 1;
+    }
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+#top-box-map {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 0%;
+    z-index: 2;
+    cursor: pointer;
+    margin: auto;
+    padding-top: 250px;
+}
+#text-box-map{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    font-size: 25px;
+    color: white;
+    transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    /* background-color: rgba(236, 166, 34, 0.5); */
+    padding: 5px;
+    width: 80%;
+    height: 30%;
+    max-height: 300px;
+    margin: 0px;
+}
+
+#searchInput {
+    list-style-type: none; /* search icon float on left*/
+    display: inline;
+    background-image: url('/static/placeholder-icon.png');
+    background-position: 8px 50%;
+    background-repeat: no-repeat;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    font-size: 0.75em;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0px solid #ddd;
+    margin-bottom: 12px;
+    width: 100%;
+    text-indent: 40px;
+    min-height: 45px;
+    border-radius: 5px;
+}
+
+#a1position-w-bg {
+    float: left;
+    width: 49%;
+
+    display: table-column;
+    /* list-style-type: none; */
+    background-image: url('/static/place/witt-sawa-wattana.jpg'); /* Add a search icon to input */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    background-size: 110%;
+    background-position: 50%;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+    font-size: .8em; /* Increase font-size */
+    padding-top: 20px;
+    padding-bottom: 17px;
+
+    margin-bottom: 12px; /* Add some space below the input */
+    text-align: center;
+    border-radius: 5px;
+    height: 45%;
+    z-index: 4;
+
+    -webkit-transition: width .2s; /* Safari */
+    transition: width .2s;
+}
+
+
+#a2position-w-bg {
+    float: right;
+    width: 49%;
+
+    display: table-column;
+    /* list-style-type: none; */
+    background-image: url('/static/place/the-hub.jpg'); /* Add a search icon to input */
+    background-repeat: no-repeat; /* Do not repeat the icon image */
+    background-size: 110%;
+    background-position: 50%;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    font-size: .8em; /* Increase font-size */
+    padding-top: 20px;
+    padding-bottom: 17px;
+
+    margin-bottom: 12px; /* Add some space below the input */
+    text-align: center;
+    border-radius: 5px;
+    height: 45%;
+    z-index: 4;
+
+    -webkit-transition: width .2s; /* Safari */
+    transition: width .2s;
+
+}
+
+.text-overflow-bus-select {
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    width:36vmin;
+    display:inline-block;
+
+}
+
+.img-bus-a2 {
+    margin: -30px -20px -30px -10px;
+    width: 50px;
+    float: left;
+}
+
+#time-progress {
+    /* visibility: hidden; */
+    max-width: 80%; /* width of bar */
+    display: none;
+    /* margin-left: -165px; */
+    background-color: rgba(255, 255, 255, .9);
+    color: black;
+
+    /* text-align: center; */
+    border-radius: 3px;
+    /* padding-top: 25px; */
+    padding-bottom: 16px;
+    position: fixed;
+    z-index: 4;
+    left: 10%;
+    bottom: 36px;
+
+}
+
+#time-progress.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+
+    opacity: 0.85;
+}
+#time-progress-timer-text{
+    float: left;
+    right: 5%;
+    width: 25%;
+
+    padding-top: 20px;
+
+
+    /* border-bottom: 1px solid #000; */
+    font-size: 100%;
+
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+
+    opacity: 0.85;
+    /* position: relative; */
+}
+#time-progress-timer-bar{
+    float: left;
+    width: 70%;
+    display: table;
+
+    /* border-bottom: 1px solid #000; */
+    padding-top: 25px;
+
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+
+    opacity: 0.85;
+}
+#time-progress-timer-bar-loader{
+    float: left;
+    position: relative;
+    left: 3%;
+
+    z-index: 4;
+
+    width: 46%;
+    height:3.2vw;
+    border-bottom: 1px solid rgb(219, 219, 219);
+
+}
+
+#time-progress-timer-bar-loader-value{
+    float: left;
+    position: absolute;
+    left: 6%;
+
+    z-index: 5;
+
+    width: 13%; /* max is 46%*/
+    height:3.2vw;
+    /* border-bottom: 3px solid rgb(209, 109, 28); */
+
+}
+
+#time-progress-timer-bar-bus-icon{
+    position: relative;
+    float: left;
+    left: 3%;
+    width: 12%;
+    z-index: 6;
+
+}
+#time-progress-timer-bar-user-icon{
+    position: relative;
+    float: left;
+    left: 3%;
+    width: 12%;
+    z-index: 6;
+}
+
+#time-progress-timer-bar.show{
+    visibility: visible;
+
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+#down-box-map {
+    position: fixed;
+    display: block;
+    width: 100%;
+    height: 0%;
+    z-index: 4;
+    /* cursor: auto; */
+    pointer-events: none;
+    margin: auto;
+    padding-top: 70vh;
+    left: 10%;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 80%; /* width of bar */
+    /* margin-left: -165px; */
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    position: fixed;
+    z-index: 4;
+    left: 10%;
+    bottom: 35px;
+
+    /* -webkit-animation: fadeout 2.5s; */
+}
+
+/* show the snackbar when clicking on a button (class added with JS) */
+#snackbar.show {
+    visibility: visible;
+    /* -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s; */
+
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+
+    opacity: 0.85;
+}
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

@@ -1,5 +1,3 @@
-// import { start } from "repl";
-
 var markers = {};
 var map;
 var socket = io();
@@ -12,10 +10,23 @@ var posGeo;
 var pathA1;
 var pathA2;
 var time = 0;
-var countTime = 0;
+var countTime1 = 0;
+var countTime2 = 0;
 var sumTime1 = 0;
 var sumTime2 = 0;
+var pathConstA1;
+var pathConstA2;
+// const a1CircleData = 6; //stop configuration
+// const a2CircleData = 8;
+const circleDataConfig = {
+    a1: 6,
+    a2: 8
+}
+var uiTimerSelected = 0;
+var t1, t2;
 
+// var pathConstA1;
+// var pathConstA2;
 
 const geoBase = [
     {
@@ -85,17 +96,19 @@ function initMap() {
 
     //map initial --> prioritize
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 18,
-        center: {lat: 13.651011, lng: 100.493944}
+        zoom: 16,
+        // center: {lat: 13.651011, lng: 100.493944}
+        center: {lat:13.651529, lng:100.494347},
+        disableDefaultUI: true
     });
 
     socket.on("connect", function() {
 
-        snackBar("You have connected to server.", 3500)
+        snackBar("เชื่อมต่อกับเซิร์ฟเวอร์แล้ว", 3500)
     });
 
     socket.on("disconnect", function() {
-        snackBar("You have been disconnected from server.", 10000);
+        snackBar("ขาดการเชื่อมต่อกับเซิร์ฟเวอร์", -1);
     });
 
     //mockup A1 A2
@@ -110,17 +123,6 @@ function initMap() {
         }
     });
 
-
-
-
-    //     //want to know distance from bus to you
-    // //***********
-    // let stopNodeA1 = compareCloseNode(posGeo, geoBase, 1);
-    // let stopNodeA2 = compareCloseNode(posGeo, geoBase, 2);
-    // estimateRoute(posBusA1.node, stopNodeA1, 1); //A1
-    // estimateRoute(posBusA2.node, stopNodeA2, 2); //A2
-
-    // busA1 marker
     socket.on("trackingBusA1Broadcast", function(data){
         console.log(data);
         posBusA1 = {
@@ -130,14 +132,17 @@ function initMap() {
             building:data.building,
             speed: data.speed
         };
+
+        document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+
         if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
                 position: posBusA1,
                 map: map,
                 icon: {
                     url: '/static/truck.png',
-                    size: new google.maps.Size(150, 150),
-                    scaledSize: new google.maps.Size(50, 50),
+                    size: new google.maps.Size(100, 100),
+                    scaledSize: new google.maps.Size(65, 65),
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(25, 25),
                     optimized: false
@@ -145,11 +150,22 @@ function initMap() {
             });
         } else if(posBusA1.lat != null) {
             busA1Marker.setPosition(posBusA1);
-            console.log(getDistanceFromLatLon(posGeo, posBusA1));
-            estimateRoute(posBusA1.node, compareCloseNode(posGeo, geoBase, 1), 1); //A1
+            console.log("a1 far from you" + getDistanceFromLatLon(posGeo, posBusA1));
+            let closeNodePos=compareCloseNode(posGeo, geoBase, 1);
+            if(closeNodePos==null){
+                console.log("Rod mai pass kong A1"); //Do something
+            }
+            else{
+                estimateRoute(posBusA1.node, closeNodePos, 1); //A1
+            }
         } else {
             console.log("A1 broadcast connect but not get position");
         }
+
+        if (posGeo != null && posBusA1 != null && pathConstA1 == null){
+            pathConstA1 = getDistanceFromLatLon(posGeo, posBusA1); //set first const path for get %
+        } 
+
     });
 
         // busA2 marker
@@ -162,60 +178,43 @@ function initMap() {
                 building:data.building,
                 speed: data.speed
             };
+
+            document.getElementById('a2-bus-geofence').innerText = posBusA2.building;
+
             if (busA2Marker == null && posBusA2.lat != null) {
                     busA2Marker = new google.maps.Marker({
                     position: posBusA2,
                     map: map,
                     icon: {
                         url: '/static/truck-R2.png',
-                        size: new google.maps.Size(150, 150),
-                        scaledSize: new google.maps.Size(50, 50),
+                        size: new google.maps.Size(100, 100),
+                        scaledSize: new google.maps.Size(65, 65),
                         origin: new google.maps.Point(0, 0),
                         anchor: new google.maps.Point(25, 25),
                         optimized: false
                     }
                 });
+                const pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
             } else if(posBusA2.lat != null) {
                 busA2Marker.setPosition(posBusA2);
-                console.log(getDistanceFromLatLon(posGeo, posBusA2));
-                estimateRoute(posBusA2.node, compareCloseNode(posGeo, geoBase, 2),2); //A1
+                console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
+                let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
+                if(closeNodePos==null){
+                    console.log("Rod mai pass kong A2");
+                }
+                else{
+                    estimateRoute(posBusA2.node, closeNodePos,2); //A2
+                }
                 // console.log(posBusA2.node);
             } else {
                 console.log("A2 broadcast connect but not get position");
             }
+
+            if (posGeo != null && posBusA2 != null && pathConstA2 == null){
+                pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
+            } 
+
         });
-
-    // // busA2 marker
-    // socket.on("trackingBusA2Broadcast", function(data){
-    //     console.log(data);
-    //     let posBusA2 = {
-    //         lat: data.lat,
-    //         lng: data.lng
-    //     }
-    //     if (busA2Marker == null && posBusA2.lat != null) {
-    //             busA2Marker = new google.maps.Marker({
-    //             position: posBusA2,
-    //             map: map,
-    //             icon: {
-    //                 url: '/static/truck-R2.png',
-    //                 size: new google.maps.Size(150, 150),
-    //                 scaledSize: new google.maps.Size(50, 50),
-    //                 origin: new google.maps.Point(0, 0),
-    //                 anchor: new google.maps.Point(25, 25),
-    //                 optimized: false
-    //             }
-    //         });
-    //     } else if(posBusA2.lat != null) {
-    //         busA2Marker.setPosition(posBusA2);
-    //         console.log(getDistanceFromLatLon(posGeo, posBusA2));
-    //         console.log('A2 > closet node -->' + compareCloseNode(posGeo, geoBase, 2));
-
-    //     } else {
-    //         console.log("A2 broadcast connect but not get position");
-    //     }
-    // });
-
-    //geo function
 
     var options = {
         enableHighAccuracy: true,
@@ -224,26 +223,26 @@ function initMap() {
     };
     
     
-    function error(err) {
+    function error(err) { //gps error
         console.warn('ERROR(' + err.code + '): ' + err.message);
     };
 
     navigator.geolocation.watchPosition(successGeo, error, options);
     ///end geo call
 
-
-
 }; ///////////// finish init()
 
 function snackBar(snackBarText, s) {
-    var snackbar = document.getElementById("snackbar")
+    let snackbar = document.getElementById("snackbar")
     // Add the "show" class to DIV
     snackbar.className = "show";
     snackbar.innerHTML = snackBarText;
     // After 3 seconds, remove the show class from DIV
-    setTimeout(function() {
-        snackbar.className = snackbar.className.replace("show", ""); 
-    }, s);
+    if(s > -1) { //still show on screen
+        setTimeout(function() {
+            snackbar.className = snackbar.className.replace("show", ""); 
+        }, s);
+    }
 };
 
 function successGeo(pos) {
@@ -262,8 +261,8 @@ function successGeo(pos) {
         map: map,
             icon: {
                 url: '/static/locator.png',
-                size: new google.maps.Size(150, 150),
-                scaledSize: new google.maps.Size(50, 50),
+                size: new google.maps.Size(100, 100),
+                scaledSize: new google.maps.Size(45, 45),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(25, 25),
                 optimized: false
@@ -275,6 +274,8 @@ function successGeo(pos) {
     //your location close to 
     console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
     console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
+    
+    // showA1(); //show estimate time A1 / A2
 
 
 };
@@ -285,16 +286,16 @@ function getDistanceFromLatLon(pos1, pos2) {
     let lat2 = pos2.lat;
     let lon2 = pos2.lng;
 
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = deg2rad(lon2-lon1); 
-    var a = 
+    let R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = deg2rad(lon2-lon1); 
+    let a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
       Math.sin(dLon/2) * Math.sin(dLon/2)
       ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    var d = R * c; // Distance in km
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    let d = R * c; // Distance in km
     d = d * 1000 //convert to m
     return d;
   }
@@ -306,44 +307,49 @@ function getDistanceFromLatLon(pos1, pos2) {
   function compareCloseNode(geo, data, route){
     let min = 999999;
     let i = 0;
-    for(k in data) {
-        let center = {
-            lat: data[k].center[0],
-            lng: data[k].center[1]
-        };
-        if (getDistanceFromLatLon(geo, center) <= min) {
-            min = getDistanceFromLatLon(geo, center);
-            i = k;
+    // for(k in data) {
+    //     let center = {
+    //         lat: data[k].center[0],
+    //         lng: data[k].center[1]
+    //     };
+    //     if (getDistanceFromLatLon(geo, center) <= min) {
+    //         min = getDistanceFromLatLon(geo, center);
+    //         i = k;
+    //     }
+    // }
+    // if(route == 1){
+    //     return data[i].a1;
+    // }else if (route == 2) {
+    //     return data[i].a2;
+    // }
+
+    if(route == 1) {
+        for(k in data) {
+            let center = {
+                lat: data[k].center[0],
+                lng: data[k].center[1]
+            };
+            if (getDistanceFromLatLon(geo, center) <= min) {
+                         min = getDistanceFromLatLon(geo, center);
+                         i = k;
+            }
         }
-    }
-    if(route == 1){
         return data[i].a1;
-    }else if (route == 2) {
+    }
+    if(route == 2) {
+        for(k in data) {
+            let center = {
+                lat: data[k].center[0],
+                lng: data[k].center[1]
+            };
+            if (getDistanceFromLatLon(geo, center) <= min) {
+                         min = getDistanceFromLatLon(geo, center);
+                         i = k;
+            }
+        }
         return data[i].a2;
     }
 }
-
-
-//     function newMarkerBusA1(k, location) {
-//     if (busA1Marker[k] == null) {
-//         busA1Marker[k] = new google.maps.Marker({
-//             position : location,
-//             map: map,
-//             icon: {
-//                 url: '/static/test.png',
-//                 size: new google.maps.Size(100, 100),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             } 
-//         });
-//     } else {
-//         busA1Marker[k].setPosition(location);
-//     }    
-// };
-
-
 
 function newMarker(k, location) {
     if (markers[k] == null) {
@@ -383,41 +389,20 @@ function newMarkerR2(k, location) {
     } 
 };
 
-function topBoxMap() {
-    // socket.on("locationUpdatedR2", function(locationStateR2){
-    //     for (var kR2 in locationStateR2) {
-    //         document.getElementById("text-box-map").innerText = locationStateR2[kR2].lat + "+" + locationStateR2[kR2].lng
-    //     }
-    // });
-    
-
-    //assume A1 selected
-    showA1();
-    
-};
-setTimeout(topBoxMap, 1000);
-
-function showA1(){
-    // document.getElementById('text-box-map-img').innerHTML = '<img src="/static/truck.png">'
-    document.getElementById('text-box-map').innerHTML = '<span>' + sumTime1 +'</span>' +'<br>'+
-                                                        '<span>' + sumTime2 + '</span>';
-}
-
-// console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
-
 function estimateRoute(startNode, stopNode, route) { //function will return total path in meters (m)
-    pathA1=0.0;
-    pathA2=0.0;
+    pathA1=0;
+    pathA2=0;
     if(route == 1 && startNode != stopNode){ //stop node at 5
         // console.log(getDistanceFromLatLon(geoBase[startNode].center,geoBase[nextNode]));
         // console.log("hello");
         sumTime = 0;
-        countTime = 0;
+        countTime1 = 0;
+        countTime2 = 0;
         pathA1 = 0.0;
         console.log("estimate route 1 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % 6;
+            let nextNode = (startNode + 1) % circleDataConfig.a1; //magic number 1
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 1);
@@ -438,12 +423,13 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         }
     } else if (route == 2 && startNode != stopNode) {
         sumTime = 0;
-        countTime = 0;
+        countTime1 = 0;
+        countTime2 = 0;
         pathA2 = 0;
         console.log("estimate route 2 working");
         console.log(startNode+"----"+stopNode+"----"+route);
         while(startNode != stopNode) {
-            let nextNode = (startNode + 1) % 8;
+            let nextNode = (startNode + 1) % circleDataConfig.a2; //magic number 2
             // if(startNode > 5) startNode = 0
             console.log('startNode -->'+startNode);
             let startNodeA = findNode(startNode, 2);
@@ -460,36 +446,55 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
             pathA2 += getDistanceFromLatLon(geoStart,geoStop);
             startNode = nextNode;
 
-            console.log("A2 path --->" + pathA2);
+            console.log("A2 path --->" + pathA2 + 'm');
             
         }
     } else if (startNode == stopNode && route == 1) {
+        pathA1=getDistanceFromLatLon(posGeo, posBusA1);
         console.log(getDistanceFromLatLon(posGeo, posBusA1));
     } else if(startNode == startNode && route == 2){
+        pathA2=getDistanceFromLatLon(posGeo, posBusA2);
         console.log(getDistanceFromLatLon(posGeo, posBusA2));
     }
     let Sumpath=pathA1+pathA2;
     if(posBusA1.speed != null && posBusA1.speed != 0){
-        let t = pathA1 / posBusA1.speed;
-        console.log('t -->' + pathA1);
-        console.log('estimate time -->'+estimateTime(sumTime1, countTime, t));
-        sumTime1 += t;
-        countTime++;
+        t1 = pathA1 / posBusA1.speed;
+        console.log('pathA1 -->' + pathA1 + 'm');
+        console.log('Speed A1  '+ posBusA1.speed);
+        //console.log('estimate time -->'+estimateTime(sumTime1, countTime1, t));
+        console.log('est time = '+ t1 + 's');
+        /*sumTime1 += t;
+        countTime1++;*/
+
+
+        if(uiTimerSelected == 1){ //ui refesh
+            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
+            loadingPercentCSS(1);
+        }
+
     } if(posBusA2.speed != null && posBusA2.speed != 0){
-        let t = pathA2 / posBusA2.speed;
-        console.log('t -->' + pathA2);
-        console.log('estimate time -->'+estimateTime(sumTime2, countTime, t));
-        sumTime2 += t;
-        countTime++;
+        t2 = pathA2 / posBusA2.speed;
+        console.log('pathA2 -->' + pathA2);
+        console.log('Speed A2  '+ posBusA2.speed);
+        //console.log('estimate time -->'+estimateTime(sumTime2, countTime2, t));
+        console.log('est time = '+ t2 + 's');
+        /*sumTime2 += t;
+        countTime2++;*/
+
+        if(uiTimerSelected == 2){//
+            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
+            loadingPercentCSS(2);
+        }
+        
     }
 };
 
-function estimateTime(sum, n, newTime){
+function estimateTime(sum, n, newTime){ // not use now // for gradian time make it natural estimate
     n++;
     return (sum + newTime) / n
 }
 
-function findNode(index, route) {
+function findNode(index, route) { //translate node to array index
     if(route == 1) {
         for(i in geoBase) {
             if(geoBase[i].a1 == index) return i;
@@ -500,63 +505,4 @@ function findNode(index, route) {
         }
     }
 
-}
-
-
-//bug some devices
-
-// alert('Latitude : ' + crd.latitude + 'Longitude: ' + crd.longitude + 'More or less ' + crd.accuracy + ' meters.')
-
-// function markerGeo(k, posGeo) {
-//     if (markers[k] == null) {
-//         markers[k] = new google.maps.Marker({
-//             position : location,
-//             map: map,
-//             icon: {
-//                 url: '/static/truck-R2.png',
-//                 size: new google.maps.Size(100, 100),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             } 
-//         });
-//     } else {
-//         markers[k].setPosition(posGeo);
-//     } 
-// };
-
-// var markerGeo = new google.maps.Marker({
-//     position: posGeo,
-//     map: map,
-//         icon: {
-//             url: '/static/locator.png',
-//             size: new google.maps.Size(150, 150),
-//             scaledSize: new google.maps.Size(50, 50),
-//             origin: new google.maps.Point(0, 0),
-//             anchor: new google.maps.Point(25, 25),
-//             optimized: false
-//         }
-//     })
-
-// function newGeoMarker(posGeo) {
-//     if(markerGeo == null) {
-//         var markerGeo = new google.maps.Marker({
-//             position: posGeo,
-//             map: map,
-//             icon: {
-//                 url: '/static/locator.png',
-//                 size: new google.maps.Size(150, 150),
-//                 scaledSize: new google.maps.Size(50, 50),
-//                 origin: new google.maps.Point(0, 0),
-//                 anchor: new google.maps.Point(25, 25),
-//                 optimized: false
-//             }    
-//         })
-//     } else {
-//         markerGeo.setPosition(posGeo);
-//     }
-// };
-
-
-
+};
