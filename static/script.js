@@ -480,8 +480,8 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
 
 
         if(uiTimerSelected == 1){ //ui refesh
-            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
-            // loadingPercentCSS(1);
+            timeGrading(t1);
+            loadingPercentCSS(1);
         }
 
     } if(posBusA2.speed != null && posBusA2.speed != 0){
@@ -494,13 +494,50 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         countTime2++;*/
 
         if(uiTimerSelected == 2){//
-            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
-            // loadingPercentCSS(2);
+            timeGrading(t2);
+            loadingPercentCSS(2);
         }
         
     }
 };
-
+function timeGrading(time) //show time UI
+{
+    let showString; 
+    // <30sec <1min <2min <3min <5min <10min <20min
+    if(time<=30)
+    {
+        showString="น้อยกว่า 30 วินาที";
+    }
+    else if(time<=60)
+    {
+        showString="น้อยกว่า 1 นาที";
+    }
+    else if(time<=120)
+    {
+        showString="น้อยกว่า 2 นาที";
+    }
+    else if(time<=180)
+    {
+        showString="น้อยกว่า 3 นาที";
+    }
+    else if(time<=300)
+    {
+        showString="น้อยกว่า 5 นาที";
+    }
+    else if(time<=600)
+    {
+        showString="น้อยกว่า 10 นาที";
+    }
+    else if(time<=1200)
+    {
+        showString="น้อยกว่า 20 นาที";
+    }
+    else
+    {
+        showString="มากกว่า 20 นาที";
+    }
+    document.getElementById('time-progress-text-left').innerText = showString;
+}
 function estimateTime(sum, n, newTime){ // not use now // for gradian time make it natural estimate
     n++;
     return (sum + newTime) / n
