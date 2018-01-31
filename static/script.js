@@ -133,7 +133,10 @@ function initMap() {
             speed: data.speed
         };
 
-        document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+        if(posBusA1.building == undefined || posBusA1.building == null) {
+            document.getElementById('a1-bus-geofence').innerText = "รถยังไม่พร้อมให้บริการ";
+        } else document.getElementById('a1-bus-geofence').innerText = posBusA1.building;
+        
 
         if (busA1Marker == null && posBusA1.lat != null) {
                 busA1Marker = new google.maps.Marker({
@@ -164,60 +167,122 @@ function initMap() {
             console.log("A1 broadcast connect but not get position");
         }
 
-        if (posGeo != null && posBusA1 != null && pathConstA1 == 0){
-            pathConstA1 = getDistanceFromLatLon(posGeo, posBusA1); //set first const path for get %
+        if (posGeo != null && pathConstA1 == 0 && pathA1 != 0){
+            pathConstA1 = pathA1; //set first const path for get %
+            console.log('pathconst -->' + pathConstA1);
         } 
+
+        console.log('pathconst -->' + pathConstA1);
 
     });
 
-        // busA2 marker
-        socket.on("trackingBusA2Broadcast", function(data){
-            console.log(data);
-            posBusA2 = {
-                lat: data.lat,
-                lng: data.lng,
-                node:data.nodeRoute,
-                building:data.building,
-                speed: data.speed
-            };
 
-            document.getElementById('a2-bus-geofence').innerText = posBusA2.building;
+    //a2 marker
+    socket.on("trackingBusA2Broadcast", function(data){
+        console.log(data);
+        posBusA2 = {
+            lat: data.lat,
+            lng: data.lng,
+            node:data.nodeRoute,
+            building:data.building,
+            speed: data.speed
+        };
 
-            if (busA2Marker == null && posBusA2.lat != null) {
-                    busA2Marker = new google.maps.Marker({
-                    position: posBusA2,
-                    map: map,
-                    icon: {
-                        url: '/static/truck-R2.png',
-                        size: new google.maps.Size(100, 100),
-                        scaledSize: new google.maps.Size(65, 65),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(25, 25),
-                        optimized: false
-                    }
-                });
-                const pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
-            } else if(posBusA2.lat != null) {
-                busA2Marker.setPosition(posBusA2);
-                console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
-                let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
-                if(closeNodePos==null){
-                    console.log("Rod mai pass kong A2");
-                    // routeNotPassUI(2);
+        if (posBusA2.building == undefined || posBusA2.building == null) {
+            document.getElementById('a2-bus-geofence').innerText = "รถยังไม่พร้อมให้บริการ";
+        } else document.getElementById('a2-bus-geofence').innerText = posBusA2.building;
+        
+
+        if (busA2Marker == null && posBusA2.lat != null) {
+                busA2Marker = new google.maps.Marker({
+                position: posBusA2,
+                map: map,
+                icon: {
+                    url: '/static/truck-R2.png',
+                    size: new google.maps.Size(100, 100),
+                    scaledSize: new google.maps.Size(65, 65),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(25, 25),
+                    optimized: false
                 }
-                else{
-                    estimateRoute(posBusA2.node, closeNodePos,2); //A2
-                }
-                // console.log(posBusA2.node);
-            } else {
-                console.log("A2 broadcast connect but not get position");
+            });
+        } else if (posBusA2.lat != null) {
+            busA2Marker.setPosition(posBusA2);
+            console.log("a2far from you" + getDistanceFromLatLon(posGeo, posBusA2));
+            let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
+            if(closeNodePos==null){
+                console.log("Rod mai pass kong A2"); //Do something
+                // routeNotPassUI(2);
+
             }
+            else{
+                estimateRoute(posBusA2.node, closeNodePos, 2); //A2
+            }
+        } else {
+            console.log("A2 broadcast connect but not get position");
+        }
 
-            if (posGeo != null && posBusA2 != null && pathConstA2 == 0){
-                pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
-            } 
+        if (posGeo != null && pathConstA2 == 0 && pathA2 != 0){
+            pathConstA2 = pathA2; //set first const path for get %
+            console.log('pathconst 2 -->' + pathConstA2);
+        } 
 
-        });
+        console.log('pathconst 2 -->' + pathConstA2);
+
+    });
+
+        // // busA2 marker
+        // socket.on("trackingBusA2Broadcast", function(data){
+        //     console.log(data);
+        //     posBusA2 = {
+        //         lat: data.lat,
+        //         lng: data.lng,
+        //         node:data.nodeRoute,
+        //         building:data.building,
+        //         speed: data.speed
+        //     };
+
+        //     // document.getElementById('a2-bus-geofence').innerText = posBusA2.building;
+
+        //     if(posBusA2.building == undefined || posBusA2.building == null) {
+        //         document.getElementById('a2-bus-geofence').innerText = "รถยังไม่พร้อมให้บริการ";
+        //     }
+
+        //     if (busA2Marker == null && posBusA2.lat != null) {
+        //             busA2Marker = new google.maps.Marker({
+        //             position: posBusA2,
+        //             map: map,
+        //             icon: {
+        //                 url: '/static/truck-R2.png',
+        //                 size: new google.maps.Size(100, 100),
+        //                 scaledSize: new google.maps.Size(65, 65),
+        //                 origin: new google.maps.Point(0, 0),
+        //                 anchor: new google.maps.Point(25, 25),
+        //                 optimized: false
+        //             }
+        //         });
+        //         const pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
+        //     } else if(posBusA2.lat != null) {
+        //         busA2Marker.setPosition(posBusA2);
+        //         console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
+        //         let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
+        //         if(closeNodePos==null){
+        //             console.log("Rod mai pass kong A2");
+        //             // routeNotPassUI(2);
+        //         }
+        //         else{
+        //             estimateRoute(posBusA2.node, closeNodePos,2); //A2
+        //         }
+        //         // console.log(posBusA2.node);
+        //     } else {
+        //         console.log("A2 broadcast connect but not get position");
+        //     }
+
+        //     if (posGeo != null && posBusA2 != null && pathConstA2 == 0){
+        //         pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
+        //     } 
+
+        // });
 
     var options = {
         enableHighAccuracy: true,
