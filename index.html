@@ -187,6 +187,25 @@
         }
     }
 
+    function routeNotPassUI(selected) {
+        let greyUI1 = document.getElementById('a1position-w-bg');
+        let greyUI2 = document.getElementById('a2position-w-bg');
+        if(selected == 1) {
+            greyUI1.className = 'grayButton';
+            selectBusUI(2);
+            greyUI2.className = '';
+
+        } else if(selected == 2) {
+            greyUI2.className = 'grayButton';
+            selectBusUI(1);
+            greyUI1.className = '';
+        } else {
+            greyUI1.className = '';
+            greyUI2.className = '';
+            selectBusUI(0);
+        }
+    }
+
     
 
     </script>

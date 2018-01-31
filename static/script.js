@@ -154,6 +154,8 @@ function initMap() {
             let closeNodePos=compareCloseNode(posGeo, geoBase, 1);
             if(closeNodePos==null){
                 console.log("Rod mai pass kong A1"); //Do something
+                routeNotPassUI(1);
+
             }
             else{
                 estimateRoute(posBusA1.node, closeNodePos, 1); //A1
@@ -201,6 +203,7 @@ function initMap() {
                 let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
                 if(closeNodePos==null){
                     console.log("Rod mai pass kong A2");
+                    routeNotPassUI(2);
                 }
                 else{
                     estimateRoute(posBusA2.node, closeNodePos,2); //A2
@@ -275,6 +278,15 @@ function successGeo(pos) {
     console.log('A1 > you closet node -->' + compareCloseNode(posGeo, geoBase, 1));
     console.log('A2 > you closet node -->' + compareCloseNode(posGeo, geoBase, 2));
     
+
+    if(compareCloseNode(posGeo, geoBase, 1) == null) {
+        routeNotPassUI(1);
+    }else if (compareCloseNode(posGeo, geoBase, 2) == null) {
+        routeNotPassUI(2);
+    } else {
+        routeNotPassUI(0);
+    }
+
     // showA1(); //show estimate time A1 / A2
 
 
