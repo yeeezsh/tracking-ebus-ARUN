@@ -284,21 +284,23 @@ function initMap() {
 
         // });
 
-    var options = {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-    };
-    
-    
-    function error(err) { //gps error
-        console.warn('ERROR(' + err.code + '): ' + err.message);
-    };
 
-    navigator.geolocation.watchPosition(successGeo, error, options);
-    ///end geo call
 
 }; ///////////// finish init()
+
+var options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+};
+
+
+function error(err) { //gps error
+    console.warn('ERROR(' + err.code + '): ' + err.message);
+};
+
+navigator.geolocation.watchPosition(successGeo, error, options);
+///end geo call
 
 function snackBar(snackBarText, s) {
     let snackbar = document.getElementById("snackbar")
