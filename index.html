@@ -160,6 +160,7 @@
             uiTimerSelected = 0;
         } else if(selected == 1) {
             uiTimerSelected = 1;
+            document.getElementById('time-progress-timer-bar-bus-icon').src = "/static/bus-a1-progress.png";
             // loadingPercentCSS(1);
             // document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
             // document.getElementById('a1-bus-geofence').innerText = 'hello';
@@ -167,6 +168,7 @@
             // document.getElementById('time-progress-text-left').innerText = sunmTime1;
         } else { //select = 2
             uiTimerSelected = 2;
+            document.getElementById('time-progress-timer-bar-bus-icon').src = "/static/bus-a2-progress.png";
             // document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
             timeProgressbar.style.display = "inline";
             // document.getElementById('time-progress-text-left').innerText = sunmTime2;

@@ -208,7 +208,7 @@ function initMap() {
             });
         } else if (posBusA2.lat != null) {
             busA2Marker.setPosition(posBusA2);
-            console.log("a2far from you" + getDistanceFromLatLon(posGeo, posBusA2));
+            console.log("a2 far from you" + getDistanceFromLatLon(posGeo, posBusA2));
             let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
             if(closeNodePos==null){
                 console.log("Rod mai pass kong A2"); //Do something
