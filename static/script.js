@@ -154,7 +154,7 @@ function initMap() {
             let closeNodePos=compareCloseNode(posGeo, geoBase, 1);
             if(closeNodePos==null){
                 console.log("Rod mai pass kong A1"); //Do something
-                routeNotPassUI(1);
+                // routeNotPassUI(1);
 
             }
             else{
@@ -203,7 +203,7 @@ function initMap() {
                 let closeNodePos=compareCloseNode(posGeo, geoBase, 2);
                 if(closeNodePos==null){
                     console.log("Rod mai pass kong A2");
-                    routeNotPassUI(2);
+                    // routeNotPassUI(2);
                 }
                 else{
                     estimateRoute(posBusA2.node, closeNodePos,2); //A2
@@ -481,7 +481,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
 
         if(uiTimerSelected == 1){ //ui refesh
             document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
-            loadingPercentCSS(1);
+            // loadingPercentCSS(1);
         }
 
     } if(posBusA2.speed != null && posBusA2.speed != 0){
@@ -495,7 +495,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
 
         if(uiTimerSelected == 2){//
             document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
-            loadingPercentCSS(2);
+            // loadingPercentCSS(2);
         }
         
     }

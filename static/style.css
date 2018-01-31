@@ -61,8 +61,8 @@
     /* list-style-type: none; */
     background-image: url('/static/place/witt-sawa-wattana.jpg'); /* Add a search icon to input */
     background-repeat: no-repeat; /* Do not repeat the icon image */
-    background-size: 110%;
-    background-position: 50%;
+    background-size: cover;
+    /* background-position: 50%; */
 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -94,8 +94,8 @@
     /* list-style-type: none; */
     background-image: url('/static/place/the-hub.jpg'); /* Add a search icon to input */
     background-repeat: no-repeat; /* Do not repeat the icon image */
-    background-size: 110%;
-    background-position: 50%;
+    background-size: cover;
+    /* background-position: 50%; */
 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -214,9 +214,9 @@
 
     z-index: 5;
 
-    width: 13%; /* max is 46%*/
+    width: 43%; /* max is 43%*/
     height:3.2vw;
-    /* border-bottom: 3px solid rgb(209, 109, 28); */
+    border-bottom: 3px solid rgb(209, 109, 28);
 
 }
 

@@ -78,7 +78,7 @@
                     }
                 }
             }
-            document.getElementById('searchInput').value =' ' +term;
+            document.getElementById('searchInput').value = ' ' + term;
         }
     });
 
@@ -161,13 +161,13 @@
         } else if(selected == 1) {
             uiTimerSelected = 1;
             // loadingPercentCSS(1);
-            document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
+            // document.getElementById('time-progress-text-left').innerText = t1 + " วินาที";
             // document.getElementById('a1-bus-geofence').innerText = 'hello';
             timeProgressbar.style.display = "inline";
             // document.getElementById('time-progress-text-left').innerText = sunmTime1;
         } else { //select = 2
             uiTimerSelected = 2;
-            document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
+            // document.getElementById('time-progress-text-left').innerText = t2 + " วินาที";
             timeProgressbar.style.display = "inline";
             // document.getElementById('time-progress-text-left').innerText = sunmTime2;
         }
@@ -177,11 +177,11 @@
         let loaderCSS = document.getElementById('time-progress-timer-bar-loader-value').style;
         let loaderValue;
         if(selected == 1 && pathA1 > 0 && pathConstA1 > 0) {
-            loaderValue = (pathA1 / pathConstA1) * 0.40
+            loaderValue = (pathA1 / pathConstA1) * 0.43
             loaderCSS.borderBottom = "3px solid rgb(209, 109, 28)";
             loaderCSS.width = loaderValue + '%';
         } else if (selected == 2 && pathA2 > 0 && pathConstA2 > null) {
-            loaderValue = (pathA2 / pathConstA2) * 0.40
+            loaderValue = (pathA2 / pathConstA2) * 0.43
             loaderCSS.borderBottom = "3px solid rgb(41, 202, 26)";
             loaderCSS.width = loaderValue + '%';
         }
@@ -192,17 +192,17 @@
         let greyUI2 = document.getElementById('a2position-w-bg');
         if(selected == 1) {
             greyUI1.className = 'grayButton';
-            selectBusUI(2);
+            // selectBusUI(2);
             greyUI2.className = '';
 
         } else if(selected == 2) {
             greyUI2.className = 'grayButton';
-            selectBusUI(1);
+            // selectBusUI(1);
             greyUI1.className = '';
         } else {
             greyUI1.className = '';
             greyUI2.className = '';
-            selectBusUI(0);
+            // selectBusUI(0);
         }
     }
 
