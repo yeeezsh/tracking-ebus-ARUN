@@ -48,6 +48,7 @@
     border: 0px solid #ddd;
     margin-bottom: 12px;
     width: 100%;
+    /* box-sizing: content-box; */
     text-indent: 40px;
     min-height: 45px;
     border-radius: 5px;
