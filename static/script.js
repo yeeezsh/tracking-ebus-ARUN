@@ -456,7 +456,7 @@ function estimateRoute(startNode, stopNode, route) { //function will return tota
         pathA2=getDistanceFromLatLon(posGeo, posBusA2);
         console.log(getDistanceFromLatLon(posGeo, posBusA2));
     }
-    let Sumpath=pathA1+pathA2;
+    let Sumpath=pathA1+pathA2; //wadafuck variable
     if(posBusA1.speed != null && posBusA1.speed != 0){
         t1 = pathA1 / posBusA1.speed;
         console.log('pathA1 -->' + pathA1 + 'm');
