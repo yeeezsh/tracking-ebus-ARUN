@@ -14,8 +14,8 @@ var countTime1 = 0;
 var countTime2 = 0;
 var sumTime1 = 0;
 var sumTime2 = 0;
-var pathConstA1;
-var pathConstA2;
+var pathConstA1 = 0;
+var pathConstA2 = 0;
 // const a1CircleData = 6; //stop configuration
 // const a2CircleData = 8;
 const circleDataConfig = {
@@ -164,7 +164,7 @@ function initMap() {
             console.log("A1 broadcast connect but not get position");
         }
 
-        if (posGeo != null && posBusA1 != null && pathConstA1 == null){
+        if (posGeo != null && posBusA1 != null && pathConstA1 == 0){
             pathConstA1 = getDistanceFromLatLon(posGeo, posBusA1); //set first const path for get %
         } 
 
@@ -213,7 +213,7 @@ function initMap() {
                 console.log("A2 broadcast connect but not get position");
             }
 
-            if (posGeo != null && posBusA2 != null && pathConstA2 == null){
+            if (posGeo != null && posBusA2 != null && pathConstA2 == 0){
                 pathConstA2 = getDistanceFromLatLon(posGeo, posBusA2); //set first const path for get %
             } 
 
@@ -538,10 +538,10 @@ function timeGrading(time) //show time UI
     }
     document.getElementById('time-progress-text-left').innerText = showString;
 }
-function estimateTime(sum, n, newTime){ // not use now // for gradian time make it natural estimate
-    n++;
-    return (sum + newTime) / n
-}
+// function estimateTime(sum, n, newTime){ // not use now // for gradian time make it natural estimate
+//     n++;
+//     return (sum + newTime) / n
+// }
 
 function findNode(index, route) { //translate node to array index
     if(route == 1) {
