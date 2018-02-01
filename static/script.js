@@ -290,13 +290,14 @@ function initMap() {
 
 var options = {
     enableHighAccuracy: true,
-    timeout: 10000,
+    timeout: 5000,
     maximumAge: 0
 };
 
 
 function error(err) { //gps error
     console.warn('ERROR(' + err.code + '): ' + err.message);
+    snackBar("ไม่สามารถระบุตำแหน่งของคุณได้", -1);
 };
 
 navigator.geolocation.watchPosition(successGeo, error, options);
