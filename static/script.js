@@ -317,6 +317,7 @@ function snackBar(snackBarText, s) {
 };
 
 function successGeo(pos) {
+    snackBar("", 0);
     var crd = pos.coords;
     posGeo = {
         lat: crd.latitude,
