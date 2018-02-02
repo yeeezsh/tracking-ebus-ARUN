@@ -16,7 +16,7 @@
         <!-- <div class="text-box-map.img" id="text-box-map-img">img</div> -->
         <div id="text-box-map">
 
-            <input type="text" id="searchInput" placeholder="เลือกจุดจอดสำหรับปลายทาง">
+            <input type="text" id="searchInput" placeholder="เลือกจุดจอดสำหรับปลายทาง" onclick="clearSearch()"> 
             <div id="a1position-w-bg" onclick="selectBusUI(1);" ><span id="a1-bus-geofence" class="text-overflow-bus-select"> </span></div>
             <!-- <div id="a2position-w-bg"><img class="img-bus-a2" src="/static/truck-R2.png" >อาคารสำนึกงานอธิบดี</div>  -->
             <div id="a2position-w-bg" onclick="selectBusUI(2);"><span id="a2-bus-geofence" class="text-overflow-bus-select"> </span></div> 
@@ -77,9 +77,22 @@
                     }
                 }
             }
+            document.getElementById('searchInput').style.backgroundImage = "url('/static/placeholder-icon.png'), url(/static/clear-circle.png)";
             document.getElementById('searchInput').value = ' ' + term;
         }
     });
+
+    function clearSearch() {
+        if(document.getElementById('searchInput').value != null 
+        || document.getElementById('searchInput').value != undefined) {
+            document.getElementById('searchInput').value = '';
+            selectBusUI(0);
+            // document.getElementById('searchInput').blur();
+            // document.getElementById('searchInput').focus();
+        } else {
+            document.getElementById('searchInput').style.backgroundImage = "url('/static/placeholder-icon.png')";
+        }
+    }
 
 
     // var demo2 = new autoComplete({
