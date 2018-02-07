@@ -12,7 +12,7 @@ const trackingListenMain = require('./tracking-bus.js');
 
 // const path = require('path')
 // const reload = require('reload')
-// const logger = require('morgan')
+const morgan = require('morgan')
 
 
 const options = {
@@ -64,6 +64,7 @@ const form = multer();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/static', express.static('static'));
+app.use(morgan("dev"));
 
 // Serve index.html for path '/', this is home path
 app.get('/', (req, res) => {

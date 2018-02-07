@@ -35,7 +35,7 @@
 
 #searchInput {
     list-style-type: none; /* search icon float on left*/
-    display: inline;
+    display: block;
     background-image: url('/static/placeholder-icon.png');
     background-position: 8px 50%, 95% 50%;
     background-size: 25px, 25px;
