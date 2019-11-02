@@ -73,7 +73,7 @@ app.get('/bus-tracking/a2', (req, res) => {
 
 
 server.listen(port, () => {
-	console.log('ServerHTTPS is running at port: '+ port);
+    console.log('ServerHTTPS is running at port: ' + port);
 });
 // serverHTTP.listen(80, () => {
 // 	console.log('ServerHTTP is running at port: 80');
@@ -81,7 +81,7 @@ server.listen(port, () => {
 
 
 io.on('connection', socket => {
-	socket.emit('connectSuccess', {content: 'You have connected.'});
+    socket.emit('connectSuccess', { content: 'You have connected.' });
 });
 
 // Run fake tracking location
@@ -89,6 +89,10 @@ io.on('connection', socket => {
 // mockup.runR2(io);
 
 //driver tracking
+const busInterface = require('./bus.interface')
+busInterface({ busName: 'A1' }, (data) => {
+    trackingListenMain.busBroadcast(io, data, 'A1')
+})
 trackingListenMain.runA1(io);
 trackingListenMain.runA2(io);
 
