@@ -2,11 +2,12 @@ const axios = require('axios')
 const target = 'https://www.aismagellan.io/api/things/pull/4bddf720-fc72-11e9-96dd-9fb5d8a71344'
 
 function parse(parse, override) {
+    const mphToMs = parse['Speed MPH'] * 0.44704
     return {
         busName: override.busName,
         lat: parse.Location[0],
         lng: parse.Location[1],
-        speed: parse['Speed MPH'],
+        speed: mphToMs,
         time: new Date(),
     }
 }
