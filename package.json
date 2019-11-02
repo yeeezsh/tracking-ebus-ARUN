@@ -27,6 +27,6 @@
     "gulp-nodemon": "^1.0.4"
   },
   "engines": {
-    "node": "6.11.5"
+    "node": "12.x"
   }
 }
